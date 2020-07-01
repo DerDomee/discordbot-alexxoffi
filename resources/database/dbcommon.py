@@ -43,10 +43,15 @@ def get_user_or_create(discordid):
 
 def get_channel_ids_from_key(key):
     key_value = get_bot_setting(key)
-    if key == key_bot_userchannel:
+    if key == botcommon.key_bot_userchannel:
         if key_value is None:
             return []
         channel_list = json.loads(key_value)['channels']
         return channel_list
 
-    return key_value
+    return [key_value]
+
+
+def set_channelsetting_value_from_list(channels):
+    channelstring = {'channels': channels}
+    return json.dumps(channelstring)

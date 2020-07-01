@@ -9,7 +9,7 @@ DD_MAX_INIT_STAGE = 3
 
 
 def is_command(message_content):
-    shortprefix = dbcommon.get_bot_setting('bot_short_prefix', '$')
+    shortprefix = dbcommon.get_bot_setting(botcommon.key_bot_prefix, '$')
     if message_content.startswith("<@!" + str(client.user.id) + "> ") or \
             message_content.startswith("<@" + str(client.user.id) + "> ") or \
             message_content.startswith(shortprefix):
@@ -22,14 +22,15 @@ def get_processed_argstack(message):
             message.startswith("<@" + str(client.user.id) + "> "):
         tempmsg = message.split(' ')
         return list(filter(None, tempmsg[1:]))
-    shortprefix = dbcommon.get_bot_setting('bot_short_prefix', '$')
+    shortprefix = dbcommon.get_bot_setting(botcommon.key_bot_prefix, '$')
     if message.startswith(shortprefix):
         tempmsg = message[1:].strip().split(' ')
         return list(filter(None, tempmsg))
 
 
 async def on_message_init_mode(message, cmd_arg_stack, init_stage):
-
+    if not is_command(message.content):
+        return
     if init_stage == 0:
         if cmd_arg_stack[0] == "init":
             newuser = BotUser(
