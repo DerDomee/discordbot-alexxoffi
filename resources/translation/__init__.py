@@ -1,5 +1,6 @@
 import json
 
+
 def transget(key, lang="en"):
     filename = 'resources/translation/translations/' + str(lang) + '.json'
 
@@ -7,12 +8,18 @@ def transget(key, lang="en"):
         langfile = open(filename, mode='r', encoding='utf-8')
         langdata = json.load(langfile)
         if key in langdata:
+            langfile.close()
             return langdata[key]
         else:
             if lang == "en":
-                return "{{textkey=" + key +";lang=" + lang +"}}"
+                langfile.close()
+                return "{{textkey=" + key + ";lang=" + lang + "}}"
             else:
-                return transget(key)
+                langfile.close()
+                return transget(key, "en")
     except IOError:
-        return transget(key)
-        return "IO Error"
+        if lang == "en":
+            return "IO Error"
+        return transget(key, "en")
+    except Exception:
+        print("UNKNOWN ERROR UFF!")

@@ -1,2 +1,2 @@
 from resources.database.models.botsettings import BotSettings
-from resources.database.models.usersettings import UserSettings
+from resources.database.models.botuser import BotUser
