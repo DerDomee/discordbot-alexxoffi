@@ -21,5 +21,8 @@ def transget(key, lang="en"):
         if lang == "en":
             return "IO Error"
         return transget(key, "en")
+    except ValueError:
+        return "{{textkey=" + key + ";lang=" + lang + \
+            ";malformed_translate_file=true}}"
     except Exception:
         print("UNKNOWN ERROR UFF!")
