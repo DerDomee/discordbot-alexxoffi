@@ -1,5 +1,5 @@
 import functools
-
+from resources.database import dbcommon
 
 # Channel Keys
 key_bot_adminchannel = "bot_admin_channel"
@@ -17,6 +17,7 @@ key_permlevel_owner = 100
 
 # More bot settings keys
 key_bot_init_stage = "bot_init_stage"
+key_bot_prefix = "bot_shortprefix"
 default_user_preferred_language = "en"
 
 
@@ -39,7 +40,25 @@ def requires_channel(channel_key_list):
     def decorator(func):
         @functools.wraps(func)
         async def decorated(*args, **kwargs):
-            # TODO: create decorator logic
-            return await func(*args, **kwargs)
+            print("Print from inside decorator")
+            print(channel_key_list)
+            full_channel_list = []
+            print(full_channel_list)
+            for channel_key in channel_key_list:
+                channels = dbcommon.get_channel_ids_from_key(channel_key)
+                print(channels)
+                full_channel_list = full_channel_list + channels
+            full_channel_list = list(dict.fromkeys(full_channel_list))
+            full_channel_list = [int(x) for x in full_channel_list]
+            print(full_channel_list)
+            if args[0].channel.id in full_channel_list:
+                print("Channel requirement fullfilled")
+                return await func(*args, **kwargs)
+            elif full_channel_list == [None] or full_channel_list == [] or \
+                    full_channel_list is None:
+                print("Channel requirement ignored")
+                return await func(*args, **kwargs)
+            else:
+                print("Channel requirement not fullfilled")
         return decorated
     return decorator
