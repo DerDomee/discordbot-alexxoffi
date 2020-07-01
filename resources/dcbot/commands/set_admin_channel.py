@@ -22,3 +22,4 @@ async def invoke(message, arg_stack, botuser):
     channelid = int(arg_stack[1].lstrip("<#").rstrip(">"))
     dbcommon.set_bot_setting(botcommon.key_bot_adminchannel, channelid)
     await message.add_reaction("✅")
+    return True

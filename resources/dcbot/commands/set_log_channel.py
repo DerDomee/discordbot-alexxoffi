@@ -7,3 +7,4 @@ async def invoke(message, arg_stack, botuser):
     print("##################################")
     print("# CAUTION! UNIMPLEMENTED FUNCTION!")
     print("##################################")
+    return True
