@@ -5,7 +5,16 @@ from resources.database import dbcommon
 from resources.database import sqlsession
 from resources.database.models.botuser import BotUser
 
-DD_MAX_INIT_STAGE = 4
+DD_MAX_INIT_STAGE = 3
+
+
+def is_command(message_content):
+    shortprefix = dbcommon.get_bot_setting('bot_short_prefix', '$')
+    if message_content.startswith("<@!" + str(client.user.id) + "> ") or \
+            message_content.startswith("<@" + str(client.user.id) + "> ") or \
+            message_content.startswith(shortprefix):
+        return True
+    return False
 
 
 def get_processed_argstack(message):
@@ -20,6 +29,7 @@ def get_processed_argstack(message):
 
 
 async def on_message_init_mode(message, cmd_arg_stack, init_stage):
+
     if init_stage == 0:
         if cmd_arg_stack[0] == "init":
             newuser = BotUser(
@@ -37,43 +47,86 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 newuser)
             dbcommon.set_bot_setting(botcommon.key_bot_init_stage, 1)
             await message.channel.send(transget(
-                'init_stage_0_successful',
+                'init.stage0.successful',
                 newuser.user_pref_lang))
             await message.channel.send(transget(
-                    'init_stage_1_intro',
+                    'init.stage1.intro',
                     newuser.user_pref_lang))
+
     elif init_stage == 1:
+        currentuser = dbcommon.get_user_or_create(message.author.id)
         if cmd_arg_stack[0] == "init":
-            # TODO: Show help message telling the user
-            #       to use command 'set_bot_prefix'
-            print("In Init stage 1")
+            await message.channel.send(transget(
+                'init.stage1.intro',
+                currentuser.user_pref_lang))
+
         elif cmd_arg_stack[0] == "set_bot_prefix":
-            # TODO: Simulate valid call of function 'set_bot_prefix',
-            #       then setting 'init_stage' to 2.
-            pass
+            from resources.dcbot.commands import set_bot_prefix
+            if await set_bot_prefix.invoke(
+                    message,
+                    cmd_arg_stack,
+                    currentuser):
+                dbcommon.set_bot_setting(botcommon.key_bot_init_stage, 2)
+                await message.channel.send(transget(
+                    'init.stage1.successful',
+                    currentuser.user_pref_lang))
+                await message.channel.send(transget(
+                    'init.stage2.intro',
+                    currentuser.user_pref_lang))
+
     elif init_stage == 2:
+        currentuser = dbcommon.get_user_or_create(message.author.id)
         if cmd_arg_stack[0] == "init":
-            # TODO: Show help message telling the user
-            #       to use command 'set_log_channel'
-            print("In Init stage 2")
+            await message.channel.send(transget(
+                'init.stage2.intro',
+                currentuser.user_pref_lang))
+
         elif cmd_arg_stack[0] == "set_log_channel":
-            # TODO: Simulate valid call of function 'set_log_channel',
-            #       then setting 'init_stage' to 3
-            pass
+            from resources.dcbot.commands import set_log_channel
+            if await set_log_channel.invoke(
+                    message,
+                    cmd_arg_stack,
+                    currentuser):
+                dbcommon.set_bot_setting(botcommon.key_bot_init_stage, 3)
+                await message.channel.send(transget(
+                    'init.stage2.successful',
+                    currentuser.user_pref_lang))
+                await message.channel.send(transget(
+                    'init.stage3.intro',
+                    currentuser.user_pref_lang))
+
     elif init_stage == 3:
+        currentuser = dbcommon.get_user_or_create(message.author.id)
         if cmd_arg_stack[0] == "init":
-            # TODO: Show help message telling the user
-            #       to use command 'add_user_botchannel'
-            print("In Init stage 3")
+            await message.channel.send(transget(
+                'init.stage3.intro',
+                currentuser.user_pref_lang))
+
         if cmd_arg_stack[0] == "add_user_botchannel":
-            # TODO: Simulate valid call of function 'add_user_botchannel',
-            #       then setting 'init_stage' to 4
-            pass
+            from resources.dcbot.commands import add_user_botchannel
+            if await add_user_botchannel.invoke(
+                    message,
+                    cmd_arg_stack,
+                    currentuser):
+                dbcommon.set_bot_setting(botcommon.key_bot_init_stage, 4)
+                await message.channel.send(transget(
+                    'init.stage3.successful',
+                    currentuser.user_pref_lang))
+                await message.channel.send(transget(
+                    'init.completed',
+                    currentuser.user_pref_lang))
+
     elif init_stage == 4:
         pass
 
 
 async def on_message_command_mode(message, cmd_arg_stack):
+    print("In command mode!")
+    pass
+
+
+async def process_non_command_messages(message):
+    print("In message process mode!")
     pass
 
 
@@ -88,5 +141,7 @@ async def on_message(message):
     init_stage = int(dbcommon.get_bot_setting(botcommon.key_bot_init_stage, 0))
     if init_stage <= DD_MAX_INIT_STAGE:
         await on_message_init_mode(message, cmd_arg_stack, init_stage)
-    else:
+    elif is_command(message.content):
         await on_message_command_mode(message, cmd_arg_stack)
+    else:
+        await process_non_command_messages(message)

@@ -1,5 +1,13 @@
 {
 
-  "dcbot.readymessage": "Client successfully logged in as {client}"
+  "dcbot.readymessage": "Client successfully logged in as {client}",
 
+  "init.stage0.successful": "Init stage 0 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage.",
+  "init.stage1.intro": "Init stage 1 active. You can only use the command `set_bot_prefix`!",
+  "init.stage1.successful": "Init stage 1 fulfilled successfully. Bot prefix initially set.",
+  "init.stage2.intro": "Init stage 2 active. You can only use the command `set_log_channel`!",
+  "init.stage2.successful": "Init Stage 2 fulfilled successfully. Bot log channel initially set.",
+  "init.stage3.intro": "Init stage 3 active. You can only use the command `add_user_botchannel`!",
+  "init.stage3.successful": "Init stage 3 fulfilled. Bot user channel initially set.",
+  "init.completed": "Init finished. The bot is now set up to work in production."
 }
