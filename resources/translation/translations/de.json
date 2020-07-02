@@ -1,5 +1,31 @@
 {
 
-  "testkey.full": "Dies ist eine Testübersetzung."
+  "bot.title": "AlexxBot",
+
+  "dcbot.readymessage": "Client successfully logged in as {client}",
+
+  "init.stage0.successful": "Init stage 0 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage.",
+  "init.stage1.intro": "Init stage 1 active. You can only use the command `set_bot_prefix`!",
+  "init.stage1.successful": "Init stage 1 fulfilled successfully. Bot prefix initially set.",
+  "init.stage2.intro": "Init stage 2 active. You can only use the command `set_log_channel`!",
+  "init.stage2.successful": "Init Stage 2 fulfilled successfully. Bot log channel initially set.",
+  "init.stage3.intro": "Init stage 3 active. You can only use the command `add_user_botchannel`!",
+  "init.stage3.successful": "Init stage 3 fulfilled. Bot user channel initially set.",
+  "init.completed": "Init finished. The bot is now set up to work in production.",
+
+
+  "command.info.embed.title": "Bot information für {bot_title}",
+  "command.info.embed.desc": "Dieser Bot kann alles, was nötig ist.",
+  "command.info.embed.field.author.title": "Autor (Maintainer)",
+  "command.info.embed.field.version.title": "Aktuelle Version",
+  "command.info.embed.field.upstream.title": "Upstream (GitHub)",
+  "command.info.embed.field.upstream.value": "https://github.com/derdomee/discordbot-alexxoffi",
+  "command.info.embed.field.prefix.title": "Botprefix für commands",
+  "command.info.embed.field.prefix.value": "{longprefix} oder `{shortprefix}`",
+  "command.info.embed.field.bugreports.title": "Bugs reporten",
+  "command.info.embed.field.bugreports.value": "[Issue auf GitHub erstellen](https://github.com/DerDomee/discordbot-alexxoffi/issues/new) oder kontaktiere mich (<@285720078031388673>) über Discord!",
+
+  "command.language.get.text": "Aktuelle Sprache: `{lang}`",
+  "command.language.set.success": "Sprache zu `{lang}` geändert."
 
 }
