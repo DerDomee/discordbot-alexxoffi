@@ -40,25 +40,16 @@ def requires_channel(channel_key_list):
     def decorator(func):
         @functools.wraps(func)
         async def decorated(*args, **kwargs):
-            print("Print from inside decorator")
-            print(channel_key_list)
             full_channel_list = []
-            print(full_channel_list)
             for channel_key in channel_key_list:
                 channels = dbcommon.get_channel_ids_from_key(channel_key)
-                print(channels)
                 full_channel_list = full_channel_list + channels
             full_channel_list = list(dict.fromkeys(full_channel_list))
-            full_channel_list = [int(x) for x in full_channel_list]
-            print(full_channel_list)
-            if args[0].channel.id in full_channel_list:
-                print("Channel requirement fullfilled")
-                return await func(*args, **kwargs)
-            elif full_channel_list == [None] or full_channel_list == [] or \
+            if full_channel_list == [None] or full_channel_list == [] or \
                     full_channel_list is None:
-                print("Channel requirement ignored")
                 return await func(*args, **kwargs)
-            else:
-                print("Channel requirement not fullfilled")
+            full_channel_list = [int(x) for x in full_channel_list]
+            if args[0].channel.id in full_channel_list:
+                return await func(*args, **kwargs)
         return decorated
     return decorator
