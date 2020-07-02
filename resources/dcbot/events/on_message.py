@@ -1,3 +1,4 @@
+import importlib
 from resources.dcbot import client
 from resources.dcbot import botcommon
 from resources.translation import transget
@@ -122,8 +123,21 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
 
 
 async def on_message_command_mode(message, cmd_arg_stack):
-    print("In command mode!")
-    pass
+    botuser = dbcommon.get_user_or_create(message.author.id)
+    try:
+        command = importlib.import_module(
+            '.' + cmd_arg_stack[0],
+            'resources.dcbot.commands')
+    except ImportError as e:
+        print(e)
+    else:
+        try:
+            if await command.invoke(message, cmd_arg_stack, botuser):
+                pass
+            else:
+                pass
+        except Exception as e:
+            print(e)
 
 
 async def process_non_command_messages(message):
