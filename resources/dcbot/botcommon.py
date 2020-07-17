@@ -1,6 +1,9 @@
 import functools
 from resources.database import dbcommon
 
+# Server Keys
+key_bot_mainserver = "bot_main_server"
+
 # Channel Keys
 key_bot_adminchannel = "bot_admin_channel"
 key_bot_userchannel = "bot_user_botchannel"
@@ -53,3 +56,11 @@ def requires_channel(channel_key_list):
                 return await func(*args, **kwargs)
         return decorated
     return decorator
+
+
+# Implement trytolog: try to get log channel. If it is available, post *embed
+# in log channel. If it is not available, post *embed in *message.channel
+def trytolog(message, arg_stack, botuser, embed):
+    mainserver = dbcommon.get_bot_setting(key_bot_mainserver)
+    botchannel = dbcommon.get_bot_setting(key_bot_logchannel)
+    pass
