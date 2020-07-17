@@ -23,6 +23,8 @@ key_bot_init_stage = "bot_init_stage"
 key_bot_prefix = "bot_shortprefix"
 default_user_preferred_language = "en"
 
+registered_bot_commands = []
+
 
 # Decorator for permission constraints on commands
 def requires_perm_level(level):
