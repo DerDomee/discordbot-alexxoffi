@@ -2,20 +2,21 @@
 
   "bot.title": "AlexxBot",
 
-  "dcbot.readymessage": "Client successfully logged in as {client}",
+  "dcbot.readymessage": "Client successfully logged in as '{client}'",
 
-  "init.stage0.successful": "Init stage 0 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage.",
-  "init.stage1.intro": "Init stage 1 active. You can only use the command `set_bot_prefix`!",
-  "init.stage1.successful": "Init stage 1 fulfilled successfully. Bot prefix initially set.",
-  "init.stage2.intro": "Init stage 2 active. You can only use the command `set_log_channel`!",
-  "init.stage2.successful": "Init Stage 2 fulfilled successfully. Bot log channel initially set.",
-  "init.stage3.intro": "Init stage 3 active. You can only use the command `add_user_botchannel`!",
-  "init.stage3.successful": "Init stage 3 fulfilled. Bot user channel initially set.",
+  "init.stage0.successful": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished.",
+  "init.stage1.intro": "Init stage 1 of 3 active. Please run the command `set_bot_prefix` with your preferred settings!",
+  "init.stage1.successful": "Init stage 1 of 3 fulfilled successfully.",
+  "init.stage2.intro": "Init stage 2 of 3 active. Please run the command `set_log_channel` with your preferred settings!",
+  "init.stage2.successful": "Init Stage 2 of 3 fulfilled successfully.",
+  "init.stage3.intro": "Init stage 3 of 3 active. Please run the command `add_user_botchannel` with your preferred settings!",
+  "init.stage3.successful": "Init stage 3 of 3 fulfilled.",
   "init.completed": "Init finished. The bot is now set up to work in production.",
 
 
   "command.info.embed.title": "Bot information on {bot_title}",
-  "command.info.embed.desc": "This bot can do everything that is needed on the server.",
+  "command.info.embed.picture": "https://cdn.discordapp.com/avatars/722892642450538647/973bffde74992ccf589c24c9745855c5.png",
+  "command.info.embed.desc": "This bot can auto-moderate, run guild-specific commands and show fancy statistics.",
   "command.info.embed.field.author.title": "Author (Maintainer)",
   "command.info.embed.field.version.title": "Current Version",
   "command.info.embed.field.upstream.title": "Upstream (GitHub)",
