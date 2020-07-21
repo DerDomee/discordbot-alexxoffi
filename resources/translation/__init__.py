@@ -24,7 +24,7 @@ def transget(key, lang="en"):
         return transget(key, "en")
     except ValueError:
         return "{{textkey=" + key + ";lang=" + lang + \
-            ";malformed_translate_file=true}}"
+            ";malformed_translation_file=true}}"
     except Exception:
         return "{{textkey=" + key + ";lang=" + lang + \
             ";unknown_errror=true}}"
