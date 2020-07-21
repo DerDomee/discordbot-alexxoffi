@@ -9,8 +9,8 @@ async def invoke(message, arg_stack, botuser):
 
     async def err1():
         await message.channel.send(transget(
-            "command_set_admin_channel_error_arg1",
-            botuser.user_pref_lang))
+            "command.set_admin_channel.err1.message",
+            botuser.user_pref_lang))1
 
     if len(arg_stack) < 2:
         await err1()
