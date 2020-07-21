@@ -140,7 +140,7 @@ async def on_message_command_mode(message, cmd_arg_stack):
             print(e)
 
 
-async def process_non_command_messages(message):
+async def on_process_message_mode(message):
     print("In message process mode!")
     pass
 
@@ -159,4 +159,4 @@ async def on_message(message):
     elif is_command(message.content):
         await on_message_command_mode(message, cmd_arg_stack)
     else:
-        await process_non_command_messages(message)
+        await on_process_message_mode(message)
