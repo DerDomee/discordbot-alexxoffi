@@ -8,6 +8,7 @@ from resources.translation import transget
 async def invoke(message, arg_stack, botuser):
 
     async def err1():
+        await message.add_reaction("❌")
         await message.channel.send(transget(
             "command.set_admin_channel.err1.message",
             botuser.user_pref_lang))1
