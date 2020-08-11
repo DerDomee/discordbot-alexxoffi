@@ -27,6 +27,12 @@ default_user_preferred_language = "en"
 
 registered_bot_commands = []
 
+key_color_info = 0xDEDEDE
+key_color_muted = 0xDEDEDE
+key_color_okay = 0x7DDE4D
+key_color_warning = 0xEFA43D
+key_color_danger = 0xEF3D3D
+
 
 # Decorator for permission constraints on commands
 def requires_perm_level(level):
