@@ -1,3 +1,4 @@
+from discord import Embed
 from resources.dcbot import botcommon
 from resources.database import dbcommon
 
@@ -24,6 +25,20 @@ async def invoke(message, arg_stack, botuser):
             dbcommon.set_bot_setting(
                 botcommon.key_bot_userchannel,
                 channelstring)
+            await _log_action(message, arg_stack, botuser)
             return True
         else:
             return False
+
+
+async def _log_action(message, arg_stack, botuser):
+    embed = Embed(
+        title="New user channel added",
+        description="Channel " + arg_stack[1] + " was added to "
+                    "command-enabled channels.",
+        color=botcommon.key_color_info)
+    footertext = "Requested by " + str(message.author.name) + "#" \
+        + str(message.author.discriminator) + " (" \
+        + str(message.author.id) + ")"
+    embed.set_footer(text=footertext)
+    await botcommon.trytolog(message, arg_stack, botuser, embed)
