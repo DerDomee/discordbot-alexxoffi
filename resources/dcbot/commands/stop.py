@@ -24,5 +24,6 @@ async def invoke(message, arg_stack, botuser):
     embed.set_footer(text=footertext)
     await trytolog(message, arg_stack, botuser, embed)
 
+    print("Gracefully shut down bot due to admin command")
     await client.logout()
     return True
