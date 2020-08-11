@@ -77,4 +77,9 @@ async def invoke(message, arg_stack, botuser):
             botuser.user_pref_lang),
         inline=False)
 
+    footertext = "Requested by " + str(message.author.name) + "#" \
+        + str(message.author.discriminator) + " (" \
+        + str(message.author.id) + ")"
+    embed.set_footer(text=footertext)
+
     await message.channel.send(embed=embed)
