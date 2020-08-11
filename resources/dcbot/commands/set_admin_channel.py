@@ -2,16 +2,21 @@ from resources.dcbot import botcommon
 from resources.database import dbcommon
 from resources.translation import transget
 
+CMD_METADATA = {
+    'required_permlevel': botcommon.key_permlevel_admin,
+    'required_channels': [botcommon.key_bot_adminchannel],
+    'command_syntax': "<channel-ping>"}
 
-@botcommon.requires_perm_level(level=botcommon.key_permlevel_admin)
-@botcommon.requires_channel([botcommon.key_bot_adminchannel])
+
+@botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
+@botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
 
     async def err1():
         await message.add_reaction("❌")
         await message.channel.send(transget(
             "command.set_admin_channel.err1.message",
-            botuser.user_pref_lang))1
+            botuser.user_pref_lang))
 
     if len(arg_stack) < 2:
         await err1()

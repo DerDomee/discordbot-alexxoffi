@@ -2,11 +2,15 @@ from resources.dcbot import botcommon
 from resources.translation import transget
 from resources.database import sqlsession
 
+CMD_METADATA = {
+    'required_permlevel': botcommon.key_permlevel_restricted,
+    'required_channels': [botcommon.key_bot_adminchannel,
+                          botcommon.key_bot_userchannel],
+    'command_syntax': "<set/get> [language-code]"}
 
-@botcommon.requires_perm_level(level=botcommon.key_permlevel_restricted)
-@botcommon.requires_channel([
-    botcommon.key_bot_adminchannel,
-    botcommon.key_bot_userchannel])
+
+@botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
+@botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
 
     supported_langs = ["en", "de", "fr"]
@@ -14,10 +18,7 @@ async def invoke(message, arg_stack, botuser):
     if len(arg_stack) == 1:
         return False
     if len(arg_stack) == 2:
-        if arg_stack[1] == "help":
-            # TODO: print help message
-            pass
-        elif arg_stack[1] == "get":
+        if arg_stack[1] == "get":
             await message.channel.send(transget(
                 'command.language.get.text',
                 botuser.user_pref_lang).format(

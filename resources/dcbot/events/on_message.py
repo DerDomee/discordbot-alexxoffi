@@ -47,6 +47,9 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                     'set_admin_channel',
                     '<#' + str(message.channel.id) + '>'],
                 newuser)
+            dbcommon.set_bot_setting(
+                botcommon.key_bot_mainserver,
+                message.guild.id)
             dbcommon.set_bot_setting(botcommon.key_bot_init_stage, 1)
             await message.channel.send(transget(
                 'init.stage0.successful',

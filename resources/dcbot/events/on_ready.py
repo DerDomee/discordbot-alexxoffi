@@ -9,8 +9,6 @@ from resources.translation import transget
 async def on_ready():
     for importer, modname, ispkg in pkgutil.iter_modules(commands.__path__):
         botcommon.registered_bot_commands.append(modname)
-    # Can remove this debug print later
-    print(botcommon.registered_bot_commands)
     message = transget("dcbot.readymessage").format(
         client=client.user)
     print(message)

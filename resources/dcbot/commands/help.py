@@ -1,3 +1,4 @@
+import importlib
 from discord import Embed
 from resources.database import sqlsession
 from resources.dcbot import botcommon
@@ -12,14 +13,24 @@ CMD_METADATA = {
 
 
 async def _do_general_help(message, arg_stack, botuser):
-    helpmessage = "{help_general_title}\n\n" \
-                  "Usage: {bot_shortprefix}help or" \
-                  "{bot_shortprefix}help <command>\n\n"
-    await message.channel.send("```" + helpmessage + "```")
+    helpmsg = transget(
+        'command.help.general_help.header',
+        botuser.user_pref_lang) + "\n```"
+    for command in botcommon.registered_bot_commands:
+        cmdimport = importlib.import_module(
+            '.' + command,
+            'resources.dcbot.commands')
+        cmdmeta = cmdimport.CMD_METADATA
+        if botuser.user_permission_level >= cmdmeta['required_permlevel']:
+            helpmsg += command + " - " + transget(
+                'command.' + command + '.meta.description',
+                botuser.user_pref_lang) + "\n"
+    helpmsg += "```"
+    await message.channel.send(helpmsg)
 
 
 async def _do_specific_help(message, arg_stack, botuser):
-    await_message.channel.send("Hier kommt noch spezifische Befehl-Hilfe!")
+    await message.channel.send("Hier kommt noch spezifische Befehl-Hilfe!")
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
@@ -27,6 +38,5 @@ async def _do_specific_help(message, arg_stack, botuser):
 async def invoke(message, arg_stack, botuser):
     if len(arg_stack) is 1:
         await _do_general_help(message, arg_stack, botuser)
-        print(botcommon.registered_bot_commands)
     else:
         await _do_specific_help(message, arg_stack, botuser)

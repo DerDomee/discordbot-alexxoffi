@@ -1,8 +1,13 @@
 from resources.dcbot import botcommon
 
+CMD_METADATA = {
+    'required_permlevel': botcommon.key_permlevel_admin,
+    'required_channels': [botcommon.key_bot_adminchannel],
+    'command_syntax': "<channel-ping>"}
 
-@botcommon.requires_perm_level(level=botcommon.key_permlevel_admin)
-@botcommon.requires_channel([botcommon.key_bot_adminchannel])
+
+@botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
+@botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
     if len(arg_stack) is 1:
         return False

@@ -3,6 +3,8 @@
   "bot.title": "AlexxBot",
 
   "dcbot.readymessage": "Client successfully logged in as '{client}'",
+  "dcbot.log.error.guild": "Unable to log the desired message: Guild not found",
+  "dcbot.log.error.channel": "Unable to log the desired message: Channel not found",
 
   "init.stage0.successful": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished.",
   "init.stage1.intro": "Init stage 1 of 3 active. Please run the command `set_bot_prefix` with your preferred settings!",
@@ -13,8 +15,12 @@
   "init.stage3.successful": "Init stage 3 of 3 fulfilled.",
   "init.completed": "Init finished. The bot is now set up to work in production.",
 
-  "command.set_admin_channel.err1.message": "Argument 1 was not a guild-textchannel ping.",
+  "command.add_user_botchannel.meta.description": "Add an existing channel to the list of command-allowed channels for users",
 
+  "command.help.meta.description": "Show the help for this bot",
+  "command.help.general_help.header": "For command-specific help use `help <command>`",
+
+  "command.info.meta.description": "Shows information about this bot",
   "command.info.embed.title": "Bot information on {bot_title}",
   "command.info.embed.picture": "https://cdn.discordapp.com/avatars/722892642450538647/973bffde74992ccf589c24c9745855c5.png",
   "command.info.embed.desc": "This bot can auto-moderate, run guild-specific commands and show fancy statistics.",
@@ -27,7 +33,20 @@
   "command.info.embed.field.bugreports.title": "Reporting bugs",
   "command.info.embed.field.bugreports.value": "[Create issue on GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new) or contact me (<@285720078031388673>) via Discord!",
 
+  "command.language.meta.description": "Manage the language in which the bot speaks to you",
   "command.language.get.text": "Current language: `{lang}`",
-  "command.language.set.success": "Language updated to `{lang}`"
+  "command.language.set.success": "Language updated to `{lang}`",
 
-}
+  "command.remove_user_botchannel.meta.description": "Remove a channel from the list of command-allowed channels for users",
+
+  "command.set_admin_channel.meta.description": "Mark an existing channel as new admin channel, in which admin-only commands can be executed",
+  "command.set_admin_channel.err1.message": "Argument 1 was not a guild-textchannel ping.",
+
+  "command.set_bot_prefix.meta.description": "Set a new command prefix for this bot",
+
+  "command.set_log_channel.meta.description": "Set an existing channel as the new log channel, where bot actions are logged",
+
+  "command.stop.meta.description": "Stop this bot"
+
+
+  }
