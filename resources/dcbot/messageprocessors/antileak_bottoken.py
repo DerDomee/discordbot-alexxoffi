@@ -9,18 +9,25 @@ async def invoke(message):
     if bottoken in message.content:
         await message.delete()
 
+        # TODO: Automute user on server
+
         embed = Embed(
             title="The Bot Token has been leaked!",
             color=botcommon.key_color_danger)
         embed.add_field(
             name="User",
-            value=message.author.mention)
+            value=message.author.mention,
+            inline=True)
         embed.add_field(
             name="Channel",
-            value="<#" + message.channel.id + ">")
+            value="<#" + str(message.channel.id) + ">",
+            inline=True)
         embed.add_field(
             name="Message",
-            value=message.content.replace(bottoken, "<token>"))
+            value=message.content.replace(bottoken, "<token>"),
+            inline=False)
+
+        await botcommon.trytolog(message, None, None, embed)
 
         return{'continue': False}
     return {'continue': True}
