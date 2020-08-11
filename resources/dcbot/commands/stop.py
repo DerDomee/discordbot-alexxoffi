@@ -16,8 +16,12 @@ async def invoke(message, arg_stack, botuser):
     # This embed needs to be filled for trytolog to work.
     embed = Embed(
         title="Bot shuts down",
-        description="An admin-command requested shut down of the bot.")
-    # trytolog might not be implemented in botcommon
+        description="Due to an admin command the bot shuts down now.",
+        color=botcommon.key_color_danger)
+    footertext = "Requested by " + str(message.author.name) + "#" \
+        + str(message.author.discriminator) + " (" \
+        + str(message.author.id) + ")"
+    embed.set_footer(text=footertext)
     await trytolog(message, arg_stack, botuser, embed)
 
     await client.logout()
