@@ -1,5 +1,7 @@
 import functools
 from resources.database import dbcommon
+from resources.dcbot import client
+from resources.translation import transget
 
 # Server Keys
 key_bot_mainserver = "bot_main_server"
@@ -60,9 +62,12 @@ def requires_channel(channel_key_list):
     return decorator
 
 
-# Implement trytolog: try to get log channel. If it is available, post *embed
-# in log channel. If it is not available, post *embed in *message.channel
-def trytolog(message, arg_stack, botuser, embed):
-    mainserver = dbcommon.get_bot_setting(key_bot_mainserver)
-    botchannel = dbcommon.get_bot_setting(key_bot_logchannel)
-    pass
+async def trytolog(message, arg_stack, botuser, embed):
+    logchannel_id = dbcommon.get_bot_setting(key_bot_logchannel)
+    logchannel = await client.fetch_channel(logchannel_id)
+    print(logchannel)
+    if logchannel is None:
+        await message.channel.send(
+            transget('dcbot.log.error.channel', botuser.user_pref_lang))
+        return
+    await logchannel.send(embed=embed)
