@@ -65,7 +65,6 @@ def requires_channel(channel_key_list):
 async def trytolog(message, arg_stack, botuser, embed):
     logchannel_id = dbcommon.get_bot_setting(key_bot_logchannel)
     logchannel = await client.fetch_channel(logchannel_id)
-    print(logchannel)
     if logchannel is None:
         await message.channel.send(
             transget('dcbot.log.error.channel', botuser.user_pref_lang))
