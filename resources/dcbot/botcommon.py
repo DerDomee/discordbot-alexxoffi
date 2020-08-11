@@ -26,6 +26,7 @@ key_bot_prefix = "bot_shortprefix"
 default_user_preferred_language = "en"
 
 registered_bot_commands = []
+registered_message_processors = []
 
 key_color_info = 0xDEDEDE
 key_color_muted = 0x2E2E2E

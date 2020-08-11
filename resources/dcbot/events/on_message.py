@@ -144,8 +144,13 @@ async def on_message_command_mode(message, cmd_arg_stack):
 
 
 async def on_process_message_mode(message):
-    print("In message process mode!")
-    pass
+    for processor in botcommon.registered_message_processors:
+        processor_module = importlib.import_module(
+            '.' + processor,
+            'resources.dcbot.messageprocessors')
+        return_meta = await processor_module.invoke(message)
+        if return_meta['continue'] is False:
+            break
 
 
 @client.event
@@ -153,7 +158,6 @@ async def on_message(message):
 
     if message.author == client.user:
         return
-
     cmd_arg_stack = get_processed_argstack(message.content)
 
     init_stage = int(dbcommon.get_bot_setting(botcommon.key_bot_init_stage, 0))
