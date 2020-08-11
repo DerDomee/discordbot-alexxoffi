@@ -39,6 +39,13 @@
 
   "command.remove_user_botchannel.meta.description": "Remove a channel from the list of command-allowed channels for users",
 
+  "command.server.meta.description": "Shows information about this server",
+  "command.server.embed.desc": "Information about this server",
+  "command.server.embed.field.creation_date.title": "Creation date",
+  "command.server.embed.field.owner.title": "Server owner",
+  "command.server.embed.field.members.title": "{member_count} members",
+  "command.server.embed.field.members.value": "{member_count} online",
+
   "command.set_admin_channel.meta.description": "Mark an existing channel as new admin channel, in which admin-only commands can be executed",
   "command.set_admin_channel.err1.message": "Argument 1 was not a guild-textchannel ping.",
 
@@ -48,5 +55,4 @@
 
   "command.stop.meta.description": "Stop this bot"
 
-
-  }
+}
