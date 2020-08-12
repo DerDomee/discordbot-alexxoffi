@@ -5,8 +5,7 @@ from resources.dcbot.botcommon import trytolog
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_owner,
-    'required_channels': [botcommon.key_bot_adminchannel],
-    'command_syntax': ""}
+    'required_channels': [botcommon.key_bot_adminchannel]}
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])

@@ -8,8 +8,7 @@ from resources.translation import transget
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_restricted,
     'required_channels': [botcommon.key_bot_adminchannel,
-                          botcommon.key_bot_userchannel],
-    'command_syntax': "[command_name]"}
+                          botcommon.key_bot_userchannel]}
 
 
 async def _do_general_help(message, arg_stack, botuser):

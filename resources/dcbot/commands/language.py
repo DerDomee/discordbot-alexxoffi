@@ -5,8 +5,7 @@ from resources.database import sqlsession
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_restricted,
     'required_channels': [botcommon.key_bot_adminchannel,
-                          botcommon.key_bot_userchannel],
-    'command_syntax': "<set/get> [language-code]"}
+                          botcommon.key_bot_userchannel]}
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])

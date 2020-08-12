@@ -3,8 +3,7 @@ from resources.database import dbcommon
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_admin,
-    'required_channels': [botcommon.key_bot_adminchannel],
-    'command_syntax': "<channel-ping>"}
+    'required_channels': [botcommon.key_bot_adminchannel]}
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])

@@ -8,8 +8,7 @@ from discord import Embed
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_user,
     'required_channels': [botcommon.key_bot_userchannel,
-                          botcommon.key_bot_adminchannel],
-    'command_syntax': ""}
+                          botcommon.key_bot_adminchannel]}
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
