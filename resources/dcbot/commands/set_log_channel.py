@@ -1,3 +1,4 @@
+from discord import Embed
 from resources.dcbot import botcommon
 from resources.database import dbcommon
 
@@ -25,4 +26,19 @@ async def invoke(message, arg_stack, botuser):
     channelid = int(arg_stack[1].lstrip("<#").rstrip(">"))
     dbcommon.set_bot_setting(botcommon.key_bot_logchannel, channelid)
     await message.add_reaction("✅")
+    await _log_action(message, arg_stack, botuser)
     return True
+
+
+async def _log_action(message, arg_stack, botuser):
+    embed = Embed(
+        title="New log channel set",
+        description="Channel " + arg_stack[1] + " is now the new "
+                    "log channel for bot actions."
+                    "This old channel will go quiet now.",
+        color=botcommon.key_color_warning)
+    footertext = "Requested by " + str(message.author.name) + "#" \
+        + str(message.author.discriminator) + " (" \
+        + str(message.author.id) + ")"
+    embed.set_footer(text=footertext)
+    await botcommon.trytolog(message, arg_stack, botuser, embed)
