@@ -12,7 +12,7 @@ CMD_METADATA = {
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 async def invoke(message, arg_stack, botuser):
-
+    # TODO: Add translations
     if len(arg_stack) < 3:
         return False
     else:
