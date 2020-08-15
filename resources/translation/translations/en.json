@@ -53,6 +53,11 @@
 
   "command.set_log_channel.meta.description": "Set an existing channel as the new log channel, where bot actions are logged",
 
-  "command.stop.meta.description": "Stop this bot"
+  "command.stop.meta.description": "Stop this bot",
+
+  "command.warn.meta.description": "Warn a user on the discord",
+  "command.warn.error.user_not_found": "User not found. Can not warn a non-existant user.",
+  "command.warn.notifiaction.warned": "You have been warned!",
+  "command.warn.notifiaction.warned": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!**"
 
 }
