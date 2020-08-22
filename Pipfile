@@ -11,3 +11,8 @@ sqlalchemy = "~=1.3.18"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+bot = "python runscripts/bot.py"
+test = "python runscripts/test.py"
+translate = "python runscripts/translate.py"
