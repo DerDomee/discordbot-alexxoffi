@@ -6,7 +6,7 @@
   "dcbot.log.error.guild": "Unable to log the desired message: Guild not found",
   "dcbot.log.error.channel": "Unable to log the desired message: Channel not found",
 
-  "init.stage0.successful": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished.",
+  "init.stage0.successful": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished. The default command short-prefix is `$` until you define your own prefix in init stage 1.",
   "init.stage1.intro": "Init stage 1 of 3 active. Please run the command `set_bot_prefix` with your preferred settings!",
   "init.stage1.successful": "Init stage 1 of 3 fulfilled successfully.",
   "init.stage2.intro": "Init stage 2 of 3 active. Please run the command `set_log_channel` with your preferred settings!",
