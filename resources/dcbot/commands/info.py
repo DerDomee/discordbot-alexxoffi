@@ -36,11 +36,16 @@ async def invoke(message, arg_stack, botuser):
         value="<@285720078031388673>",
         inline=True)
 
+    versiontag = os.popen('git describe --tags').read().rstrip('\n')
+    versioncommit = os.popen('git rev-parse --short HEAD').read().rstrip('\n')
+
+    versionstring = str(versiontag) + " (" + str(versioncommit) + ")"
+
     embed.add_field(
         name=transget(
             'command.info.embed.field.version.title',
             botuser.user_pref_lang),
-        value=os.getenv('DD_BOT_VERSION', "0.1.0-SNAPSHOT"),
+        value=versionstring,
         inline=True)
 
     embed.add_field(
