@@ -27,8 +27,7 @@ async def invoke(message, arg_stack, botuser):
         color=0xdfdfdf)
 
     embed.set_thumbnail(
-        url="https://cdn.discordapp.com/avatars/722892642450538647/"
-            + "973bffde74992ccf589c24c9745855c5.png")
+        url=str(client.user.avatar_url))
 
     embed.add_field(
         name=transget(
