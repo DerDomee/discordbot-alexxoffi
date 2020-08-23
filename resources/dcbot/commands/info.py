@@ -36,7 +36,7 @@ async def invoke(message, arg_stack, botuser):
         value="<@285720078031388673>",
         inline=True)
 
-    versiontag = os.popen('git describe --tags').read().rstrip('\n')
+    versiontag = os.popen('git describe --tags --abbrev=0').read().rstrip('\n')
     versioncommit = os.popen('git rev-parse --short HEAD').read().rstrip('\n')
 
     versionstring = str(versiontag) + " (" + str(versioncommit) + ")"
