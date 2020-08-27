@@ -18,15 +18,57 @@ def is_command(message_content):
     return False
 
 
+def _get_argv(argstring):
+    pre_argv = []
+    last_cut = 0
+    quotation_mode = 0
+    should_continue = False
+
+    for index, character in enumerate(argstring):
+        if should_continue is True:
+            should_continue = False
+            continue
+        elif (character == "\"" or character == "\'") and \
+                argstring[index-1] == "\\":
+            continue
+        elif character == " " and quotation_mode == 0:
+            pre_argv.append(argstring[last_cut:index])
+            last_cut = index + 1
+        elif character == "\"" and quotation_mode == 0:
+            quotation_mode = 1
+            last_cut += 1
+        elif character == "\'" and quotation_mode == 0:
+            quotation_mode = 2
+            last_cut += 1
+        elif character == "\"" and quotation_mode == 1:
+            quotation_mode = 0
+            pre_argv.append(argstring[last_cut:index])
+            last_cut = index + 2
+            should_continue = True
+        elif character == "\'" and quotation_mode == 2:
+            quotation_mode = 0
+            pre_argv.append(argstring[last_cut:index])
+            last_cut = index + 2
+            should_continue = True
+
+    pre_argv.append(argstring[last_cut:])
+    argv = []
+    for argument in pre_argv:
+        print(argument)
+        argv.append(argument.replace("\\\"", "\"").replace("\\\'", "\'"))
+    return argv
+
+
 def get_processed_argstack(message):
-    if message.startswith("<@!" + str(client.user.id) + "> ") or \
-            message.startswith("<@" + str(client.user.id) + "> "):
-        tempmsg = message.split(' ')
-        return list(filter(None, tempmsg[1:]))
     shortprefix = dbcommon.get_bot_setting(botcommon.key_bot_prefix, '$')
-    if message.startswith(shortprefix):
-        tempmsg = message[1:].strip().split(' ')
-        return list(filter(None, tempmsg))
+    fullstring = "<<Error!>>"
+    if message.startswith("<@!" + str(client.user.id) + ">") or \
+            message.startswith("<@" + str(client.user.id) + ">"):
+        fullstring = " ".join(message.split(" ")[1:])
+    elif message.startswith(shortprefix):
+        fullstring = message[1:]
+    argstack = _get_argv(fullstring)
+    return argstack
 
 
 async def on_message_init_mode(message, cmd_arg_stack, init_stage):
