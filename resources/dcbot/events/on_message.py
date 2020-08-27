@@ -54,7 +54,6 @@ def _get_argv(argstring):
     pre_argv.append(argstring[last_cut:])
     argv = []
     for argument in pre_argv:
-        print(argument)
         argv.append(argument.replace("\\\"", "\"").replace("\\\'", "\'"))
     return argv
 
