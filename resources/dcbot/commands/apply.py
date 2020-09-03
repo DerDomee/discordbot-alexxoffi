@@ -107,23 +107,23 @@ async def invoke(message, arg_stack, botuser):
         return await _error_and_delete(remove_messages)
 
     # Check if provided Profile name actually exists
-    profile_exists = False
+    profile_uuid = None
     for profile in \
             hypixelplayer['player']['stats']['SkyBlock']['profiles'].values():
         if profile['cute_name'].lower() == arg_stack[2].lower():
-            profile_exists = True
+            profile_uuid = profile['profile_id']
 
-    if not profile_exists:
+    if profile_uuid is None:
         remove_messages.append(await message.channel.send(transget(
             'command.apply.err.profilenotfound',
             botuser.user_pref_lang).format(
                 profile=arg_stack[2])))
         return await _error_and_delete(remove_messages)
 
+    metadata['profile_name'] = arg_stack[2]
+    metadata['profile_uuid'] = profile_uuid
     # Gather profile stats to show if current requirements are met
     # TODO: Gather profile stats
-
-    metadata['profile_name'] = arg_stack[2]
 
     # Check for HGG Entries
     try:
@@ -164,9 +164,14 @@ def _create_embed(metadata):
         value=metadata['hgg_report_count'],
         inline=True)
     embed.add_field(
+        name="Profile",
+        value=metadata['profile_name'] + " (" + metadata['profile_uuid'] + ")",
+        inline=False)
+    embed.add_field(
         name="Stats Viewer Link",
         value="https://sky.derdom.ee/stats/" + metadata['mc_username'] + "/"
-              + metadata['profile_name'])
+              + metadata['profile_name'],
+        inline=False)
     if metadata['private_message'] is not None \
             and metadata['private_message'] != "":
         embed.add_field(
