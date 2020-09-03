@@ -3,6 +3,7 @@ import json
 import asyncio
 from lib.hypixel import hypixel
 from resources.dcbot import botcommon
+from resources.database import dbcommon
 from resources.translation import transget
 
 CMD_METADATA = {
@@ -15,9 +16,30 @@ CMD_METADATA = {
 async def invoke(message, arg_stack, botuser):
     remove_messages = [message]
 
+    if len(arg_stack) == 2 and arg_stack[1] == "on" and \
+            botuser.user_permission_level >= botcommon.key_permlevel_moderator:
+        # TODO: Check if apply command actually can be enabled!
+        #       Key bot_gapplydest_channel must be properly set and available!
+        dbcommon.set_bot_setting("bot_gapply_enabled", "true")
+        # TODO: Log the changing apply state
+        return await _success_and_delete(remove_messages)
+    if len(arg_stack) == 2 and arg_stack[1] == "off" and \
+            botuser.user_permission_level >= botcommon.key_permlevel_moderator:
+        dbcommon.set_bot_setting("bot_gapply_enabled", "false")
+        # TODO: Log the changing apply state
+        return await _success_and_delete(remove_messages)
+
+    if dbcommon.get_bot_setting(
+            "bot_gapply_enabled", default="false") == "false":
+        remove_messages.append(await message.channel.send(transget(
+            'command.apply.err.disabled',
+            botuser.user_pref_lang)))
+        return await _error_and_delete(remove_messages)
+
     # Check if command contains no argument (stack size 1)
     # This means no player name was provided
     if len(arg_stack) == 1:
+
         remove_messages.append(await message.channel.send(transget(
             'command.apply.err.noname',
             botuser.user_pref_lang)))
