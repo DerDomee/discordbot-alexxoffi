@@ -81,11 +81,12 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 user_permission_level=botcommon.key_permlevel_owner)
             sqlsession.add(newuser)
             sqlsession.commit()
-            from resources.dcbot.commands import set_admin_channel
-            await set_admin_channel.invoke(
+            from resources.dcbot.commands import chanset
+            await chanset.invoke(
                 message,
                 [
-                    'set_admin_channel',
+                    'chanset',
+                    'admin'
                     '<#' + str(message.channel.id) + '>'],
                 newuser)
             dbcommon.set_bot_setting(
@@ -127,9 +128,9 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 'init.stage2.intro',
                 currentuser.user_pref_lang))
 
-        elif cmd_arg_stack[0] == "set_log_channel":
-            from resources.dcbot.commands import set_log_channel
-            if await set_log_channel.invoke(
+        elif cmd_arg_stack[0] == "chanset":
+            from resources.dcbot.commands import chanset
+            if await chanset.invoke(
                     message,
                     cmd_arg_stack,
                     currentuser):
