@@ -9,10 +9,12 @@ from resources.translation import transget
 @client.event
 async def on_ready():
     for importer, modname, ispkg in pkgutil.iter_modules(commands.__path__):
-        botcommon.registered_bot_commands.append(modname)
+        if not str(modname).startswith('_'):
+            botcommon.registered_bot_commands.append(modname)
     for importer, modname, ispkg in pkgutil.iter_modules(
             messageprocessors.__path__):
-        botcommon.registered_message_processors.append(modname)
+        if not str(modname).startswith('_'):
+            botcommon.registered_message_processors.append(modname)
     message = transget("dcbot.readymessage").format(
         client=client.user)
     print(message)
