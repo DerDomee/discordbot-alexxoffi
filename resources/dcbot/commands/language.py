@@ -7,12 +7,12 @@ CMD_METADATA = {
     'required_channels': [botcommon.key_bot_adminchannel,
                           botcommon.key_bot_userchannel]}
 
+SUPPORTED_LANGS = ["en"]
+
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
-
-    supported_langs = ["en", "de", "fr"]
 
     if len(arg_stack) == 1:
         return False
@@ -26,7 +26,7 @@ async def invoke(message, arg_stack, botuser):
             pass
     if len(arg_stack) == 3:
         if arg_stack[1] == "set":
-            if arg_stack[2] in supported_langs:
+            if arg_stack[2] in SUPPORTED_LANGS:
                 botuser.user_pref_lang = arg_stack[2]
                 sqlsession.commit()
                 await message.channel.send(transget(
