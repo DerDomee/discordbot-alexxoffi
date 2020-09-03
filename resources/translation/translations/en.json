@@ -17,6 +17,13 @@
 
   "command.addcmdchan.meta.description": "Add an existing channel to the list of command-allowed channels for users",
 
+  "command.apply.meta.description": "Apply for the Hypixel streaming-guild from AlexxOffi",
+  "command.apply.err.noname": "Please specify your Minecraft name.",
+  "command.apply.err.noprofile": "Please specify your Skyblock profile name",
+  "command.apply.err.playernotfound": "The player {playername} was not found on Hypixel.",
+  "command.apply.err.playernotlinked": "Your Hypixel profile is not linked to your Discord profile. Please add your Discord profile \"{actual_dc_tag}\" in your Hypixel settings menu.",
+  "command.apply.err.playerwronglinked": "Your Hypixel profile is linked to the wrong Discord profile. Please change your Discord profile from \"{api_dc_tag}\" to \"{actual_dc_tag}\" in your Hypixel settings menu.",
+
   "command.chanset.meta.description": "Set the channel ID for a Key-Identifier",
 
   "command.help.meta.description": "Show the help for this bot",
@@ -24,7 +31,6 @@
 
   "command.info.meta.description": "Shows information about this bot",
   "command.info.embed.title": "Bot information on {bot_title}",
-  "command.info.embed.picture": "https://cdn.discordapp.com/avatars/722892642450538647/973bffde74992ccf589c24c9745855c5.png",
   "command.info.embed.desc": "This bot can auto-moderate, run guild-specific commands and show fancy statistics.",
   "command.info.embed.field.author.title": "Author (Maintainer)",
   "command.info.embed.field.version.title": "Current Version",
