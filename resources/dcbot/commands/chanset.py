@@ -26,6 +26,8 @@ async def invoke(message, arg_stack, botuser):
         channelkey = botcommon.key_bot_logchannel
     elif arg_stack[1] == "apply":
         channelkey = botcommon.key_bot_applychannel
+    elif arg_stack[1] == "applydest":
+        channelkey = botcommon.key_bot_applydestchannel
     elif arg_stack[1] == "splash":
         channelkey = botcommon.key_bot_applychannel
     else:

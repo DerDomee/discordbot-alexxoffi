@@ -10,6 +10,7 @@ key_bot_mainserver = "bot_main_server"
 key_bot_adminchannel = "bot_admin_channel"
 key_bot_logchannel = "bot_log_channel"
 key_bot_applychannel = "bot_gapply_channel"
+key_bot_applydestchannel = "bot_gapplydest_channel"
 key_bot_splashchannel = "bot_gsplash_channel"
 
 # Multichannel keys
