@@ -107,9 +107,9 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 'init.stage1.intro',
                 currentuser.user_pref_lang))
 
-        elif cmd_arg_stack[0] == "set_bot_prefix":
-            from resources.dcbot.commands import set_bot_prefix
-            if await set_bot_prefix.invoke(
+        elif cmd_arg_stack[0] == "setprefix":
+            from resources.dcbot.commands import setprefix
+            if await setprefix.invoke(
                     message,
                     cmd_arg_stack,
                     currentuser):
@@ -149,9 +149,9 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 'init.stage3.intro',
                 currentuser.user_pref_lang))
 
-        if cmd_arg_stack[0] == "add_user_botchannel":
-            from resources.dcbot.commands import add_user_botchannel
-            if await add_user_botchannel.invoke(
+        if cmd_arg_stack[0] == "addcmdchan":
+            from resources.dcbot.commands import addcmdchan
+            if await addcmdchan.invoke(
                     message,
                     cmd_arg_stack,
                     currentuser):

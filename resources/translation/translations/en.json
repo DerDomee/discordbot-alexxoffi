@@ -15,7 +15,7 @@
   "init.stage3.successful": "Init stage 3 of 3 fulfilled.",
   "init.completed": "Init finished. The bot is now set up to work in production.",
 
-  "command.add_user_botchannel.meta.description": "Add an existing channel to the list of command-allowed channels for users",
+  "command.addcmdchan.meta.description": "Add an existing channel to the list of command-allowed channels for users",
 
   "command.chanset.meta.description": "Set the channel ID for a Key-Identifier",
 
@@ -39,7 +39,7 @@
   "command.language.get.text": "Current language: `{lang}`",
   "command.language.set.success": "Language updated to `{lang}`",
 
-  "command.remove_user_botchannel.meta.description": "Remove a channel from the list of command-allowed channels for users",
+  "command.rmcmdchan.meta.description": "Remove a channel from the list of command-allowed channels for users",
 
   "command.server.meta.description": "Shows information about this server",
   "command.server.embed.desc": "Information about this server",
@@ -48,18 +48,13 @@
   "command.server.embed.field.members.title": "{member_count} members",
   "command.server.embed.field.members.value": "{member_count} online",
 
-  "command.set_admin_channel.meta.description": "Mark an existing channel as new admin channel, in which admin-only commands can be executed",
-  "command.set_admin_channel.err1.message": "Argument 1 was not a guild-textchannel ping.",
-
-  "command.set_bot_prefix.meta.description": "Set a new command prefix for this bot",
-
-  "command.set_log_channel.meta.description": "Set an existing channel as the new log channel, where bot actions are logged",
+  "command.setprefix.meta.description": "Set a new command prefix for this bot",
 
   "command.stop.meta.description": "Stop this bot",
 
   "command.warn.meta.description": "Warn a user on the discord",
   "command.warn.error.user_not_found": "User not found. Can not warn a non-existant user.",
   "command.warn.notifiaction.warned": "You have been warned!",
-  "command.warn.notifiaction.warned": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!**"
+  "command.warn.notifiaction.warned.public": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!**"
 
 }
