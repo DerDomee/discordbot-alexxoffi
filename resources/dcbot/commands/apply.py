@@ -1,10 +1,13 @@
 import os
 import json
 import asyncio
+from lib.hgg import hgg
 from lib.hypixel import hypixel
+from resources.dcbot import client
 from resources.dcbot import botcommon
 from resources.database import dbcommon
 from resources.translation import transget
+from discord import Embed
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_user,
@@ -15,6 +18,8 @@ CMD_METADATA = {
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
     remove_messages = [message]
+    metadata = {
+        'discord_id': message.author.id}
 
     if len(arg_stack) == 2 and arg_stack[1] == "on" and \
             botuser.user_permission_level >= botcommon.key_permlevel_moderator:
@@ -55,6 +60,17 @@ async def invoke(message, arg_stack, botuser):
 
     # Get the player from the Hypixel API
     hypixelplayer = hypixel.getplayer_by_name(arg_stack[1])
+    player_uuid = hypixelplayer['player']['uuid']
+
+    metadata['mc_username'] = arg_stack[1]
+    metadata['mc_uuid'] = player_uuid
+
+    # Get a personal applicant message, if provided in command
+    private_message = None
+    if len(arg_stack) > 2:
+        private_message = " ".join(arg_stack[3:])
+
+    metadata['private_message'] = private_message
 
     # Check if the player actually exists
     if hypixelplayer['player'] is None:
@@ -90,7 +106,92 @@ async def invoke(message, arg_stack, botuser):
                 actual_dc_tag=actual_dc_tag)))
         return await _error_and_delete(remove_messages)
 
+    # Check if provided Profile name actually exists
+    profile_exists = False
+    for profile in \
+            hypixelplayer['player']['stats']['SkyBlock']['profiles'].values():
+        if profile['cute_name'].lower() == arg_stack[2].lower():
+            profile_exists = True
+
+    if not profile_exists:
+        remove_messages.append(await message.channel.send(transget(
+            'command.apply.err.profilenotfound',
+            botuser.user_pref_lang).format(
+                profile=arg_stack[2])))
+        return await _error_and_delete(remove_messages)
+
+    # Gather profile stats to show if current requirements are met
+    # TODO: Gather profile stats
+
+    metadata['profile_name'] = arg_stack[2]
+
+    # Check for HGG Entries
+    try:
+        hgg_check = hgg.check_hgg_by_uuid(player_uuid)
+    except Exception:
+        hgg_check = "Error"
+    if hgg_check == "Error":
+        metadata['hgg_report_count'] = "Error"
+    elif hgg_check['found'] is False:
+        metadata['hgg_report_count'] = 0
+    else:
+        metadata['hgg_report_count'] = len(hgg_check['user']['reports'])
+
+    embed = _create_embed(metadata)
+    if await _send_application(embed) is False:
+        remove_messages.append(await message.channel.send(transget(
+            'command.apply.err.sendfailure',
+            botuser.user_pref_lang).format(
+                playername=arg_stack[1])))
+        return await _error_and_delete(remove_messages)
     return await _success_and_delete(remove_messages)
+
+
+def _create_embed(metadata):
+    embed = Embed(
+        title="Neue Gildenbewerbung",
+        color=botcommon.key_color_okay)
+    embed.add_field(
+        name="Ingame-Name",
+        value=metadata['mc_username'],
+        inline=True)
+    embed.add_field(
+        name="Discord Member",
+        value="<@" + str(metadata['discord_id']) + ">",
+        inline=True)
+    embed.add_field(
+        name="HGG Reports",
+        value=metadata['hgg_report_count'],
+        inline=True)
+    embed.add_field(
+        name="Stats Viewer Link",
+        value="https://sky.derdom.ee/stats/" + metadata['mc_username'] + "/"
+              + metadata['profile_name'])
+    if metadata['private_message'] is not None \
+            and metadata['private_message'] != "":
+        embed.add_field(
+            name="Angehängte Nachricht",
+            value=metadata['private_message'],
+            inline=False)
+        pass
+    return embed
+
+
+async def _send_application(embed):
+    destchannel_id = dbcommon.get_bot_setting(
+        botcommon.key_bot_applydestchannel, 0)
+    try:
+        destchannel = await client.fetch_channel(destchannel_id)
+    except Exception:
+        return False
+    else:
+        if destchannel is None:
+            return False
+        else:
+            message = await destchannel.send(embed=embed)
+            await message.add_reaction("✅")
+            await message.add_reaction("❌")
+            return True
 
 
 async def _error_and_delete(remove_messages):

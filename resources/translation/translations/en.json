@@ -24,6 +24,7 @@
   "command.apply.err.playernotfound": "The player {playername} was not found on Hypixel.",
   "command.apply.err.playernotlinked": "Your Hypixel profile is not linked to your Discord profile. Please add your Discord profile \"{actual_dc_tag}\" in your Hypixel settings menu.",
   "command.apply.err.playerwronglinked": "Your Hypixel profile is linked to the wrong Discord profile. Please change your Discord profile from \"{api_dc_tag}\" to \"{actual_dc_tag}\" in your Hypixel settings menu.",
+  "command.apply.err.profilenotfound": "This player has no profile named \"{profile}\"",
 
   "command.chanset.meta.description": "Set the channel ID for a Key-Identifier",
 
