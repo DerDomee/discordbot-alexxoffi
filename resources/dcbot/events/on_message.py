@@ -86,7 +86,7 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 message,
                 [
                     'chanset',
-                    'admin'
+                    'admin',
                     '<#' + str(message.channel.id) + '>'],
                 newuser)
             dbcommon.set_bot_setting(
