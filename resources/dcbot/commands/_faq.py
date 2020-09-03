@@ -11,4 +11,5 @@ CMD_METADATA = {
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
+    await message.channel.send(str(arg_stack))
     return True
