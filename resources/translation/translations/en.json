@@ -18,6 +18,7 @@
   "command.addcmdchan.meta.description": "Add an existing channel to the list of command-allowed channels for users",
 
   "command.apply.meta.description": "Apply for the Hypixel streaming-guild from AlexxOffi",
+  "command.apply.err.disabled": "Guild apply is currently disabled.",
   "command.apply.err.noname": "Please specify your Minecraft name.",
   "command.apply.err.noprofile": "Please specify your Skyblock profile name",
   "command.apply.err.playernotfound": "The player {playername} was not found on Hypixel.",
