@@ -7,11 +7,11 @@
   "dcbot.log.error.channel": "Unable to log the desired message: Channel not found",
 
   "init.stage0.successful": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished. The default command short-prefix is `$` until you define your own prefix in init stage 1.",
-  "init.stage1.intro": "Init stage 1 of 3 active. Please run the command `set_bot_prefix` with your preferred settings!",
+  "init.stage1.intro": "Init stage 1 of 3 active. Please run the command `setprefix <prefix>` with your preferred settings! (Prefix can only be exactly 1 character long)",
   "init.stage1.successful": "Init stage 1 of 3 fulfilled successfully.",
   "init.stage2.intro": "Init stage 2 of 3 active. Please run the command `chanset log <channel-ping>` with your preferred channel!",
   "init.stage2.successful": "Init Stage 2 of 3 fulfilled successfully.",
-  "init.stage3.intro": "Init stage 3 of 3 active. Please run the command `add_user_botchannel <channel-ping>` with your preferred channel!",
+  "init.stage3.intro": "Init stage 3 of 3 active. Please run the command `addcmdchan <channel-ping>` with your preferred channel!",
   "init.stage3.successful": "Init stage 3 of 3 fulfilled.",
   "init.completed": "Init finished. The bot is now set up to work in production.",
 
