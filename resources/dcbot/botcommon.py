@@ -6,10 +6,14 @@ from resources.translation import transget
 # Server Keys
 key_bot_mainserver = "bot_main_server"
 
-# Channel Keys
+# Singlechannel keys
 key_bot_adminchannel = "bot_admin_channel"
-key_bot_userchannel = "bot_user_botchannel"
 key_bot_logchannel = "bot_log_channel"
+key_bot_applychannel = "bot_gapply_channel"
+key_bot_splashchannel = "bot_gsplash_channel"
+
+# Multichannel keys
+key_bot_userchannel = "bot_user_botchannel"
 
 # Permission keys
 key_permlevel_fullmuted = -10
@@ -17,7 +21,8 @@ key_permlevel_restricted = -1
 key_permlevel_user = 0
 key_permlevel_elevated = 1
 key_permlevel_moderator = 10
-key_permlevel_admin = 50
+key_permlevel_supermod = 50
+key_permlevel_admin = 90
 key_permlevel_owner = 100
 
 # More bot settings keys
