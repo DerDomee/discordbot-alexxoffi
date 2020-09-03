@@ -60,7 +60,7 @@
 
   "command.warn.meta.description": "Warn a user on the discord",
   "command.warn.error.user_not_found": "User not found. Can not warn a non-existant user.",
-  "command.warn.notifiaction.warned": "You have been warned!",
-  "command.warn.notifiaction.warned.public": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!**"
+  "command.warn.notifiaction.warned": "You have been warned on the server. Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
+  "command.warn.notifiaction.warned.public": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!** Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!"
 
 }
