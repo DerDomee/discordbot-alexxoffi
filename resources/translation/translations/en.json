@@ -41,7 +41,7 @@
   "command.info.embed.field.prefix.title": "Botprefix for commands",
   "command.info.embed.field.prefix.value": "{longprefix} or `{shortprefix}`",
   "command.info.embed.field.bugreports.title": "Reporting bugs",
-  "command.info.embed.field.bugreports.value": "[Create issue on GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new) or contact me (<@285720078031388673>) via Discord!",
+  "command.info.embed.field.bugreports.value": "[Create issue on GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new/choose) or contact me (<@285720078031388673>) via Discord!",
 
   "command.language.meta.description": "Manage the language in which the bot speaks to you",
   "command.language.get.text": "Current language: `{lang}`",
