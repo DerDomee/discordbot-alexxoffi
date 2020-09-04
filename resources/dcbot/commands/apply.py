@@ -1,6 +1,7 @@
 import os
 import json
 import asyncio
+import requests
 from lib.hgg import hgg
 from lib.hypixel import hypixel
 from resources.dcbot import client
@@ -123,7 +124,22 @@ async def invoke(message, arg_stack, botuser):
     metadata['profile_name'] = arg_stack[2]
     metadata['profile_uuid'] = profile_uuid
     # Gather profile stats to show if current requirements are met
-    # TODO: Gather profile stats
+    profile_data = None
+    try:
+        profile_data = _get_profile_data(metadata)
+    except Exception:
+        profile_data = None
+
+    if profile_data is not None:
+        metadata['pdata_err'] = False
+        metadata['slayer_xp'] = profile_data['data']['slayer_xp']
+        metadata['skill_avg'] = profile_data['data']['average_level']
+        metadata['alchemy_lvl'] = \
+            profile_data['data']['levels']['alchemy']['level']
+        metadata['fairy_souls'] = \
+            profile_data['data']['fairy_souls']['collected']
+    else:
+        metadata['pdata_err'] = True
 
     # Check for HGG Entries
     try:
@@ -147,6 +163,31 @@ async def invoke(message, arg_stack, botuser):
     return await _success_and_delete(remove_messages)
 
 
+def _get_profile_data(metadata):
+    tempdata = None
+    try:
+        req = requests.get(
+            'https://sky.derdom.ee/api/v2/profile/' + metadata['mc_uuid'])
+        tempdata = json.loads(req.text)
+    except requests.ConnectionError:
+        return None
+    if 'error' in tempdata:
+        requests.get(
+            'https://sky.derdom.ee/stats/' + metadata['mc_username'])
+        try:
+            req = requests.get(
+                'https://sky.derdom.ee/api/v2/profile/'
+                + metadata['mc_uuid'])
+            tempdata = json.loads(req.text)
+        except requests.ConnectionError:
+            return None
+        tempdata = json.loads(req.text)
+    if 'error' in tempdata:
+        return None
+    else:
+        return tempdata['profiles'][metadata['profile_uuid']]
+
+
 def _create_embed(metadata):
     embed = Embed(
         title="Neue Gildenbewerbung",
@@ -167,6 +208,28 @@ def _create_embed(metadata):
         name="Profile",
         value=metadata['profile_name'] + " (" + metadata['profile_uuid'] + ")",
         inline=False)
+    if 'pdata_err' in metadata and metadata['pdata_err'] is False:
+        embed.add_field(
+            name="Skill Average",
+            value="{:.2f}".format(metadata['skill_avg']),
+            inline=True)
+        embed.add_field(
+            name="Total Slayer XP",
+            value=metadata['slayer_xp'],
+            inline=True)
+        embed.add_field(
+            name="Fairy Souls",
+            value=metadata['fairy_souls'],
+            inline=True)
+        embed.add_field(
+            name="Alchemy Level",
+            value=metadata['alchemy_lvl'],
+            inline=True)
+    else:
+        embed.add_field(
+            name="Profile Data Error",
+            value="Unknown Error while retrieving Profile data.",
+            inline=True)
     embed.add_field(
         name="Stats Viewer Link",
         value="https://sky.derdom.ee/stats/" + metadata['mc_username'] + "/"
