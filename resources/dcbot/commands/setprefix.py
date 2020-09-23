@@ -13,9 +13,7 @@ async def invoke(message, arg_stack, botuser):
     if len(arg_stack) == 1:
         return False
     if len(arg_stack) == 2:
-        if arg_stack[1] == "help":
-            pass
-        elif len(arg_stack[1]) == 1:
+        if len(arg_stack[1]) == 1:
             allowed_prefixes = "!§$%&/=?.:#+*|\\"
             if not arg_stack[1] in allowed_prefixes:
                 return False
