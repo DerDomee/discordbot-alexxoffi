@@ -8,6 +8,7 @@ from resources.translation import transget
 
 @client.event
 async def on_ready():
+    botcommon.main_guild = client.guilds[0]
     for importer, modname, ispkg in pkgutil.iter_modules(commands.__path__):
         if not str(modname).startswith('_'):
             botcommon.registered_bot_commands.append(modname)
