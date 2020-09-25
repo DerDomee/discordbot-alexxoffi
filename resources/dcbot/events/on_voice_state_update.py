@@ -14,13 +14,11 @@ async def on_voice_state_update(member, before, after):
             await voicecommon.move_to(member, channel_obj)
         except Exception:
             await voicecommon.delete_channel(channel_obj)
-        return
     # Should create a new private channel
     if after.channel is not None and after.channel.id == 759136424661876766:
         channel_obj = await new_voice.create_private(member, before, after)
         botcommon.bot_voice_channels.append(channel_obj)
         await voicecommon.move_to(member, channel_obj)
-        return
 
     # Check if old channel is dynamic
     if voicecommon.get_channel_obj(before.channel) is not None:
@@ -29,7 +27,6 @@ async def on_voice_state_update(member, before, after):
         # Remove channel if it is empty now
         if len(channel_obj['voicechannel'].members) is 0:
             await voicecommon.delete_channel(channel_obj)
-        return
 
     # Check if new channel is dynamic
     if voicecommon.get_channel_obj(after.channel) is not None:
