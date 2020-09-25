@@ -31,14 +31,22 @@ key_bot_init_stage = "bot_init_stage"
 key_bot_prefix = "bot_shortprefix"
 default_user_preferred_language = "en"
 
-registered_bot_commands = []
-registered_message_processors = []
-
 key_color_info = 0xDEDEDE
 key_color_muted = 0x2E2E2E
 key_color_okay = 0x7DDE4D
 key_color_warning = 0xEFA43D
 key_color_danger = 0xEF3D3D
+
+# Common quick-access variables for the bot, may be None if not initialized yet
+main_guild = None
+
+# Voice channel object:
+bot_voice_channels = []
+
+# Currently registered commands
+registered_bot_commands = []
+# Currently registered message processors
+registered_message_processors = []
 
 
 # Decorator for permission constraints on commands
