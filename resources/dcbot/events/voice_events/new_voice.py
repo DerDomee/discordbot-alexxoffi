@@ -26,6 +26,10 @@ async def create_public(member, before, after):
         'textchannel': new_text_channel,
         'owner': member,
         'type': "public"}
+
+    # Send a initializing message in new_text_channel with
+    # some help for voice commands.
+
     return channel_obj
 
 
@@ -57,4 +61,8 @@ async def create_private(member, before, after):
         'textchannel': new_text_channel,
         'owner': member,
         'type': "private"}
+
+    # Send a initializing message in new_text_channel with
+    # some help for voice commands.
+
     return channel_obj
