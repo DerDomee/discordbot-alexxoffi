@@ -2,6 +2,7 @@ from discord import Embed
 from resources.dcbot import botcommon
 from resources.dcbot import client
 from resources.dcbot.botcommon import trytolog
+from resources.dcbot.events.voice_events import voicecommon
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_owner,
@@ -11,8 +12,7 @@ CMD_METADATA = {
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
-
-    # This embed needs to be filled for trytolog to work.
+    botcommon.is_bot_stopping = True
     embed = Embed(
         title="Bot shuts down",
         description="Due to an admin command the bot shuts down now.",

@@ -7,6 +7,9 @@ from resources.dcbot.events.voice_events import voicecommon
 @client.event
 async def on_voice_state_update(member, before, after):
 
+    if botcommon.is_bot_stopping is True:
+        return
+
     # When new channel is the "Create new Public Talk" channel
     if after.channel is not None and after.channel.id == 679801626747469960:
         channel_obj = await new_voice.create_public(member, before, after)
@@ -20,6 +23,8 @@ async def on_voice_state_update(member, before, after):
     if after.channel is not None and after.channel.id == 759136424661876766:
         channel_obj = await new_voice.create_private(member, before, after)
         botcommon.bot_voice_channels.append(channel_obj)
+        role = botcommon.main_guild.get_role(channel_obj['role'])
+        await member.add_roles(role)
         try:
             await voicecommon.move_to(member, channel_obj)
         except Exception:
@@ -31,9 +36,11 @@ async def on_voice_state_update(member, before, after):
         if channel_obj['type'] == "public":
             # Only take away role when channel is public.
             # Roles for private channels are taken away by commands only.
-            await member.remove_roles(channel_obj['role'])
+            role = botcommon.main_guild.get_role(channel_obj['role'])
+            await member.remove_roles(role)
         # Remove channel if it is empty now
-        if len(channel_obj['voicechannel'].members) is 0:
+        vc = await client.fetch_channel(channel_obj['voicechannel'])
+        if len(vc.members) is 0:
             await voicecommon.delete_channel(channel_obj)
 
     # Check if new channel is dynamic
@@ -42,4 +49,5 @@ async def on_voice_state_update(member, before, after):
         if channel_obj['type'] == "public":
             # Only give role when channel is public.
             # Roles for private channels are given by commands only.
-            await member.add_roles(channel_obj['role'])
+            role = botcommon.main_guild.get_role(channel_obj['role'])
+            await member.add_roles(role)

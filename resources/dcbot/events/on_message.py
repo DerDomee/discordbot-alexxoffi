@@ -200,6 +200,9 @@ async def on_process_message_mode(message):
 @client.event
 async def on_message(message):
 
+    if botcommon.is_bot_stopping is True:
+        return
+
     if message.author == client.user:
         return
     cmd_arg_stack = get_processed_argstack(message.content)
