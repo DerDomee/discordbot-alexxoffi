@@ -48,6 +48,10 @@ registered_bot_commands = []
 # Currently registered message processors
 registered_message_processors = []
 
+# Is the bot currently shutting down? This is used for disabling events
+# while cleaning up the server and is set from inside the 'stop' command
+is_bot_stopping = False
+
 
 # Decorator for permission constraints on commands
 def requires_perm_level(level):
