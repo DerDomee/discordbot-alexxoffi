@@ -18,6 +18,7 @@ async def on_voice_state_update(member, before, after):
             await voicecommon.move_to(member, channel_obj)
         except Exception:
             await voicecommon.delete_channel(channel_obj)
+        await voicecommon.send_init_help(channel_obj)
 
     # When new channel is the "Create new Private Talk" channel
     if after.channel is not None and after.channel.id == 759136424661876766:
@@ -29,6 +30,7 @@ async def on_voice_state_update(member, before, after):
             await voicecommon.move_to(member, channel_obj)
         except Exception:
             await voicecommon.delete_channel(channel_obj)
+        await voicecommon.send_init_help(channel_obj)
 
     # When old channel is dynamic
     if voicecommon.get_channel_obj(before.channel) is not None:

@@ -1,3 +1,4 @@
+import re
 from discord import Embed
 from resources.dcbot import botcommon
 from resources.dcbot import client
@@ -9,11 +10,14 @@ CMD_METADATA = {
 
 
 async def toggle(message, arg_stack, botuser, channel_obj):
-    # Maybe this whole "channel updating" process lets me run into a rate limit
-    # and maybe I can fix this with setting a "last_updated" field in
-    # channel_obj and only allow new updates like every two minutes?
+    if channel_obj['editcount'] >= 2:
+        await message.channel.send(
+            "You can not edit this channel more than 2 times due to "
+            "anti-spam.")
+        return False
+
     if channel_obj['type'] == "public":
-        print("Toggling from public to private channel")
+        channel_obj['editcount'] += 1
         role = botcommon.main_guild.get_role(channel_obj['role'])
         overwrites = voicecommon.get_private_overwrites(role)
         vc = client.get_channel(channel_obj['voicechannel'])
@@ -25,48 +29,66 @@ async def toggle(message, arg_stack, botuser, channel_obj):
             await vc.edit(name="Private by " + message.author.display_name)
             await tc.edit(name="Private by " + message.author.display_name)
         channel_obj['type'] = "private"
-        new_channel_obj = channel_obj.copy()
-        print(new_channel_obj)
-        botcommon.bot_voice_channels.remove(channel_obj)
-        botcommon.bot_voice_channels.append(new_channel_obj)
+        await message.channel.send(
+            "You successfully changed the visiblity from public to private.\n"
+            + "This channel was edited " + str(channel_obj['editcount']) + " "
+            + "times now, so you have " + str(2 - channel_obj['editcount'])
+            + " edits left.")
         return True
     else:
-        print("Toggling from private to public channel")
+        channel_obj['editcount'] += 1
         role = botcommon.main_guild.get_role(channel_obj['role'])
         overwrites = voicecommon.get_public_overwrites(role)
         vc = client.get_channel(channel_obj['voicechannel'])
         tc = message.channel
-        print("Role, Channels and Overwrites initialized")
         await role.edit(name="vc-pub-" + message.author.display_name)
-        print("Role updated.")
         if channel_obj['renamed'] is False:
-            print("Channel Update with additional renaming...")
             await vc.edit(
                 name="Public by " + message.author.display_name,
                 overwrites=overwrites['vc'])
             await tc.edit(
                 name="Public by " + message.author.display_name,
                 overwrites=overwrites['tc'])
-            print("...finished!")
         else:
-            print("Channel update without renaming...")
             await vc.edit(overwrites=overwrites['vc'])
             await tc.edit(overwrites=overwrites['tc'])
-            print("...finished!")
-        print("The API-sided part of toggling is finished.")
         channel_obj['type'] = "public"
-        new_channel_obj = channel_obj.copy()
-        print(new_channel_obj)
-        botcommon.bot_voice_channels.remove(channel_obj)
-        botcommon.bot_voice_channels.append(new_channel_obj)
+        await message.channel.send(
+            "You successfully changed the visiblity from private to public.\n"
+            + "This channel was edited " + str(channel_obj['editcount']) + " "
+            + "times now, so you have " + str(2 - channel_obj['editcount'])
+            + " edits left.")
         return True
     return False
 
 
 async def name(message, arg_stack, botuser, channel_obj):
-    # Let the owner manually rename the channel.
-    # Do the renaming for voice AND text channel.
-    return False
+    if channel_obj['editcount'] >= 2:
+        await message.channel.send(
+            "You can not edit this channel more than 2 times due to "
+            "anti-spam.")
+        return False
+
+    if len(arg_stack) <= 2:
+        await message.channel.send("You must specify the desired name.")
+
+    new_name = " ".join(arg_stack[2:])
+    new_name = re.sub('[^A-Za-z1-9\\s]', '', new_name)
+    new_name = (new_name[:20]) if len(new_name) > 20 else new_name
+    tc = client.get_channel(channel_obj['textchannel'])
+    vc = client.get_channel(channel_obj['voicechannel'])
+
+    await tc.edit(name=new_name)
+    await vc.edit(name=new_name)
+
+    channel_obj['editcount'] += 1
+    channel_obj['renamed'] = True
+
+    await message.channel.send(
+        "You successfully changed the channel name to " + str(new_name) + ".\n"
+        + "This channel was edited " + str(channel_obj['editcount']) + " "
+        + "times now, so you have " + str(2 - channel_obj['editcount'])
+        + " edits left.")
 
 
 async def transfer(message, arg_stack, botuser, channel_obj):
