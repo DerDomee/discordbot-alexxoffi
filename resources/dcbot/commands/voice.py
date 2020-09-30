@@ -73,7 +73,7 @@ async def name(message, arg_stack, botuser, channel_obj):
         await message.channel.send("You must specify the desired name.")
 
     new_name = " ".join(arg_stack[2:])
-    new_name = re.sub('[^A-Za-z1-9\\s]', '', new_name)
+    new_name = re.sub('[^A-Za-z1-9\\s\\-]', '', new_name)
     new_name = (new_name[:20]) if len(new_name) > 20 else new_name
     tc = client.get_channel(channel_obj['textchannel'])
     vc = client.get_channel(channel_obj['voicechannel'])
