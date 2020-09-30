@@ -47,6 +47,8 @@
   "command.language.get.text": "Current language: `{lang}`",
   "command.language.set.success": "Language updated to `{lang}`",
 
+  "command.printarg.meta.description": "A debug command that tests the internal string-lexer that is used to lex and parse a message content into a command-argument-stack",
+
   "command.rmcmdchan.meta.description": "Remove a channel from the list of command-allowed channels for users",
 
   "command.server.meta.description": "Shows information about this server",
@@ -59,6 +61,8 @@
   "command.setprefix.meta.description": "Set a new command prefix for this bot",
 
   "command.stop.meta.description": "Stop this bot",
+
+  "command.voice.meta.description": "Control the dynamic voice channel you are currently connected to, if you are its owner.",
 
   "command.warn.meta.description": "Warn a user on the discord",
   "command.warn.error.user_not_found": "User not found. Can not warn a non-existant user.",

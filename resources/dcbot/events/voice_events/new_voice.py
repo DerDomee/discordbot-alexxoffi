@@ -26,7 +26,8 @@ async def create_public(member, before, after):
         'textchannel': new_text_channel.id,
         'owner': member.id,
         'type': "public",
-        'renamed': False}
+        'renamed': False,
+        'editcount': 0}
 
     # Send a initializing message in new_text_channel with
     # some help for voice commands.
@@ -54,7 +55,8 @@ async def create_private(member, before, after):
         'textchannel': new_text_channel.id,
         'owner': member.id,
         'type': "private",
-        'renamed': False}
+        'renamed': False,
+        'editcount': 0}
 
     # Send a initializing message in new_text_channel with
     # some help for voice commands.

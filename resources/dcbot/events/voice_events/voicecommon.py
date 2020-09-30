@@ -1,6 +1,7 @@
 from resources.dcbot import botcommon
 from resources.dcbot import client
 from discord import PermissionOverwrite
+from discord import Embed
 
 
 async def move_to(member, channel_obj):
@@ -20,17 +21,56 @@ def get_channel_obj(channel):
 
 
 async def delete_channel(channel_obj):
-    print("Init deletion")
     role = botcommon.main_guild.get_role(channel_obj['role'])
-    vc = await client.fetch_channel(channel_obj['voicechannel'])
-    tc = await client.fetch_channel(channel_obj['textchannel'])
-    print("Role and Channels initialized. Deleting now...")
+    vc = client.get_channel(channel_obj['voicechannel'])
+    tc = client.get_channel(channel_obj['textchannel'])
     await role.delete()
     await vc.delete()
     await tc.delete()
-    print("API-sided calls are finished. Deletion successful")
     botcommon.bot_voice_channels.remove(channel_obj)
-    print("Internal deletion successful")
+
+
+async def send_init_help(channel_obj):
+    tc = client.get_channel(channel_obj['textchannel'])
+    embed = Embed(
+        title="Welcome to your voice channel!",
+        description=("You can use following commands in this channel only:"),
+        color=botcommon.key_color_info)
+    embed.add_field(
+        name="`voice toggle`",
+        value="Toggle the channel visibility between public and private. "
+              + "**This edits the channel.**")
+    embed.add_field(
+        name="`voice name <new-name>`",
+        value="Set a custom name for the channel. Names are limited to 20 "
+              + "alphanumeric characters. **This edits the channel.**")
+    embed.add_field(
+        name="`voice transfer <user-ping|user-id>`",
+        value="Transfer the channel ownership to another user, that must be "
+              + "currently connected to this channel.")
+    embed.add_field(
+        name="`voice invite <user-ping|user-id>`",
+        value="**Only private channels**: Make this channel visible for a "
+              + "specified user.")
+    embed.add_field(
+        name="`voice kick <user-ping|user-id>`",
+        value="**Only private channels**: Kick a user and make this channel "
+              + "invisible for him again.")
+    embed.add_field(
+        name="`voice close`",
+        value="Manually delete this channel. ")
+    embed.add_field(
+        name="\nMore information",
+        inline=False,
+        value="**1.** If the owner leaves without transferring ownership, "
+              + "a new owner is randomly chosen.\n"
+              + "**2.** As soon as the channel is empty, it is removed.\n"
+              + "**3.** When a user disconnects from a private channel, he "
+              + "still can see the channel and reconnect. To prevent "
+              + "reconnecting, the owner must manually kick the user.\n\n"
+              + "**4.** You can use 'channel editing' commands **up to 2 "
+              + "times altogether** due to anti-spam.")
+    await tc.send(embed=embed)
 
 
 def get_public_overwrites(specific_role):
