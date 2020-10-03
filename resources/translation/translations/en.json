@@ -28,6 +28,9 @@
 
   "command.chanset.meta.description": "Set the channel ID for a Key-Identifier",
 
+  "command.faq.meta.description": "Send an embed with a both custom texts as title and description. Useful for FAQs",
+  "command.faq.err.wrongsyntax": "Please use exactly 2 parameters: `faq \"question\" \"answer\"`",
+
   "command.help.meta.description": "Show the help for this bot",
   "command.help.general_help.header": "For command-specific help use `help <command>`",
 
