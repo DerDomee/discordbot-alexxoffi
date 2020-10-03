@@ -51,7 +51,8 @@ async def send_init_help(channel_obj):
     embed.add_field(
         name="`voice invite <user-ping|user-id>`",
         value="**Only private channels**: Make this channel visible for a "
-              + "specified user.")
+              + "specified user. You can use this command in every channel "
+              + "on this server.")
     embed.add_field(
         name="`voice kick <user-ping|user-id>`",
         value="**Only private channels**: Kick a user and make this channel "
