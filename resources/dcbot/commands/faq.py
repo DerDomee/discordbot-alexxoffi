@@ -5,11 +5,18 @@ from resources.dcbot.botcommon import trytolog
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_moderator,
-    'required_channels': [botcommon.key_bot_adminchannel]}
+    'required_channels': None}
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
-@botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
-    await message.channel.send(str(arg_stack))
-    return True
+    question = arg_stack[1]
+    answer = arg_stack[2]
+
+    embed = Embed(
+        title=question,
+        description=answer,
+        color=botcommon.key_color_info)
+
+    await message.channel.send(embed=embed)
+    await message.delete()

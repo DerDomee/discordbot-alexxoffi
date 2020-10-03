@@ -30,6 +30,8 @@ async def invoke(message, arg_stack, botuser):
         channelkey = botcommon.key_bot_applydestchannel
     elif arg_stack[1] == "splash":
         channelkey = botcommon.key_bot_applychannel
+    elif arg_stack[1] == "faq":
+        channelkey = botcommon.key_bot_faqchannel
     else:
         await message.channel.send(transget(
             'command.chanset.info.unknown_channelkey',
