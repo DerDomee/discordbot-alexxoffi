@@ -35,6 +35,7 @@ async def _get_user_data(member, botuser=None):
     data = {}
     data['username'] = member.display_name
     data['firstjoined'] = member.joined_at
+    data['permlevel'] = botuser.user_permission_level
     return data
 
 
@@ -48,6 +49,9 @@ def _create_embed_from_data(data):
     embed.add_field(
         name="First joined",
         value=data['firstjoined'])
+    embed.add_field(
+        name="Permission level",
+        value=data['permlevel'])
     return embed
 
 
