@@ -55,6 +55,8 @@ def _get_argv(argstring):
     argv = []
     for argument in pre_argv:
         argv.append(argument.replace("\\\"", "\"").replace("\\\'", "\'"))
+    if argv[-1] == "":
+        argv.pop()
     return argv
 
 
