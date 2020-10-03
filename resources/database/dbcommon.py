@@ -41,6 +41,12 @@ def get_user_or_create(discordid):
     return user
 
 
+def get_user(discordid):
+    user = sqlsession.query(BotUser).filter_by(
+        user_discord_id=discordid).first()
+    return user
+
+
 def get_channel_ids_from_key(key):
     key_value = get_bot_setting(key)
     if key == botcommon.key_bot_userchannel:
