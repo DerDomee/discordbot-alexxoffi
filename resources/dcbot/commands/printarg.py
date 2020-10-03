@@ -4,7 +4,7 @@ from resources.dcbot import client
 from resources.dcbot.botcommon import trytolog
 
 CMD_METADATA = {
-    'required_permlevel': botcommon.key_permlevel_moderator,
+    'required_permlevel': botcommon.key_permlevel_admin,
     'required_channels': [botcommon.key_bot_adminchannel]}
 
 
