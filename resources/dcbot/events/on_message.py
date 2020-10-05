@@ -1,4 +1,5 @@
 import importlib
+from lib.stavlexer import stavlexer
 from resources.dcbot import client
 from resources.dcbot import botcommon
 from resources.translation import transget
@@ -18,48 +19,6 @@ def is_command(message_content):
     return False
 
 
-def _get_argv(argstring):
-    pre_argv = []
-    last_cut = 0
-    quotation_mode = 0
-    should_continue = False
-
-    for index, character in enumerate(argstring):
-        if should_continue is True:
-            should_continue = False
-            continue
-        elif (character == "\"" or character == "\'") and \
-                argstring[index-1] == "\\":
-            continue
-        elif character == " " and quotation_mode == 0:
-            pre_argv.append(argstring[last_cut:index])
-            last_cut = index + 1
-        elif character == "\"" and quotation_mode == 0:
-            quotation_mode = 1
-            last_cut += 1
-        elif character == "\'" and quotation_mode == 0:
-            quotation_mode = 2
-            last_cut += 1
-        elif character == "\"" and quotation_mode == 1:
-            quotation_mode = 0
-            pre_argv.append(argstring[last_cut:index])
-            last_cut = index + 2
-            should_continue = True
-        elif character == "\'" and quotation_mode == 2:
-            quotation_mode = 0
-            pre_argv.append(argstring[last_cut:index])
-            last_cut = index + 2
-            should_continue = True
-
-    pre_argv.append(argstring[last_cut:])
-    argv = []
-    for argument in pre_argv:
-        argv.append(argument.replace("\\\"", "\"").replace("\\\'", "\'"))
-    if argv[-1] == "":
-        argv.pop()
-    return argv
-
-
 def get_processed_argstack(message):
     shortprefix = dbcommon.get_bot_setting(botcommon.key_bot_prefix, '$')
     fullstring = "<<Error!>>"
@@ -68,7 +27,7 @@ def get_processed_argstack(message):
         fullstring = " ".join(message.split(" ")[1:])
     elif message.startswith(shortprefix):
         fullstring = message[1:]
-    argstack = _get_argv(fullstring)
+    argstack = stavlexer.get_argv(fullstring)
     return argstack
 
 
