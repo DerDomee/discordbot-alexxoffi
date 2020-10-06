@@ -119,11 +119,9 @@ async def close(message, arg_stack, botuser, channel_obj):
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 async def invoke(message, arg_stack, botuser):
-    channel_obj = voicecommon.get_channel_obj(message.channel)
-    if channel_obj is None:
-        return False
 
-    if message.author.id != channel_obj['owner']:
+    channel_obj = voicecommon.get_channel_by_owner(message.author.id)
+    if channel_obj is None:
         return False
 
     # arg_stack[1] contains subcommand 'toggle/name/transfer/invite/kick/close'

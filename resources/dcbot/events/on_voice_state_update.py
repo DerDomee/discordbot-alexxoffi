@@ -33,8 +33,8 @@ async def on_voice_state_update(member, before, after):
         await voicecommon.send_init_help(channel_obj)
 
     # When old channel is dynamic
-    if voicecommon.get_channel_obj(before.channel) is not None:
-        channel_obj = voicecommon.get_channel_obj(before.channel)
+    if voicecommon.get_channel_obj_by_channel(before.channel) is not None:
+        channel_obj = voicecommon.get_channel_obj_by_channel(before.channel)
         if channel_obj['type'] == "public":
             # Only take away role when channel is public.
             # Roles for private channels are taken away by commands only.
@@ -46,8 +46,8 @@ async def on_voice_state_update(member, before, after):
             await voicecommon.delete_channel(channel_obj)
 
     # Check if new channel is dynamic
-    if voicecommon.get_channel_obj(after.channel) is not None:
-        channel_obj = voicecommon.get_channel_obj(after.channel)
+    if voicecommon.get_channel_obj_by_channel(after.channel) is not None:
+        channel_obj = voicecommon.get_channel_obj_by_channel(after.channel)
         if channel_obj['type'] == "public":
             # Only give role when channel is public.
             # Roles for private channels are given by commands only.

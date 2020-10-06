@@ -9,13 +9,22 @@ async def move_to(member, channel_obj):
     await member.move_to(voicechannel)
 
 
-def get_channel_obj(channel):
+def get_channel_obj_by_channel(channel):
     if channel is None:
         return None
     for channel_obj in botcommon.bot_voice_channels:
         if channel_obj['voicechannel'] == channel.id:
             return channel_obj
         if channel_obj['textchannel'] == channel.id:
+            return channel_obj
+    return None
+
+
+def get_channel_obj_by_owner(member):
+    if member is None:
+        return None
+    for channel_obj in botcommon.bot_voice_channels:
+        if channel_obj['owner'] == member.id:
             return channel_obj
     return None
 
