@@ -9,7 +9,7 @@ async def move_to(member, channel_obj):
     await member.move_to(voicechannel)
 
 
-def get_channel_obj(channel):
+def get_channel_obj_by_channel(channel):
     if channel is None:
         return None
     for channel_obj in botcommon.bot_voice_channels:
@@ -20,14 +20,23 @@ def get_channel_obj(channel):
     return None
 
 
+def get_channel_obj_by_owner(member):
+    if member is None:
+        return None
+    for channel_obj in botcommon.bot_voice_channels:
+        if channel_obj['owner'] == member.id:
+            return channel_obj
+    return None
+
+
 async def delete_channel(channel_obj):
+    botcommon.bot_voice_channels.remove(channel_obj)
     role = botcommon.main_guild.get_role(channel_obj['role'])
     vc = client.get_channel(channel_obj['voicechannel'])
     tc = client.get_channel(channel_obj['textchannel'])
     await role.delete()
     await vc.delete()
     await tc.delete()
-    botcommon.bot_voice_channels.remove(channel_obj)
 
 
 async def send_init_help(channel_obj):

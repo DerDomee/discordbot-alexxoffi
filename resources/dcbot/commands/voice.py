@@ -1,5 +1,6 @@
 import re
 from discord import Embed
+from resources.translation import transget
 from resources.dcbot import botcommon
 from resources.dcbot import client
 from resources.dcbot.events.voice_events import voicecommon
@@ -71,6 +72,7 @@ async def name(message, arg_stack, botuser, channel_obj):
 
     if len(arg_stack) <= 2:
         await message.channel.send("You must specify the desired name.")
+        return False
 
     new_name = " ".join(arg_stack[2:])
     new_name = re.sub('[^A-Za-z1-9\\s\\-]', '', new_name)
@@ -92,54 +94,127 @@ async def name(message, arg_stack, botuser, channel_obj):
 
 
 async def transfer(message, arg_stack, botuser, channel_obj):
-    # Change the channel owner in channel_obj.
-    return False
+
+    transfer_member = await botcommon.get_member_by_id_or_ping(arg_stack[2])
+    if transfer_member is None:
+        await message.channel.send(transget(
+            'command.voice.transfer.user_not_found',
+            botuser.user_pref_lang))
+        return False
+
+    if transfer_member.id == message.author.id:
+        await message.channel.send(transget(
+            'command.voice.transfer.self_not_permitted',
+            botuser.user_pref_lang))
+        return False
+
+    channel_obj['owner'] = transfer_member.id
+    previous_owner = message.author.mention
+    new_owner = transfer_member.mention
+    await message.channel.send(transget(
+        'command.voice.transfer.successful').format(
+            previous_mention=previous_owner,
+            new_mention=new_owner))
 
 
 async def invite(message, arg_stack, botuser, channel_obj):
-    # Only when this channel is a private channel: Grant the channel's server
-    # role to given member.
-    return False
+    if channel_obj['type'] != "private":
+        await message.channel.send(transget(
+            'command.voice.invite.channel_not_private',
+            botuser.user_pref_lang))
+        return False
+
+    invite_member = await botcommon.get_member_by_id_or_ping(arg_stack[2])
+    if invite_member is None:
+        await message.channel.send(transget(
+            'command.voice.invite.user_not_found',
+            botuser.user_pref_lang))
+        return False
+
+    if invite_member.id == message.author.id:
+        await message.channel.send(transget(
+            'command.voice.invite.self_not_permitted',
+            botuser.user_pref_lang))
+        return False
+
+    role = botcommon.main_guild.get_role(channel_obj['role'])
+    if role is None:
+        await message.channel.send(transget(
+            'command.voice.invite.rolecheck_failed',
+            botuser.user_pref_lang))
+        return False
+    await invite_member.add_roles(role)
+    return True
 
 
 async def kick(message, arg_stack, botuser, channel_obj):
-    # Kick the given member out of the channel. If this channel is public,
-    # then obviously the member can rejoin, making this command kind of
-    # useless.
-    # If this channel is private, also remove the channel's server role from
-    # given user, so he is not able to re-join.
-    return False
+    if channel_obj['type'] != "private":
+        await message.channel.send(transget(
+            'command.voice.kick.channel_not_private',
+            botuser.user_pref_lang))
+        return False
+
+    kick_member = await botcommon.get_member_by_id_or_ping(arg_stack[2])
+    if kick_member is None:
+        await message.channel.send(transget(
+            'command.voice.kick.user_not_found',
+            botuser.user_pref_lang))
+        return False
+
+    if kick_member.id == message.author.id:
+        await message.channel.send(transget(
+            'command.voice.kick.self_not_permitted',
+            botuser.user_pref_lang))
+        return False
+
+    role = botcommon.main_guild.get_role(channel_obj['role'])
+    if role is None:
+        await message.channel.send(transget(
+            'command.voice.kick.rolecheck_failed',
+            botuser.user_pref_lang))
+        return False
+
+    await kick_member.remove_roles(role)
+    await kick_member.move_to(channel=None)
+    return True
 
 
 async def close(message, arg_stack, botuser, channel_obj):
-    # Instantly closes the channel, removing the voice channel, text channel
-    # and the corresponding server role.
-    return False
+    await voicecommon.delete_channel(channel_obj)
+    return True
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 async def invoke(message, arg_stack, botuser):
-    channel_obj = voicecommon.get_channel_obj(message.channel)
-    if channel_obj is None:
-        return False
 
-    if message.author.id != channel_obj['owner']:
+    channel_obj = voicecommon.get_channel_obj_by_owner(message.author)
+    if channel_obj is None:
         return False
 
     # arg_stack[1] contains subcommand 'toggle/name/transfer/invite/kick/close'
     if len(arg_stack) <= 1:
         return False
     elif arg_stack[1] == 'toggle':
+        if channel_obj['textchannel'] != message.channel.id:
+            return False
         return await toggle(message, arg_stack, botuser, channel_obj)
     elif arg_stack[1] == 'name':
+        if channel_obj['textchannel'] != message.channel.id:
+            return False
         return await name(message, arg_stack, botuser, channel_obj)
     elif arg_stack[1] == 'transfer':
+        if channel_obj['textchannel'] != message.channel.id:
+            return False
         return await transfer(message, arg_stack, botuser, channel_obj)
     elif arg_stack[1] == 'invite':
         return await invite(message, arg_stack, botuser, channel_obj)
     elif arg_stack[1] == 'kick':
+        if channel_obj['textchannel'] != message.channel.id:
+            return False
         return await kick(message, arg_stack, botuser, channel_obj)
     elif arg_stack[1] == 'close':
+        if channel_obj['textchannel'] != message.channel.id:
+            return False
         return await close(message, arg_stack, botuser, channel_obj)
     else:
         pass
