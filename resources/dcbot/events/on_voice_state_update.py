@@ -7,6 +7,11 @@ from resources.dcbot.events.voice_events import voicecommon
 
 @client.event
 async def on_voice_state_update(member, before, after):
+
+    # If bot is currently shutting down, don't do anything at all.
+    if botcommon.is_bot_stopping:
+        return
+
     cid_new_publicvoice = int(dbcommon.get_bot_setting(
         botcommon.key_bot_newpublicvoicechannel))
     cid_new_privatevoice = int(dbcommon.get_bot_setting(

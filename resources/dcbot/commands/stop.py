@@ -13,6 +13,10 @@ CMD_METADATA = {
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
     botcommon.is_bot_stopping = True
+
+    for vchannel_obj in botcommon.bot_voice_channels:
+        await voicecommon.delete_channel(vchannel_obj)
+
     embed = Embed(
         title="Bot shuts down",
         description="Due to an admin command the bot shuts down now.",
