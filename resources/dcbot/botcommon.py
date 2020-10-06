@@ -53,6 +53,30 @@ registered_message_processors = []
 is_bot_stopping = False
 
 
+async def get_member_by_id_or_ping(selector):
+    user_id = selector.lstrip("<@!").lstrip("<@").rstrip(">")
+    guild = main_guild
+    try:
+        member = guild.get_member(user_id)
+        if member is None:
+            member = await guild.fetch_member(user_id)
+        return member
+    except Exception:
+        return None
+
+
+async def get_channel_by_id_or_ping(selector):
+    channel_id = selector.lstrip("<#").rstrip(">")
+    guild = main_guild
+    try:
+        channel = guild.get_channel(channel_id)
+        if channel is None:
+            channel = await guild.fetch_channel(channel_id)
+        return channel
+    except Exception:
+        return None
+
+
 # Decorator for permission constraints on commands
 def requires_perm_level(level):
 

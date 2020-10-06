@@ -30,13 +30,13 @@ def get_channel_obj_by_owner(member):
 
 
 async def delete_channel(channel_obj):
+    botcommon.bot_voice_channels.remove(channel_obj)
     role = botcommon.main_guild.get_role(channel_obj['role'])
     vc = client.get_channel(channel_obj['voicechannel'])
     tc = client.get_channel(channel_obj['textchannel'])
     await role.delete()
     await vc.delete()
     await tc.delete()
-    botcommon.bot_voice_channels.remove(channel_obj)
 
 
 async def send_init_help(channel_obj):

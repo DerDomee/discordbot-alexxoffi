@@ -66,6 +66,17 @@
   "command.stop.meta.description": "Stop this bot",
 
   "command.voice.meta.description": "Control the dynamic voice channel you are currently connected to, if you are its owner.",
+  "command.voice.transfer.user_not_found": "The user you want to transfer the channel ownership to was not found.",
+  "command.voice.transfer.successful": "The channel ownership successfully changed from {previous_mention} to {new_mention}.\n{new_mention}, you now can execute all voice commands.",
+  "command.voice.transfer.self_not_permitted": "You can not transfer the ownership to yourself.",
+  "command.voice.invite.channel_not_private": "Your voice channel is not a private channel, so inviting is not necessary.",
+  "command.voice.invite.user_not_found": "The user you want to invite into your channel was not found.",
+  "command.voice.invite.rolecheck_failed": "There was an error inviting this user. Try again later or create a new voice channel.",
+  "command.voice.invite.self_not_permitted": "You can not invite yourself to the channel.",
+  "command.voice.kick.channel_not_private": "Your voice channel is not a private channel, so kicking is pointless.",
+  "command.voice.kick.user_not_found": "The user you want to kick from your channel is not a member already or there was an error with the Discord API!",
+  "command.voice.kick.rolecheck_failed": "There was an error kicking this user. Try again later or force close the voice channel with `voice close`.",
+  "command.voice.kick.self_not_permitted": "You can not kick yourself from the channel.",
 
   "command.warn.meta.description": "Warn a user on the discord",
   "command.warn.error.user_not_found": "User not found. Can not warn a non-existant user.",
