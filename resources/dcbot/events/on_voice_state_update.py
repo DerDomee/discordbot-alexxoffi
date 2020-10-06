@@ -17,7 +17,6 @@ async def on_voice_state_update(member, before, after):
 
     # When new channel is the "Create new Public Talk" channel
     if after.channel is not None and after.channel.id == cid_new_publicvoice:
-        print("Create new public talk")
         channel_obj = await new_voice.create_public(member, before, after)
         botcommon.bot_voice_channels.append(channel_obj)
         try:
@@ -28,7 +27,6 @@ async def on_voice_state_update(member, before, after):
 
     # When new channel is the "Create new Private Talk" channel
     if after.channel is not None and after.channel.id == cid_new_privatevoice:
-        print("Create new private talk")
         channel_obj = await new_voice.create_private(member, before, after)
         botcommon.bot_voice_channels.append(channel_obj)
         role = botcommon.main_guild.get_role(channel_obj['role'])
