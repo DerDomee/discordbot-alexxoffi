@@ -1,17 +1,23 @@
 from resources.dcbot import client
 from resources.dcbot import botcommon
+from resources.database import dbcommon
 from resources.dcbot.events.voice_events import new_voice
 from resources.dcbot.events.voice_events import voicecommon
 
 
 @client.event
 async def on_voice_state_update(member, before, after):
+    cid_new_publicvoice = int(dbcommon.get_bot_setting(
+        botcommon.key_bot_newpublicvoicechannel))
+    cid_new_privatevoice = int(dbcommon.get_bot_setting(
+        botcommon.key_bot_newprivatevoicechannel))
 
     if botcommon.is_bot_stopping is True:
         return
 
     # When new channel is the "Create new Public Talk" channel
-    if after.channel is not None and after.channel.id == 679801626747469960:
+    if after.channel is not None and after.channel.id == cid_new_publicvoice:
+        print("Create new public talk")
         channel_obj = await new_voice.create_public(member, before, after)
         botcommon.bot_voice_channels.append(channel_obj)
         try:
@@ -21,7 +27,8 @@ async def on_voice_state_update(member, before, after):
         await voicecommon.send_init_help(channel_obj)
 
     # When new channel is the "Create new Private Talk" channel
-    if after.channel is not None and after.channel.id == 759136424661876766:
+    if after.channel is not None and after.channel.id == cid_new_privatevoice:
+        print("Create new private talk")
         channel_obj = await new_voice.create_private(member, before, after)
         botcommon.bot_voice_channels.append(channel_obj)
         role = botcommon.main_guild.get_role(channel_obj['role'])

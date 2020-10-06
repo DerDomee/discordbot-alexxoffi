@@ -12,6 +12,8 @@ key_bot_logchannel = "bot_log_channel"
 key_bot_applychannel = "bot_gapply_channel"
 key_bot_applydestchannel = "bot_gapplydest_channel"
 key_bot_splashchannel = "bot_gsplash_channel"
+key_bot_newpublicvoicechannel = "bot_newpublicvoice_channel"
+key_bot_newprivatevoicechannel = "bot_newprivatevoice_channel"
 
 # Multichannel keys
 key_bot_userchannel = "bot_user_botchannel"
@@ -71,7 +73,7 @@ async def get_channel_by_id_or_ping(selector):
     try:
         channel = guild.get_channel(channel_id)
         if channel is None:
-            channel = await guild.fetch_channel(channel_id)
+            channel = await client.fetch_channel(channel_id)
         return channel
     except Exception:
         return None

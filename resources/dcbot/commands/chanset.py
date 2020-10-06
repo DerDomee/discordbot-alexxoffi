@@ -13,11 +13,12 @@ CMD_METADATA = {
 async def invoke(message, arg_stack, botuser):
     if len(arg_stack) != 3:
         return False
-
-    if not (arg_stack[2].startswith("<#") and arg_stack[2].endswith(">")):
+    channel = await botcommon.get_channel_by_id_or_ping(arg_stack[2])
+    if channel is None:
         return False
 
-    channelid = int(arg_stack[2].lstrip("<#").rstrip(">"))
+    channelid = channel.id
+
     channelkey = None
 
     if arg_stack[1] == "admin":
@@ -30,8 +31,10 @@ async def invoke(message, arg_stack, botuser):
         channelkey = botcommon.key_bot_applydestchannel
     elif arg_stack[1] == "splash":
         channelkey = botcommon.key_bot_applychannel
-    elif arg_stack[1] == "faq":
-        channelkey = botcommon.key_bot_faqchannel
+    elif arg_stack[1] == "voice_newpublic":
+        channelkey = botcommon.key_bot_newpublicvoicechannel
+    elif arg_stack[1] == "voice_newprivate":
+        channelkey = botcommon.key_bot_newprivatevoicechannel
     else:
         await message.channel.send(transget(
             'command.chanset.info.unknown_channelkey',
