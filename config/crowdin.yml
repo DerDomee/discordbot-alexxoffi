@@ -1,0 +1,4 @@
+files:
+  - source: resources/translation/translations/en.json
+    translation: resources/translation/translations/%two_letters_code%.json
+    update_option: update_as_unapproved
