@@ -1,6 +1,5 @@
 from resources.dcbot import client
 from resources.dcbot import botcommon
-from resources.dcbot import client
 from resources.dcbot.botcommon import trytolog
 from resources.database import sqlsession
 from resources.database import dbcommon
