@@ -42,44 +42,44 @@ async def delete_channel(channel_obj):
 async def send_init_help(channel_obj):
     tc = client.get_channel(channel_obj['textchannel'])
     embed = Embed(
-        title="Welcome to your voice channel!",
-        description=("You can use following commands in this channel only:"),
+        title="Willkommen in deinem Voice Channel!",
+        description=("Diese Commands kannst du in diesem Channel nutzen:"),
         color=botcommon.key_color_info)
     embed.add_field(
         name="`voice toggle`",
-        value="Toggle the channel visibility between public and private. "
-              + "**This edits the channel.**")
+        value="Ändert die Sichtbarkeit des Channels zwischen Privat und Öffentlich."
+              + "**Das verändert den Kanal.**")
     embed.add_field(
         name="`voice name <new-name>`",
-        value="Set a custom name for the channel. Names are limited to 20 "
-              + "alphanumeric characters. **This edits the channel.**")
+        value="Verändert den Namen eines Channels | Maximal 20 Zeichen. | "
+              + "Nur Alphanumerische Zeichen **Das verändert den Kanal.**")
     embed.add_field(
         name="`voice transfer <user-ping|user-id>`",
-        value="Transfer the channel ownership to another user, that must be "
-              + "currently connected to this channel.")
+        value="Überträgt den Channelbesitz an einen anderen User. "
+              + "Der Nutzer muss im Channel sein.")
     embed.add_field(
         name="`voice invite <user-ping|user-id>`",
-        value="**Only private channels**: Make this channel visible for a "
-              + "specified user. You can use this command in every channel "
-              + "on this server.")
+        value="**Nur möglich in privaten Channelss**: Macht den Channel für einen "
+              + "bestimmten User sichtbar. Dieser Command kann überall auf dem "
+              + "Server benutzt werden.")
     embed.add_field(
         name="`voice kick <user-ping|user-id>`",
-        value="**Only private channels**: Kick a user and make this channel "
-              + "invisible for him again.")
+        value="**Nur möglich in privaten Channels**:  Kickt einen bestimmten User aus dem Channel "
+              + "und macht ihn wieder unsichtbar.")
     embed.add_field(
         name="`voice close`",
-        value="Manually delete this channel. ")
+        value="Schließt manuell den Channel. (Man kann auch einfach aus dem Channel raus gehen.)")
     embed.add_field(
-        name="\nMore information",
+        name="\nMehr Informationen:",
         inline=False,
-        value="**1.** If the owner leaves without transferring ownership, "
-              + "a new owner is randomly chosen.\n"
-              + "**2.** As soon as the channel is empty, it is removed.\n"
-              + "**3.** When a user disconnects from a private channel, he "
-              + "still can see the channel and reconnect. To prevent "
-              + "reconnecting, the owner must manually kick the user.\n\n"
-              + "**4.** You can use 'channel editing' commands **up to 2 "
-              + "times altogether** due to anti-spam.")
+        value="**1.** Wenn der Besitzer des Channels aus dem Channel geht wird "
+              + "ein neuer Besitzer zufällig ausgewählt.\n"
+              + "**2.** Wenn der Channel leer ist wird er automatisch gelöscht.\n"
+              + "**3.** Wenn ein User aus dem Channel geht, kann "
+              + "er ihn noch immer sehen und ihn betreten. Um dies "
+              + "zuverhindern, muss der Besitzer ihn manuell kicken.\n\n"
+              + "**4.** Um Spam zuverhindern kannst du bestimmte Commands"
+              + "2mal benutzen.")
     await tc.send(embed=embed)
 
 
