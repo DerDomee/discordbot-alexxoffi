@@ -77,7 +77,7 @@ async def send_init_help(channel_obj):
               + "**2.** Wenn der Channel leer ist wird er automatisch gelöscht.\n"
               + "**3.** Wenn ein User aus dem Channel geht, kann "
               + "er ihn noch immer sehen und ihn betreten. Um dies "
-              + "zuverhindern, muss der Besitzer ihn manuell kicken.\n\n"
+              + "zu verhindern, muss der Besitzer ihn manuell kicken.\n\n"
               + "**4.** Um Spam zuverhindern kannst du bestimmte Commands"
               + "2mal benutzen.")
     await tc.send(embed=embed)
