@@ -52,7 +52,7 @@ async def on_voice_state_update(member, before, after):
             await member.remove_roles(role)
         # Remove channel if it is empty now
         vc = await client.fetch_channel(channel_obj['voicechannel'])
-        if len(vc.members) is 0:
+        if len(vc.members) == 0:
             await voicecommon.delete_channel(channel_obj)
 
     # Check if new channel is dynamic

@@ -32,7 +32,7 @@
   "command.faq.err.wrongsyntax": "Please use exactly 2 parameters: `faq \"question\" \"answer\"`",
 
   "command.help.meta.description": "Show the help for this bot",
-  "command.help.general_help.header": "For command-specific help use `help <command>`",
+  "command.help.general_help.header": "The current command prefix is `{shortprefix}`. This prefix is always omitted in help information.\nFor command-specific help use `help <command>`",
 
   "command.info.meta.description": "Shows information about this bot",
   "command.info.embed.title": "Bot information on {bot_title}",

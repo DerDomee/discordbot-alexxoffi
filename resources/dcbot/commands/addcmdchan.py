@@ -10,9 +10,9 @@ CMD_METADATA = {
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
-    if len(arg_stack) is 1:
+    if len(arg_stack) == 1:
         return False
-    if len(arg_stack) is 2:
+    if len(arg_stack) == 2:
         if arg_stack[1].startswith("<#") and arg_stack[1].endswith(">"):
             new_channelid = int(arg_stack[1].lstrip("<#").rstrip(">"))
             channel_list = dbcommon.get_channel_ids_from_key(

@@ -59,7 +59,7 @@ def _create_embed_from_data(data):
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
 
-    if len(arg_stack) is 1:
+    if len(arg_stack) == 1:
         dcmember = await _get_member_efficiently(
             message.author.id,
             message.guild)
@@ -67,7 +67,7 @@ async def invoke(message, arg_stack, botuser):
         embed = _create_embed_from_data(data)
         await message.channel.send(embed=embed)
         return True
-    elif len(arg_stack) is 2:
+    elif len(arg_stack) == 2:
         if botuser.user_permission_level <= botcommon.key_permlevel_moderator:
             await message.channel.send("No Permission.")
             return False

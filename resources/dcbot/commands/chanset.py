@@ -8,6 +8,10 @@ CMD_METADATA = {
     'required_channels': [botcommon.key_bot_adminchannel]}
 
 
+async def get_help(arg_stack, botuser, shortprefix):
+    return[]
+
+
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
@@ -29,8 +33,6 @@ async def invoke(message, arg_stack, botuser):
         channelkey = botcommon.key_bot_applychannel
     elif arg_stack[1] == "applydest":
         channelkey = botcommon.key_bot_applydestchannel
-    elif arg_stack[1] == "splash":
-        channelkey = botcommon.key_bot_applychannel
     elif arg_stack[1] == "voice_newpublic":
         channelkey = botcommon.key_bot_newpublicvoicechannel
     elif arg_stack[1] == "voice_newprivate":
