@@ -1,2 +1,4 @@
 .env
 database.sqlite
+resources/translations/*
+!resources/translations/source.json
