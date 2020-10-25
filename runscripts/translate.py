@@ -13,7 +13,7 @@ import traceback
 
 def _get_sourcedict():
     """Read source.json and return the dictionary formed from it."""
-    print("Reading source.json ...")
+    print("Reading source.json ...", flush=True)
     with open("resources/translations/source.json", 'r') as file:
         try:
             data = json.load(file)
@@ -29,6 +29,7 @@ def _get_sourcedict():
 
 def _create_destination_dicts(source_dict):
     """Create a dict with key-value dicts for every language found."""
+    print("Generating localized file contents...", flush=True)
     destination_dict = {}
     errors = []
     warnings = []
@@ -56,6 +57,7 @@ def _print_failures(warnings, errors):
 
 
 def _calculate_coverage(source_dict, destination_dicts):
+    print("Calculating localization coverages...", flush=True)
     total_key_count = len(source_dict)
     language_key_counts = {}
     for language, keys in destination_dicts.items():
@@ -67,6 +69,7 @@ def _calculate_coverage(source_dict, destination_dicts):
 
 
 def _save_translations(destination_dicts):
+    print("Saving translations to disk...", flush=True)
     for language, translations in destination_dicts.items():
         with open(f"resources/translations/{language}.json", 'w') as file:
             json.dump(
@@ -118,7 +121,7 @@ def _print_coverages(total_key_count, coverages, destination_dicts):
 def main():
     """."""
     print("Generating translations from "
-          + "resources/translations/source.json ...")
+          + "resources/translations/source.json ...", flush=True)
 
     source_dict = _get_sourcedict()
     destination_dicts, warnings, errors = _create_destination_dicts(
@@ -128,7 +131,7 @@ def main():
         source_dict, destination_dicts)
     _save_translations(destination_dicts)
     _print_coverages(total_key_count, coverage, destination_dicts)
-    print("\n\u001b[32mTranslation successful!\u001b[0m")
+    print("\n\u001b[32mTranslation successful!\u001b[0m", flush=True)
     sys.exit(0)
 
 if __name__ == "__main__":
