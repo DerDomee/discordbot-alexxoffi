@@ -58,8 +58,8 @@ async def on_message_init_mode(message, cmd_arg_stack, init_stage):
                 'init.stage0.successful',
                 newuser.user_pref_lang))
             await message.channel.send(transget(
-                    'init.stage1.intro',
-                    newuser.user_pref_lang))
+                'init.stage1.intro',
+                newuser.user_pref_lang))
 
     elif init_stage == 1:
         currentuser = dbcommon.get_user_or_create(message.author.id)

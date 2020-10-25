@@ -1,5 +1,4 @@
 import re
-from discord import Embed
 from src.translation import transget
 from src.dcbot import botcommon
 from src.dcbot import client

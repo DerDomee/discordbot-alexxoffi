@@ -1,10 +1,6 @@
-from discord import Embed, Forbidden
+from discord import Embed
 from src.dcbot import botcommon
-from src.dcbot import client
 from src.database import dbcommon
-from src.dcbot.botcommon import trytolog
-from src.database import sqlsession
-from src.database.models.userwarnings import UserWarnings
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_restricted,

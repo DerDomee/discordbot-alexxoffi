@@ -7,7 +7,7 @@ class UserWarnings(Base):
     __tablename__ = 'user_warnings'
     __table_args__ = {
         'extend_existing': True
-        }
+    }
 
     warn_id = Column(
         Integer(),

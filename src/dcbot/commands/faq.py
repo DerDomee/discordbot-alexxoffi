@@ -1,8 +1,6 @@
 from discord import Embed
 from src.dcbot import botcommon
 from src.translation import transget
-from src.dcbot import client
-from src.dcbot.botcommon import trytolog
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_moderator,
