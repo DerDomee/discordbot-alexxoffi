@@ -64,11 +64,12 @@ async def invoke(message, arg_stack, botuser):
         value=transget(
             'command.info.embed.field.prefix.value',
             botuser.user_pref_lang).format(
-                longprefix="<@" + str(client.user.id) + ">",
-                shortprefix=dbcommon.get_bot_setting(
-                    botcommon.key_bot_prefix,
-                    '$')
-                ),
+            longprefix="<@" + str(client.user.id) + ">",
+            shortprefix=dbcommon.get_bot_setting(
+                botcommon.key_bot_prefix,
+                '$'
+            )
+        ),
         inline=True)
 
     embed.add_field(

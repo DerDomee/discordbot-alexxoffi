@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 sqlengine = create_engine('sqlite:///database.sqlite')
 Base = declarative_base()
 
-from src.database import models
+from src.database import models  # noqa: F401, E402
 
 Base.metadata.create_all(sqlengine)
 

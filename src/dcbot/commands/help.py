@@ -1,9 +1,6 @@
 import importlib
-from discord import Embed
-from src.database import sqlsession
 from src.database import dbcommon
 from src.dcbot import botcommon
-from src.dcbot import commands
 from src.translation import transget
 
 CMD_METADATA = {

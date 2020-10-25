@@ -1,8 +1,6 @@
-from discord import Embed, Forbidden
+from discord import Forbidden
 from src.dcbot import botcommon
-from src.dcbot import client
 from src.translation import transget
-from src.dcbot.botcommon import trytolog
 from src.database import sqlsession
 from src.database.dbcommon import get_user_or_create
 from src.database.models.userwarnings import UserWarnings
