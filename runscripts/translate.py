@@ -18,7 +18,7 @@ def _get_sourcedict():
         try:
             data = json.load(file)
             return data
-        except json.JSONDecodeError as err:
+        except json.JSONDecodeError:
             sys.stderr.write("\u001b[31m" + traceback.format_exc()
                              + "\u001b[0m\n")
             sys.stderr.write("\u001b[31mFailed to read source.json: "
