@@ -20,3 +20,20 @@ jobs:
     - name: Lint with flake8
       run: |
         pipenv run flake8
+
+  localization:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install Pipenv
+      run: |
+        pip install --upgrade pip
+        pip install pipenv
+    - name: Generate localized resource files
+      run: |
+        pipenv run translate
