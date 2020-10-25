@@ -1,39 +1,43 @@
-import re
-""" stavlex - A StringToArgumentVectorLexer
+"""
+stavlex is a String-To-Argument-Vector-Lexer.
 
-    @version 0.1.0
-    @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
-    @maintainer Dominik "derdomee_" Riedig <me@dominikriedig.de>
+@version 0.1.0
+@author Dominik "derdomee_" Riedig <me@dominikriedig.de>
+@maintainer Dominik "derdomee_" Riedig <me@dominikriedig.de>
 
 
-    This module introduces a function 'get_argv' that takes a string
-    and generates a full-fledged argument vector out of it.
+This module introduces a function 'get_argv' that takes a string
+and generates a full-fledged argument vector out of it.
 
-    stavlex supports full escaping and generates POSIX-compliant argv.
-    It is split into three parts:
-    Lexer:     create_character_definition - creates a list of every character
-               in the string and determines if it is escaped. The escape
-               character itself gets deleted. The lexer also supports
-               meta-escapes (Escaping the escape character works).
-    Parser:    determine_split_points - From the character definition, create
-               an array of split points. This array then defines where every
-               argument starts and ends.
-    Generator: generate_argv - From the split points, create the argument
-               vector itself. This is really fast-forward.
+stavlex supports full escaping and generates POSIX-compliant argv.
+It is split into three parts:
+Lexer:     create_character_definition - creates a list of every character
+           in the string and determines if it is escaped. The escape
+           character itself gets deleted. The lexer also supports
+           meta-escapes (Escaping the escape character works).
+Parser:    determine_split_points - From the character definition, create
+           an array of split points. This array then defines where every
+           argument starts and ends.
+Generator: generate_argv - From the split points, create the argument
+           vector itself. This is really fast-forward.
 
 """
 
+import re
+
 
 def create_character_definition(argstring):
-    """ Creates an array of character definitions.
-        A character definition is a dict containing the character itself and
-        his escape-state.
+    """
+    Create an array of character definitions.
 
-        @arg argstring: String - The input string
-        @return characters: Dict[] - Ordered list of character definitions
+    A character definition is a dict containing the character itself and
+    his escape-state.
 
-        @since 0.0.1
-        @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
+    @arg argstring: String - The input string
+    @return characters: Dict[] - Ordered list of character definitions
+
+    @since 0.0.1
+    @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
     """
     characters = []
     skip_next = False
@@ -67,15 +71,18 @@ def create_character_definition(argstring):
 
 
 def debug_character_definition(characters):
-    """ Generates a string useful for debugging. Every normal character
-        returns ANSI-default-colored and every escaped character returns
-        ANSI-red-colored.
+    """
+    Generate a string useful for debugging.
 
-        @arg characters: Dict[] - Ordered list of character definitions
-        @return charstr: String - ANSI-Colored String
+    Every normal character
+    returns ANSI-default-colored and every escaped character returns
+    ANSI-red-colored.
 
-        @since 0.0.1
-        @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
+    @arg characters: Dict[] - Ordered list of character definitions
+    @return charstr: String - ANSI-Colored String
+
+    @since 0.0.1
+    @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
     """
     charstr = ""
     for c in characters:
@@ -87,15 +94,18 @@ def debug_character_definition(characters):
 
 
 def determine_split_points(characters):
-    """ Generates an ordered array of split points. Every odd element defines
-        the character index of the start of an argument inside the string
-        and the following even element defines it's end point.
+    """
+    Generate an ordered array of split points.
 
-        @arg characters: Dict - Ordered list of character definitions
-        @return split_points: int[] - Ordered list of split-point indices
+    Every odd element defines
+    the character index of the start of an argument inside the string
+    and the following even element defines it's end point.
 
-        @since 0.0.1
-        @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
+    @arg characters: Dict - Ordered list of character definitions
+    @return split_points: int[] - Ordered list of split-point indices
+
+    @since 0.0.1
+    @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
     """
     WORDMODES = ['OUTSIDE', 'SINGLE', 'SQUOTE', 'DQUOTE']
     current_mode = WORDMODES[0]
@@ -133,14 +143,15 @@ def determine_split_points(characters):
 
 
 def generate_argv(characters, start_end_points):
-    """ Generates the argument vector out of lexed and parsed information
+    """
+    Generate the argument vector out of lexed and parsed information.
 
-        @arg characters: Dict[] - Ordered list of character definitions
-        @arg start_end_points: int[] - Ordered list of split-point indices
-        @return argv: String[] - List of arguments in order of occurence
+    @arg characters: Dict[] - Ordered list of character definitions
+    @arg start_end_points: int[] - Ordered list of split-point indices
+    @return argv: String[] - List of arguments in order of occurence
 
-        @since 0.0.1
-        @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
+    @since 0.0.1
+    @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
     """
     argv = []
     for i in range(0, len(start_end_points) - 1, 2):
@@ -152,17 +163,16 @@ def generate_argv(characters, start_end_points):
 
 
 def get_argv(argstring):
-    """ Creates an argument vector (argv) from a given string
+    """
+    Create an argument vector (argv) from a given string.
 
-        @arg argstring: String - The input string
-        @return argv: String[] - List of arguments in order of occurence
+    @arg argstring: String - The input string
+    @return argv: String[] - List of arguments in order of occurence
 
-        @since 0.0.1
-        @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
+    @since 0.0.1
+    @author Dominik "derdomee_" Riedig <me@dominikriedig.de>
     """
     characters = create_character_definition(argstring)
-    """print(debug_character_definition(characters))"""
     start_end_points = determine_split_points(characters)
-    """print(start_end_points)"""
     argv = generate_argv(characters, start_end_points)
     return argv
