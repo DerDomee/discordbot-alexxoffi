@@ -109,11 +109,11 @@
   },
   "command.info.embed.field.author.title": {
     "en": "Author (Maintainer)",
-	"de": "Autor (Maintainer)"
+    "de": "Autor (Maintainer)"
   },
   "command.info.embed.field.version.title": {
     "en": "Current Version",
-	"de": "Aktuelle Version"
+    "de": "Aktuelle Version"
   },
   "command.info.embed.field.upstream.title": {
     "en": "Upstream (GitHub)"
@@ -136,15 +136,15 @@
 
   "command.language.meta.description": {
     "en": "Manage the language in which the bot speaks to you",
-	"de": "Verwaltet die Sprache mit welcher der Bot schreibt."
+    "de": "Verwaltet die Sprache mit welcher der Bot schreibt."
   },
   "command.language.get.text": {
     "en": "Current language: `{lang}`",
-	"de": "Ausgewählte Sprache: `{lang}`"
+    "de": "Ausgewählte Sprache: `{lang}`"
   },
   "command.language.set.success": {
     "en": "Language updated to `{lang}`",
-	"de": "Die Sprache wurde zu `{lang}` geändert."
+    "de": "Die Sprache wurde zu `{lang}` geändert."
   },
 
   "command.printarg.meta.description": {
@@ -176,12 +176,12 @@
 
   "command.setprefix.meta.description": {
     "en": "Set a new command prefix for this bot",
-	"de": "Setzt einen neuen Prefix für den Bot"
+    "de": "Setzt einen neuen Prefix für den Bot"
   },
 
   "command.stop.meta.description": {
     "en": "Stop this bot",
-	"de": "Stoppt den Bot"
+    "de": "Stoppt den Bot"
   },
 
   "command.voice.meta.description": {
@@ -189,47 +189,47 @@
   },
   "command.voice.transfer.user_not_found": {
     "en": "The user you want to transfer the channel ownership to was not found.",
-	"de": "Der Nutzer, den du versucht hast, die Leitung zu übergeben, wurde nicht gefunden."
+    "de": "Der Nutzer, den du versucht hast, die Leitung zu übergeben, wurde nicht gefunden."
   },
   "command.voice.transfer.successful": {
     "en": "The channel ownership successfully changed from {previous_mention} to {new_mention}.\n{new_mention}, you now can execute all voice commands.",
-	"de": "Die Leitung von diesem Channel wurde erfolgreich von {previous_mention} zu {new_mention} übertragen.\n{new_mention}, du kannst nun alle Commands ausführen."
+    "de": "Die Leitung von diesem Channel wurde erfolgreich von {previous_mention} zu {new_mention} übertragen.\n{new_mention}, du kannst nun alle Commands ausführen."
   },
   "command.voice.transfer.self_not_permitted": {
     "en": "You can not transfer the ownership to yourself.",
-	"de": "Du kannst die Leitung nicht an dich selber übertragen."
+    "de": "Du kannst die Leitung nicht an dich selber übertragen."
   },
   "command.voice.invite.channel_not_private": {
     "en": "Your voice channel is not a private channel, so inviting is not necessary.",
-	"de": "Der Channel ist nicht privat, somit ist eine Einladung nicht notwendig."
+    "de": "Der Channel ist nicht privat, somit ist eine Einladung nicht notwendig."
   },
   "command.voice.invite.user_not_found": {
     "en": "The user you want to invite into your channel was not found.",
-	"de": "Der Nutzer, den du versucht hast einzuladen, wurde nicht gefunden."
+    "de": "Der Nutzer, den du versucht hast einzuladen, wurde nicht gefunden."
   },
   "command.voice.invite.rolecheck_failed": {
     "en": "There was an error inviting this user. Try again later or create a new voice channel.",
-	"de": "Beim Einladen ist ein Fehler aufgetreten. Versuche es später erneut oder erstelle einen neuen Voice Channel."
+    "de": "Beim Einladen ist ein Fehler aufgetreten. Versuche es später erneut oder erstelle einen neuen Voice Channel."
   },
   "command.voice.invite.self_not_permitted": {
     "en": "You can not invite yourself to the channel.",
-	"de": "Du kannst dich selber nicht einladen."
+    "de": "Du kannst dich selber nicht einladen."
   },
   "command.voice.kick.channel_not_private": {
     "en": "Your voice channel is not a private channel, so kicking is pointless.",
-	"de": "Der Channel ist nicht privat, somit ist kicken sinnlos."
+    "de": "Der Channel ist nicht privat, somit ist kicken sinnlos."
   },
   "command.voice.kick.user_not_found": {
     "en": "The user you want to kick from your channel is not a member already or there was an error with the Discord API!",
-	"de": "Den User, den du versucht hast zu kicken, ist kein Mitglied mehr oder es ist Fehler mit der Discord API aufgetreten!"
+    "de": "Den User, den du versucht hast zu kicken, ist kein Mitglied mehr oder es ist Fehler mit der Discord API aufgetreten!"
   },
   "command.voice.kick.rolecheck_failed": {
     "en": "There was an error kicking this user. Try again later or force close the voice channel with `voice close`.",
-	"de": "Beim Kicken von dem User ist ein Fehler aufgetreten. Versuche es später erneut oder schließe den Channel mit `voice close`."
+    "de": "Beim Kicken von dem User ist ein Fehler aufgetreten. Versuche es später erneut oder schließe den Channel mit `voice close`."
   },
   "command.voice.kick.self_not_permitted": {
     "en": "You can not kick yourself from the channel.",
-	"de": "Du kannst dich selber nicht aus dem Channel kicken."
+    "de": "Du kannst dich selber nicht aus dem Channel kicken."
   },
   "command.voice.help.toggle.syntax": {
     "en": "`voice toggle`",
@@ -285,7 +285,7 @@
   },
   "command.warn.error.user_not_found": {
     "en": "User not found. Can not warn a non-existant user.",
-	"de": "User wurde nicht gefunden. Du kannst einen nicht existierenden Nutzer nicht warnen."
+    "de": "User wurde nicht gefunden. Du kannst einen nicht existierenden Nutzer nicht warnen."
   },
   "command.warn.notifiaction.warned": {
     "en": "You have been warned on the server. Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!"
