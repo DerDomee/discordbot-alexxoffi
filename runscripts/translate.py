@@ -134,5 +134,6 @@ def main():
     print("\n\u001b[32mTranslation successful!\u001b[0m", flush=True)
     sys.exit(0)
 
+
 if __name__ == "__main__":
     main()
