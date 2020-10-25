@@ -12,6 +12,8 @@ async def on_voice_state_update(member, before, after):
     if botcommon.is_bot_stopping:
         return
 
+    botuser = dbcommon.get_user_or_create(member.id)
+
     cid_new_publicvoice = int(dbcommon.get_bot_setting(
         botcommon.key_bot_newpublicvoicechannel))
     cid_new_privatevoice = int(dbcommon.get_bot_setting(
@@ -28,7 +30,7 @@ async def on_voice_state_update(member, before, after):
             await voicecommon.move_to(member, channel_obj)
         except Exception:
             await voicecommon.delete_channel(channel_obj)
-        await voicecommon.send_init_help(channel_obj)
+        await voicecommon.send_init_help(channel_obj, botuser)
 
     # When new channel is the "Create new Private Talk" channel
     if after.channel is not None and after.channel.id == cid_new_privatevoice:
@@ -40,7 +42,7 @@ async def on_voice_state_update(member, before, after):
             await voicecommon.move_to(member, channel_obj)
         except Exception:
             await voicecommon.delete_channel(channel_obj)
-        await voicecommon.send_init_help(channel_obj)
+        await voicecommon.send_init_help(channel_obj, botuser)
 
     # When old channel is dynamic
     if voicecommon.get_channel_obj_by_channel(before.channel) is not None:

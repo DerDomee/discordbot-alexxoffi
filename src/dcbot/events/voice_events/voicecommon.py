@@ -1,5 +1,6 @@
 from src.dcbot import botcommon
 from src.dcbot import client
+from src.translation import transget
 from discord import PermissionOverwrite
 from discord import Embed
 
@@ -39,47 +40,65 @@ async def delete_channel(channel_obj):
     await tc.delete()
 
 
-async def send_init_help(channel_obj):
+async def send_init_help(channel_obj, botuser):
     tc = client.get_channel(channel_obj['textchannel'])
     embed = Embed(
-        title="Willkommen in deinem Voice Channel!",
-        description=("Diese Commands kannst du in diesem Channel nutzen:"),
+        title=transget(
+            "event.voice.inithelp.embed.title",
+            botuser.user_pref_lang),
+        description=transget(
+            "event.voice.inithelp.embed.description",
+            botuser.user_pref_lang),
         color=botcommon.key_color_info)
     embed.add_field(
-        name="`voice toggle`",
-        value="Ändert die Sichtbarkeit des Channels zwischen Privat und Öffentlich."
-              + "**Das verändert den Kanal.**")
+        name=transget(
+            "command.voice.help.toggle.syntax",
+            botuser.user_pref_lang),
+        value=transget(
+            "command.voice.help.toggle.description",
+            botuser.user_pref_lang))
     embed.add_field(
-        name="`voice name <new-name>`",
-        value="Verändert den Namen eines Channels | Maximal 20 Zeichen. | "
-              + "Nur Alphanumerische Zeichen **Das verändert den Kanal.**")
+        name=transget(
+            "command.voice.help.name.syntax",
+            botuser.user_pref_lang),
+        value=transget(
+            "command.voice.help.name.description",
+            botuser.user_pref_lang))
     embed.add_field(
-        name="`voice transfer <user-ping|user-id>`",
-        value="Überträgt den Channelbesitz an einen anderen User. "
-              + "Der Nutzer muss im Channel sein.")
+        name=transget(
+            "command.voice.help.transfer.syntax",
+            botuser.user_pref_lang),
+        value=transget(
+            "command.voice.help.transfer.description",
+            botuser.user_pref_lang))
     embed.add_field(
-        name="`voice invite <user-ping|user-id>`",
-        value="**Nur möglich in privaten Channelss**: Macht den Channel für einen "
-              + "bestimmten User sichtbar. Dieser Command kann überall auf dem "
-              + "Server benutzt werden.")
+        name=transget(
+            "command.voice.help.invite.syntax",
+            botuser.user_pref_lang),
+        value=transget(
+            "command.voice.help.invite.description",
+            botuser.user_pref_lang))
     embed.add_field(
-        name="`voice kick <user-ping|user-id>`",
-        value="**Nur möglich in privaten Channels**:  Kickt einen bestimmten User aus dem Channel "
-              + "und macht ihn wieder unsichtbar.")
+        name=transget(
+            "command.voice.help.kick.syntax",
+            botuser.user_pref_lang),
+        value=transget(
+            "command.voice.help.kick.description",
+            botuser.user_pref_lang))
     embed.add_field(
-        name="`voice close`",
-        value="Schließt manuell den Channel. (Man kann auch einfach aus dem Channel raus gehen.)")
+        name=transget(
+            "command.voice.help.close.syntax",
+            botuser.user_pref_lang),
+        value=transget(
+            "command.voice.help.close.description",
+            botuser.user_pref_lang))
     embed.add_field(
-        name="\nMehr Informationen:",
-        inline=False,
-        value="**1.** Wenn der Besitzer des Channels aus dem Channel geht wird "
-              + "ein neuer Besitzer zufällig ausgewählt.\n"
-              + "**2.** Wenn der Channel leer ist wird er automatisch gelöscht.\n"
-              + "**3.** Wenn ein User aus dem Channel geht, kann "
-              + "er ihn noch immer sehen und ihn betreten. Um dies "
-              + "zu verhindern, muss der Besitzer ihn manuell kicken.\n\n"
-              + "**4.** Um Spam zuverhindern kannst du bestimmte Commands"
-              + "2mal benutzen.")
+        name=transget(
+            "event.voice.inithelp.embed.more_info.title",
+            botuser.user_pref_lang),
+        value=transget(
+            "event.voice.inithelp.embed.more_info.value",
+            botuser.user_pref_lang))
     await tc.send(embed=embed)
 
 

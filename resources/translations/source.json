@@ -213,6 +213,48 @@
   "command.voice.kick.self_not_permitted": {
     "en": "You can not kick yourself from the channel."
   },
+  "command.voice.help.toggle.syntax": {
+    "en": "`voice toggle`",
+    "de": "`voice toggle`"
+  },
+  "command.voice.help.toggle.description": {
+    "de": "Wechselt die Sichtbarkeit des Voicechannels zwischen privat und öffentlich. **Das editiert den Channel!**"
+  },
+  "command.voice.help.name.syntax": {
+    "en": "`voice name <new-name>`",
+    "de": "`voice name <neuer-name>`"
+  },
+  "command.voice.help.name.description": {
+    "de": "Ändert den Namen deines Channels. Maximal 20 alphanumerische Zeichen. **Das editiert den Channel!**"
+  },
+  "command.voice.help.transfer.syntax": {
+    "en": "`voice transfer <user-ping|user-id>`",
+    "de": "`voice transfer <user-ping|user-id>`"
+  },
+  "command.voice.help.transfer.description": {
+    "de": "Überträgt den Channelbesitz an einen anderen User. Dieser User muss dazu im Voicechannel verbunden sein."
+  },
+  "command.voice.help.invite.syntax": {
+    "en": "`voice invite <user-ping|user-id>`",
+    "de": "`voice invite <user-ping|user-id>`"
+  },
+  "command.voice.help.invite.description": {
+    "de": "**Nur in privaten Channeln verfügbar**: Lädt einen User in diesen Channel ein und macht diesen damit für ihn sichtbar. Dieser Command kann in allen Textchanneln auf dem Server verwendet werden."
+  },
+  "command.voice.help.kick.syntax": {
+    "en": "`voice kick <user-ping|user-id>`",
+    "de": "`voice kick <user-ping|user-id>`"
+  },
+  "command.voice.help.kick.description": {
+    "de": "**Nur in privaten Channeln verfügbar**: Kickt einen User aus diesem Channel und macht diesen für ihn wieder unsichtbar."
+  },
+  "command.voice.help.close.syntax": {
+    "en": "`voice close`",
+    "de": "`voice close`"
+  },
+  "command.voice.help.close.description": {
+    "de": "Schließt den Channel manuell. (Der Channel schließt sich auch, wenn er leer ist)"
+  },
 
   "command.warn.meta.description": {
     "en": "Warn a user on the discord"
@@ -225,6 +267,24 @@
   },
   "command.warn.notifiaction.warned.public": {
     "en": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!** Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!"
+  },
+
+  "event.voice.inithelp.embed.title": {
+    "en": "Welcome to your own voice channel!",
+    "de": "Willkommen in deinem Voicechannel!"
+  },
+
+  "event.voice.inithelp.embed.description": {
+    "de":"Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
+  },
+
+  "event.voice.inithelp.embed.more_info.title": {
+    "en": "More information: ",
+    "de": "Mehr Informationen:"
+  },
+
+  "event.voice.inithelp.embed.more_info.value": {
+    "de":"**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
   }
 
 }
