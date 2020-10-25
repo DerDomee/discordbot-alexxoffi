@@ -33,7 +33,7 @@ def get_user_or_create(discordid):
     if user is None:
         newuser = BotUser(
             user_discord_id=discordid,
-            user_pref_lang="en",
+            user_pref_lang="de",
             user_permission_level=botcommon.key_permlevel_user)
         sqlsession.add(newuser)
         sqlsession.commit()

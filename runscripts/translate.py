@@ -34,8 +34,8 @@ def _create_destination_dicts(source_dict):
     warnings = []
     for key, values in source_dict.items():
         if 'en' not in values:
-            warnings.append(
-                f"Key´{key} does not contain mandatory english translation")
+            errors.append(
+                f"Key '{key}' does not contain mandatory english translation")
         for language, translation in values.items():
             if language not in destination_dict:
                 destination_dict[language] = {}
@@ -50,6 +50,8 @@ def _print_failures(warnings, errors):
     if errors:
         for error in errors:
             sys.stderr.write("\u001b[31m" + error + "\u001b[0m\n")
+        sys.stderr.write("\n\u001b[31mTranslation failed, errors occured!"
+                         + "\u001b[0m\n")
         sys.exit(1)
 
 
@@ -126,7 +128,7 @@ def main():
         source_dict, destination_dicts)
     _save_translations(destination_dicts)
     _print_coverages(total_key_count, coverage, destination_dicts)
-    print("Translation successful!")
+    print("\n\u001b[32mTranslation successful!\u001b[0m")
     sys.exit(0)
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ CMD_METADATA = {
     'required_channels': [botcommon.key_bot_adminchannel,
                           botcommon.key_bot_userchannel]}
 
-SUPPORTED_LANGS = ["en"]
+SUPPORTED_LANGS = ["en", "de"]
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
