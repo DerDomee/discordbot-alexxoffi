@@ -301,7 +301,7 @@
 
   "event.voice.inithelp.embed.description": {
     "en": "You can use following commands in this channel only:",
-    "de":"Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
+    "de": "Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
   },
 
   "event.voice.inithelp.embed.more_info.title": {
@@ -311,7 +311,7 @@
 
   "event.voice.inithelp.embed.more_info.value": {
     "en": "**1.** If the owner leaves without transferring ownership, a new owner is randomly chosen.\n**2.** As soon as the channel is empty, it gets removed automatically.\n**3.** When a user disconnects from a private channel, he still can see the channel and reconnect. To prevent reconnecting, the owner must kick other users with `voice kick`.\n**4.** You can use 'channel editing' commands **up to 2 times altogether** due to anti-spam.",
-    "de":"**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
+    "de": "**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
   }
 
 }
