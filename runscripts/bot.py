@@ -1,8 +1,8 @@
 #!/usr/bin/python
 import os
 import sys
-from resources.database import sqlengine
-from resources.dcbot import client
+from src.database import sqlengine
+from src.dcbot import client
 
 discord_bot_token = os.getenv('DD_DISCORD_BOTTOKEN', default=None)
 
