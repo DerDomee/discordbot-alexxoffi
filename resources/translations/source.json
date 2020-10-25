@@ -218,6 +218,7 @@
     "de": "`voice toggle`"
   },
   "command.voice.help.toggle.description": {
+    "en": "Toggle the channel visibility between public and private. **This edits the channel!**",
     "de": "Wechselt die Sichtbarkeit des Voicechannels zwischen privat und öffentlich. **Das editiert den Channel!**"
   },
   "command.voice.help.name.syntax": {
@@ -225,6 +226,7 @@
     "de": "`voice name <neuer-name>`"
   },
   "command.voice.help.name.description": {
+    "en": "Set a custom name for the channel. Names are limited to 20 alphanumeric characters. **This edits the channel!**",
     "de": "Ändert den Namen deines Channels. Maximal 20 alphanumerische Zeichen. **Das editiert den Channel!**"
   },
   "command.voice.help.transfer.syntax": {
@@ -232,6 +234,7 @@
     "de": "`voice transfer <user-ping|user-id>`"
   },
   "command.voice.help.transfer.description": {
+    "en": "Transfer the channel ownership to another user. This user must be currently connected to the voice channel.",
     "de": "Überträgt den Channelbesitz an einen anderen User. Dieser User muss dazu im Voicechannel verbunden sein."
   },
   "command.voice.help.invite.syntax": {
@@ -239,6 +242,7 @@
     "de": "`voice invite <user-ping|user-id>`"
   },
   "command.voice.help.invite.description": {
+    "en": "**Only private channels**: Make this channel visible for a specific user. You can use this command in every text channel on this server.",
     "de": "**Nur in privaten Channeln verfügbar**: Lädt einen User in diesen Channel ein und macht diesen damit für ihn sichtbar. Dieser Command kann in allen Textchanneln auf dem Server verwendet werden."
   },
   "command.voice.help.kick.syntax": {
@@ -246,6 +250,7 @@
     "de": "`voice kick <user-ping|user-id>`"
   },
   "command.voice.help.kick.description": {
+    "en": "**Only private channels**: Kick a user and make this channel invisible for him again.",
     "de": "**Nur in privaten Channeln verfügbar**: Kickt einen User aus diesem Channel und macht diesen für ihn wieder unsichtbar."
   },
   "command.voice.help.close.syntax": {
@@ -253,6 +258,7 @@
     "de": "`voice close`"
   },
   "command.voice.help.close.description": {
+    "en": "Manually close this channel. (It gets closed automatically if everyone leaves)",
     "de": "Schließt den Channel manuell. (Der Channel schließt sich auch, wenn er leer ist)"
   },
 
@@ -275,6 +281,7 @@
   },
 
   "event.voice.inithelp.embed.description": {
+    "en": "You can use following commands in this channel only:",
     "de":"Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
   },
 
@@ -284,6 +291,7 @@
   },
 
   "event.voice.inithelp.embed.more_info.value": {
+    "en": "**1.** If the owner leaves without transferring ownership, a new owner is randomly chosen.\n**2.** As soon as the channel is empty, it gets removed automatically.\n**3.** When a user disconnects from a private channel, he still can see the channel and reconnect. To prevent reconnecting, the owner must kick other users with `voice kick`**4.** You can use 'channel editing' commands **up to 2 times altogether** due to anti-spam.",
     "de":"**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
   }
 
