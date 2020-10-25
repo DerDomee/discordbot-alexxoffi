@@ -1,4 +1,4 @@
-name: Python flake8 linting
+name: Python Tasks
 
 on: [push, pull_request]
 

@@ -16,5 +16,6 @@ python_version = "3.7"
 
 [scripts]
 bot = "python runscripts/bot.py"
+start = "python runscripts/start.py"
 test = "python runscripts/test.py"
 translate = "python runscripts/translate.py"

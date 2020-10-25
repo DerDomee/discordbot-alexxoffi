@@ -35,7 +35,7 @@ Following programs and scripts are required to run this bot:
 2. Clone this repository `git clone https://github.com/derdomee/discordbot-alexxoffi.git`
 3. Create a file `.env` from `.env.preset` and insert your settings, most importantly your discord bot token
 4. Install the virtual environment: `pipenv install`
-5. Run the bot with `pipenv run bot`
+5. Run the bot with `pipenv run start`
 
 ## Contributing
 

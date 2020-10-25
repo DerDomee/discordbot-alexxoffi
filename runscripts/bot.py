@@ -12,3 +12,5 @@ if discord_bot_token is None:
     exit(1)
 
 client.run(discord_bot_token)
+
+sys.exit(0)
