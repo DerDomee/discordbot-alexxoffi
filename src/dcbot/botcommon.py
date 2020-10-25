@@ -31,7 +31,7 @@ key_permlevel_owner = 100
 # More bot settings keys
 key_bot_init_stage = "bot_init_stage"
 key_bot_prefix = "bot_shortprefix"
-default_user_preferred_language = "en"
+default_user_preferred_language = "de"
 
 key_color_info = 0xDEDEDE
 key_color_muted = 0x2E2E2E
