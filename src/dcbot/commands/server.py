@@ -1,6 +1,4 @@
 from src.dcbot import botcommon
-from src.dcbot import client
-from src.database import dbcommon
 from src.translation import transget
 from discord import Embed, Status
 
@@ -26,27 +24,29 @@ async def invoke(message, arg_stack, botuser):
         name=transget(
             'command.server.embed.field.creation_date.title',
             botuser.user_pref_lang),
-        value=f"{created.day}.{created.month}.{created.year}")
+        value=f"{created.day}.{created.month}.{created.year}"
+    )
 
     embed.add_field(
         name=transget(
             'command.server.embed.field.owner.title',
-            botuser.user_pref_lang),
+            botuser.user_pref_lang
+        ),
         value=message.guild.owner.mention
-        )
+    )
 
     onlinecount = sum(
         m.status != Status.offline for m in message.guild.members)
     embed.add_field(
         name=transget(
             'command.server.embed.field.members.title',
-            botuser.user_pref_lang).format(
-                member_count=message.guild.member_count),
+            botuser.user_pref_lang
+        ).format(member_count=message.guild.member_count),
         value=transget(
             'command.server.embed.field.members.value',
-            botuser.user_pref_lang).format(
-                member_count=onlinecount)
-        )
+            botuser.user_pref_lang
+        ).format(member_count=onlinecount)
+    )
 
     footertext = "Requested by " + str(message.author.name) + "#" \
         + str(message.author.discriminator) + " (" \

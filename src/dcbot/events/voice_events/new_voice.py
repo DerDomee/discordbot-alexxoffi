@@ -1,4 +1,3 @@
-from discord import PermissionOverwrite
 from src.dcbot import client
 from src.dcbot import botcommon
 from src.dcbot.events.voice_events import voicecommon

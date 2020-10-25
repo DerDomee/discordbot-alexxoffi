@@ -1,4 +1,3 @@
-import os
 import json
 import asyncio
 import requests
@@ -92,7 +91,7 @@ async def invoke(message, arg_stack, botuser):
             'command.apply.err.playernotlinked',
             botuser.user_pref_lang).format(
                 actual_dc_tag=actual_dc_tag
-            )))
+        )))
         return await _error_and_delete(remove_messages)
 
     # Get the Socialtag the player provided in the Hypixel API

@@ -57,8 +57,10 @@ async def _log_action(message, arg_stack, botuser, channelkey, channelid):
                     " ID `{}`".format(
                         channelkey,
                         "<#" + str(channelid) + ">",
-                        channelid),
-        color=botcommon.key_color_warning)
+                        channelid
+                    ),
+        color=botcommon.key_color_warning
+    )
     footertext = "Requested by " + str(message.author.name) + "#" \
         + str(message.author.discriminator) + " (" \
         + str(message.author.id) + ")"

@@ -1,3 +1,3 @@
-from src.database.models.botsettings import BotSettings
-from src.database.models.botuser import BotUser
-from src.database.models.userwarnings import UserWarnings
+from src.database.models.botsettings import BotSettings  # noqa: F401
+from src.database.models.botuser import BotUser  # noqa: F401
+from src.database.models.userwarnings import UserWarnings  # noqa: F401
