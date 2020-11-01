@@ -19,11 +19,10 @@ def _get_sourcedict():
             data = json.load(file)
             return data
         except json.JSONDecodeError:
-            sys.stderr.write("\u001b[31m" + traceback.format_exc()
-                             + "\u001b[0m\n")
+            sys.stderr.write(
+                "\u001b[31m" + traceback.format_exc() + "\u001b[0m\n")
             sys.stderr.write("\u001b[31mFailed to read source.json: "
                              + "Invalid JSON.\u001b[0m\n")
-            sys.exit(1)
     sys.exit(1)
 
 
@@ -124,13 +123,22 @@ def main():
           + "resources/translations/source.json ...", flush=True)
 
     source_dict = _get_sourcedict()
+
     destination_dicts, warnings, errors = _create_destination_dicts(
         source_dict)
+
     _print_failures(warnings, errors)
+
     total_key_count, coverage = _calculate_coverage(
-        source_dict, destination_dicts)
-    _save_translations(destination_dicts)
-    _print_coverages(total_key_count, coverage, destination_dicts)
+        source_dict,
+        destination_dicts)
+    _save_translations(
+        destination_dicts)
+
+    _print_coverages(
+        total_key_count,
+        coverage, destination_dicts)
+
     print("\n\u001b[32mTranslation successful!\u001b[0m", flush=True)
     sys.exit(0)
 
