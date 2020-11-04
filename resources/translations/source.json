@@ -8,7 +8,6 @@
     "en": "English",
     "de": "German"
   },
-
   "language.meta.name.localized": {
     "en": "English",
     "de": "Deutsch"
@@ -19,199 +18,277 @@
     "de": "Client erfolgreich eingeloggt als '{client}'"
   },
   "dcbot.log.error.guild": {
-    "en": "Unable to log the desired message: Guild not found"
+    "en": "Unable to log the desired message: Guild not found",
+    "de": "Nachricht konnte nicht geloggt werden: <Guild not found>"
   },
   "dcbot.log.error.channel": {
-    "en": "Unable to log the desired message: Channel not found"
+    "en": "Unable to log the desired message: Channel not found",
+    "de": "Nachricht konnte nicht geloggt werden: <Channel not found>"
+  },
+
+  "dcbot.features.title": {
+    "en": "Features",
+    "de": "Funktionen"
+  },
+  "dcbot.features.features": {
+    "en":":small_orange_diamond:Automatic dynamic voice channel system\n:small_orange_diamond:Apply for our Hypixel community guild\n:small_orange_diamond:Warn system for staff\n:small_orange_diamond:Counting Channel\n:small_orange_diamond:Create custom commands at runtime\n:small_orange_diamond:Check HGG API with information about Hypixel Skyblock player reports",
+    "de":":small_orange_diamond:Automatisches System für dynamische Voicechannel\n:small_orange_diamond:Bewerbungen für unsere Hypixel Communitygilde\n:small_orange_diamond:Verwarntools für das Team\n:small_orange_diamond:Counting Channel\n:small_orange_diamond:Eigene Befehle dynamisch erstellen\n:small_orange_diamond:Integration für HGG mit Communityreports über Hypixel Skyblock-Spieler"
+  },
+
+  "dcbot.contributor.title": {
+    "en": "Contributors",
+    "de": "Programmierer"
+  },
+  "dcbot.contributor.contributors": {
+    "en": ":small_orange_diamond: <@285720078031388673>\n:small_orange_diamond: <@497789163555389441>",
+    "de": ":small_orange_diamond: <@285720078031388673>\n:small_orange_diamond: <@497789163555389441>"
   },
 
 
   "init.stage0.successful": {
-    "en": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished. The default command short-prefix is `$` until you define your own prefix in init stage 1."
+    "en": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished. The default command short-prefix is `$` until you define your own prefix in init stage 1.",
+    "de": "Init-Stufe 0 von 3 wurde erfolgreich beendet, da es sich um eine automatische Stufe handelt. Der Befehl 'init' zeigt dir jederzeit während der Initialisierung, was nun gemacht werden muss. Das Standard-Präfix für Befehle ist `$`, bis ein eigenes Präfix in Stufe 1 definiert wird."
   },
   "init.stage1.intro": {
-    "en": "Init stage 1 of 3 active. Please run the command `setprefix <prefix>` with your preferred settings! (Prefix can only be exactly 1 character long)"
+    "en": "Init stage 1 of 3 active. Please run the command `setprefix <prefix>` with your preferred settings! (Prefix can only be exactly 1 character long)",
+    "de": "Init Stufe 1 von 3 aktiv. Benutze den Befehl `setprefix <Präfix>` mit den gewünschten Einstellungen! Das Präfix kann nur exakt ein Zeichen lang sein."
   },
   "init.stage1.successful": {
-    "en": "Init stage 1 of 3 fulfilled successfully."
+    "en": "Init stage 1 of 3 fulfilled successfully.",
+    "de": "Init Stufe 1 von 3 erfolgreich beendet."
   },
   "init.stage2.intro": {
-    "en": "Init stage 2 of 3 active. Please run the command `chanset log <channel-ping>` with your preferred channel!"
+    "en": "Init stage 2 of 3 active. Please run the command `chanset log <channel-ping>` with your preferred channel!",
+    "de": "Init Stufe 2 von 3 aktiv. Benutze den Befehl `chanset log <Channel-Ping>` mit den gewünschten Einstellungen!"
   },
   "init.stage2.successful": {
-    "en": "Init Stage 2 of 3 fulfilled successfully."
+    "en": "Init Stage 2 of 3 fulfilled successfully.",
+    "de": "Init Stufe 2 von 3 erfolgreich beendet."
   },
   "init.stage3.intro": {
-    "en": "Init stage 3 of 3 active. Please run the command `addcmdchan <channel-ping>` with your preferred channel!"
+    "en": "Init stage 3 of 3 active. Please run the command `addcmdchan <channel-ping>` with your preferred channel!",
+    "de": "Init Stufe 3 von 3 aktiv. Benutze den Befehl `addcmdchan <Channel-Ping>` mit deinen gewünschten Einstellungen!"
   },
   "init.stage3.successful": {
-    "en": "Init stage 3 of 3 fulfilled."
+    "en": "Init stage 3 of 3 fulfilled.",
+    "de": "Init Stufe 3 von 3 erfolgreich beendet."
   },
   "init.completed": {
-    "en": "Init finished. The bot is now set up to work in production."
+    "en": "Init finished. The bot is now set up to work in production.",
+    "de": "Initialisierung beendet. Der Bot ist nun bereit für den Einsatz!"
   },
 
   "command.addcmdchan.meta.description": {
-    "en": "Add an existing channel to the list of command-allowed channels for users"
+    "en": "Add an existing channel to the list of command-allowed channels for users",
+    "de": "Einen Channel für Botbefehle von diesem Bot freischalten"
   },
 
   "command.apply.meta.description": {
-    "en": "Apply for the Hypixel streaming-guild from AlexxOffi"
+    "en": "Apply for the Hypixel community guild from AlexxOffi",
+    "de": "Bewirb dich für die Hypixel Communitygilde von AlexxOffi"
   },
   "command.apply.err.disabled": {
-    "en": "Guild apply is currently disabled."
+    "en": "Guild apply is currently disabled.",
+    "de": "Gildenbewerbungen sind aktuell deaktiviert."
   },
   "command.apply.err.noname": {
-    "en": "Please specify your Minecraft name."
+    "en": "Please specify your Minecraft name.",
+    "de": "Es muss ein Minecraft Username angegeben sein."
   },
   "command.apply.err.noprofile": {
-    "en": "Please specify your Skyblock profile name"
+    "en": "Please specify your Skyblock profile name.",
+    "de": "Es muss ein Skyblock Profil-Name angegeben sein."
   },
   "command.apply.err.playernotfound": {
-    "en": "The player {playername} was not found on Hypixel."
+    "en": "The player {playername} was not found on Hypixel.",
+    "de": "Der Spieler {playnerma} existiert nicht in Hypixel Skyblock."
   },
   "command.apply.err.playernotlinked": {
-    "en": "Your Hypixel profile is not linked to your Discord profile. Please add your Discord profile \"{actual_dc_tag}\" in your Hypixel settings menu."
+    "en": "Your Hypixel profile is not linked to your Discord profile. Please add your Discord profile \"{actual_dc_tag}\" in your Hypixel settings menu.",
+    "de": "Dein Hypixel-Profil ist nicht mit deinem Discord-Profil verlinkt. Du musst das Discord-Profil \"{actual_dc_tag}\" im Hypixel Einstellungs-Menü hinzufügen."
   },
   "command.apply.err.playerwronglinked": {
-    "en": "Your Hypixel profile is linked to the wrong Discord profile. Please change your Discord profile from \"{api_dc_tag}\" to \"{actual_dc_tag}\" in your Hypixel settings menu."
+    "en": "Your Hypixel profile is linked to the wrong Discord profile. Please change your Discord profile from \"{api_dc_tag}\" to \"{actual_dc_tag}\" in your Hypixel settings menu.",
+    "de": "Dein Hypixel-Profil ist mit dem falschen Discord-Profil verlinkt. Ändere deine Einstellungen im Hypixel-Menü von \"{api_dc_tag}\" zu \"{actual_dc_tag}\"."
   },
   "command.apply.err.profilenotfound": {
-    "en": "This player has no profile named \"{profile}\""
+    "en": "This player has no profile named \"{profile}\".",
+    "de": "Dieser Spieler hat kein Profil mit dem Namen \"{profile}\"."
   },
 
   "command.chanset.meta.description": {
-    "en": "Set the channel ID for a Key-Identifier"
+    "en": "Set the channel ID for a Key-Identifier",
+    "de": "Weise einem Key-Identifier einen bestimmten Channel zu"
   },
 
   "command.faq.meta.description": {
-    "en": "Send an embed with a both custom texts as title and description. Useful for FAQs"
+    "en": "Send an embed with a both custom texts as title and description. Useful for FAQs",
+    "de": "Erstell ein Embed mit benutzerdefiniertem Titel und Text. Nützlich für FAQs"
   },
   "command.faq.err.wrongsyntax": {
-    "en": "Please use exactly 2 parameters: `faq \"question\" \"answer\"`"
+    "en": "Please use exactly 2 parameters: `faq \"question\" \"answer\"`",
+    "de": "Es sind nur exakt 2 Parameter erlaubt: `faq \"Frage\" \"Antwort\"`"
   },
 
   "command.help.meta.description": {
-    "en": "Show the help for this bot"
+    "en": "Show the help for this bot",
+    "de": "Zeige diese Hilfe an"
   },
   "command.help.general_help.header": {
-    "en": "The current command prefix is `{shortprefix}`. This prefix is always omitted in help information.\nFor command-specific help use `help <command>`"
+    "en": "The current command prefix is `{shortprefix}`. This prefix is always omitted in help information.\nFor command-specific help use `help <command>`.",
+    "de": "Das aktuelle Prefix für diesen Bot ist `{shortprefix}`. Dieses Prefix wird in der Hilfe nicht weiterhin angezeigt.\nFür Hilfe zu einem bestimmten Befehl schreibe `help <Befehl>`."
   },
 
   "command.info.meta.description": {
-    "en": "Shows information about this bot"
+    "en": "Shows information about this bot",
+    "de": "Zeige Informationen über diesen Bot an"
   },
   "command.info.embed.title": {
-    "en": "Bot information on {bot_title}"
+    "en": "Bot information on {bot_title}",
+    "de": "Bot Informationen über {bot_title}"
   },
   "command.info.embed.desc": {
-    "en": "This bot can auto-moderate, run guild-specific commands and show fancy statistics."
+    "en": "Helper- and moderation bot for AlexxOffi's community server",
+    "de": "Hilfs- und Moderationsbot für AlexxOffis Communityserver"
   },
   "command.info.embed.field.author.title": {
-    "en": "Author (Maintainer)"
+    "en": "Maintainer",
+    "de": "Maintainer"
   },
   "command.info.embed.field.version.title": {
-    "en": "Current Version"
+    "en": "Current Version",
+    "de": "Aktuelle Version"
   },
   "command.info.embed.field.upstream.title": {
-    "en": "Upstream (GitHub)"
+    "en": "Upstream (GitHub)",
+    "de": "Upstream (GitHub)"
   },
   "command.info.embed.field.upstream.value": {
-    "en": "https://github.com/derdomee/discordbot-alexxoffi"
+    "en": "https://github.com/derdomee/discordbot-alexxoffi",
+    "de": "https://github.com/derdomee/discordbot-alexxoffi"
   },
   "command.info.embed.field.prefix.title": {
-    "en": "Botprefix for commands"
+    "en": "Prefix for commands",
+    "de": "Prefix für Befehle"
   },
   "command.info.embed.field.prefix.value": {
-    "en": "{longprefix} or `{shortprefix}`"
+    "en": "{longprefix} or `{shortprefix}`",
+    "de": "{longprefix} oder `{shortprefix}`"
   },
   "command.info.embed.field.bugreports.title": {
-    "en": "Reporting bugs"
+    "en": "Reporting bugs",
+    "de": "Bugs melden"
   },
   "command.info.embed.field.bugreports.value": {
-    "en": "[Create issue on GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new/choose) or contact me (<@285720078031388673>) via Discord!"
+    "en": "[Create issue on GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new/choose) or contact me (<@285720078031388673>) via Discord!",
+    "de": "[Erstell einen Issue auf GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new/choose) oder schreib mir (<@285720078031388673>) auf Discord!"
   },
 
   "command.language.meta.description": {
-    "en": "Manage the language in which the bot speaks to you"
+    "en": "Manage the language in which the bot speaks to you",
+    "de": "Verwalte die Sprache mit welcher der Bot schreibt."
   },
   "command.language.get.text": {
-    "en": "Current language: `{lang}`"
+    "en": "Current language: `{lang}`",
+    "de": "Ausgewählte Sprache: `{lang}`"
   },
   "command.language.set.success": {
-    "en": "Language updated to `{lang}`"
+    "en": "Language updated to `{lang}`",
+    "de": "Die Sprache wurde zu `{lang}` geändert."
   },
 
   "command.printarg.meta.description": {
-    "en": "A debug command that tests the internal string-lexer that is used to lex and parse a message content into a command-argument-stack"
+    "en": "A debug command that tests the internal string-lexer that is used to lex and parse a message content into a command-argument-stack",
+    "de": "Ein Debug-Befehl, welcher den internen ArgV-Parser `stavlex` testet und das Ergebnis zeigt."
   },
 
   "command.rmcmdchan.meta.description": {
-    "en": "Remove a channel from the list of command-allowed channels for users"
+    "en": "Remove a channel from the list of command-allowed channels for users",
+    "de": "Einen Channel für Botbefehle von diesem Bot wieder deaktivieren"
   },
 
   "command.server.meta.description": {
-    "en": "Shows information about this server"
+    "en": "Shows information about this server",
+    "de": "Zeige Informationen über diesen Server"
   },
   "command.server.embed.desc": {
-    "en": "Information about this server"
+    "en": "Information about this server",
+    "de": "Informationen über diesen Server"
   },
   "command.server.embed.field.creation_date.title": {
-    "en": "Creation date"
+    "en": "Creation date",
+    "de": "Existiert seit"
   },
   "command.server.embed.field.owner.title": {
-    "en": "Server owner"
+    "en": "Server owner",
+    "de": "Serverbesitzer"
   },
   "command.server.embed.field.members.title": {
-    "en": "{member_count} members"
+    "en": "{member_count} members",
+    "de": "{member_count} Nutzer"
   },
   "command.server.embed.field.members.value": {
-    "en": "{member_count} online"
+    "en": "{member_count} online",
+    "de": "{member_count} online"
   },
 
   "command.setprefix.meta.description": {
-    "en": "Set a new command prefix for this bot"
+    "en": "Set a new command prefix for this bot",
+    "de": "Setzt ein neues Prefix für den Bot"
   },
 
   "command.stop.meta.description": {
-    "en": "Stop this bot"
+    "en": "Stop this bot",
+    "de": "Stoppt den Bot"
   },
 
   "command.voice.meta.description": {
-    "en": "Control the dynamic voice channel you are currently connected to, if you are its owner."
+    "en": "Control the dynamic voice channel you are currently connected to, if you are its owner.",
+    "de": "Steuerung des dynamischen Voice-Channels, dessen Besitzer du bist"
   },
   "command.voice.transfer.user_not_found": {
-    "en": "The user you want to transfer the channel ownership to was not found."
+    "en": "The user you want to transfer the channel ownership to was not found.",
+    "de": "Der Nutzer konnte nicht gefunden und die Leitung somit nicht übertragen werden."
   },
   "command.voice.transfer.successful": {
-    "en": "The channel ownership successfully changed from {previous_mention} to {new_mention}.\n{new_mention}, you now can execute all voice commands."
+    "en": "The channel ownership successfully changed from {previous_mention} to {new_mention}.\n{new_mention}, you now can execute all voice commands.",
+    "de": "Der Channelbesitz wurde erfolgreich von {previous_mention} zu {new_mention} übertragen.\n{new_mention}, du kannst nun alle `voice`-Befehle ausführen."
   },
   "command.voice.transfer.self_not_permitted": {
-    "en": "You can not transfer the ownership to yourself."
+    "en": "You can not transfer the ownership to yourself.",
+    "de": "Du kannst den Channelbesitz nicht an dich selbst übertragen."
   },
   "command.voice.invite.channel_not_private": {
-    "en": "Your voice channel is not a private channel, so inviting is not necessary."
+    "en": "Your voice channel is not a private channel, so inviting is not necessary.",
+    "de": "Der Channel ist nicht privat, daher ist eine Einladung nicht notwendig."
   },
   "command.voice.invite.user_not_found": {
-    "en": "The user you want to invite into your channel was not found."
+    "en": "The user you want to invite into your channel was not found.",
+    "de": "Der Nutzer konnte nicht gefunden und somit nicht eingeladen werden."
   },
   "command.voice.invite.rolecheck_failed": {
-    "en": "There was an error inviting this user. Try again later or create a new voice channel."
+    "en": "There was an error inviting this user. Try again later or create a new voice channel.",
+    "de": "Beim Einladen ist ein Fehler aufgetreten. Versuche es später erneut oder erstelle einen neuen Voice Channel."
   },
   "command.voice.invite.self_not_permitted": {
-    "en": "You can not invite yourself to the channel."
+    "en": "You can not invite yourself to the channel.",
+    "de": "Du kannst dich selbst nicht einladen."
   },
   "command.voice.kick.channel_not_private": {
-    "en": "Your voice channel is not a private channel, so kicking is pointless."
+    "en": "Your voice channel is not a private channel, so kicking is pointless.",
+    "de": "Der Channel ist nicht privat, dahier ist kicken sinnlos."
   },
   "command.voice.kick.user_not_found": {
-    "en": "The user you want to kick from your channel is not a member already or there was an error with the Discord API!"
+    "en": "The user you want to kick from your channel is not a member already or there was an error with the Discord API!",
+    "de": "Den User, den du versucht hast zu kicken, ist kein Mitglied mehr oder es ist Fehler mit der Discord API aufgetreten!"
   },
   "command.voice.kick.rolecheck_failed": {
-    "en": "There was an error kicking this user. Try again later or force close the voice channel with `voice close`."
+    "en": "There was an error kicking this user. Try again later or force close the voice channel with `voice close`.",
+    "de": "Beim Kicken des Nutzers ist ein Fehler aufgetreten. Versuche es später erneut oder schließe den Channel mit `voice close`."
   },
   "command.voice.kick.self_not_permitted": {
-    "en": "You can not kick yourself from the channel."
+    "en": "You can not kick yourself from the channel.",
+    "de": "Du kannst dich nicht selbst aus dem Channel kicken."
   },
   "command.voice.help.toggle.syntax": {
     "en": "`voice toggle`",
@@ -263,16 +340,20 @@
   },
 
   "command.warn.meta.description": {
-    "en": "Warn a user on the discord"
+    "en": "Warn a user on the discord",
+    "de": "Warnt einen User auf dem Discord"
   },
   "command.warn.error.user_not_found": {
-    "en": "User not found. Can not warn a non-existant user."
+    "en": "User not found. Can not warn a non-existant user.",
+    "de": "User wurde nicht gefunden. Du kannst einen nicht existierenden User nicht warnen."
   },
   "command.warn.notifiaction.warned": {
-    "en": "You have been warned on the server. Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!"
+    "en": "You have been warned on the server. Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
+    "de": "Du wurdest von einem Teammitglied gewarnt. Du bekommst mehr Informationen über den Ban mit dem Befehl `user`. Verwarnungen laufen nach 1-3 Monaten ab, aber werden für immer gespeichert!"
   },
   "command.warn.notifiaction.warned.public": {
-    "en": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!** Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!"
+    "en": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!** Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
+    "de": "{mention}, da du private Nachrichten von mir auf diesem Server deaktiviert hast, wirst du hier gepingt: **Du wurdest von einem Teammtiglied gewarnt!** Du bekommst mehr Informationen über den Ban mit dem Befehl `user`. Verwarnungen laufen nach 1-3 Monaten ab, aber werden für immer gespeichert!"
   },
 
   "event.voice.inithelp.embed.title": {
@@ -282,7 +363,7 @@
 
   "event.voice.inithelp.embed.description": {
     "en": "You can use following commands in this channel only:",
-    "de":"Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
+    "de": "Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
   },
 
   "event.voice.inithelp.embed.more_info.title": {
@@ -292,7 +373,7 @@
 
   "event.voice.inithelp.embed.more_info.value": {
     "en": "**1.** If the owner leaves without transferring ownership, a new owner is randomly chosen.\n**2.** As soon as the channel is empty, it gets removed automatically.\n**3.** When a user disconnects from a private channel, he still can see the channel and reconnect. To prevent reconnecting, the owner must kick other users with `voice kick`.\n**4.** You can use 'channel editing' commands **up to 2 times altogether** due to anti-spam.",
-    "de":"**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
+    "de": "**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
   }
 
 }

@@ -31,9 +31,27 @@ async def invoke(message, arg_stack, botuser):
 
     embed.add_field(
         name=transget(
+            'dcbot.features.title',
+            botuser.user_pref_lang),
+        value=transget(
+            'dcbot.features.features',
+            botuser.user_pref_lang),
+        inline=False)
+
+    embed.add_field(
+        name=transget(
             'command.info.embed.field.author.title',
             botuser.user_pref_lang),
         value="<@285720078031388673>",
+        inline=True)
+
+    embed.add_field(
+        name=transget(
+            'dcbot.contributor.title',
+            botuser.user_pref_lang),
+        value=transget(
+            'dcbot.contributor.contributors',
+            botuser.user_pref_lang),
         inline=True)
 
     versiontag = os.popen('git describe --tags --abbrev=0').read().rstrip('\n')
