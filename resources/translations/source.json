@@ -101,7 +101,7 @@
   },
   "command.apply.err.playernotfound": {
     "en": "The player {playername} was not found on Hypixel.",
-    "de": "Der Spieler {playnerma} existiert nicht in Hypixel Skyblock."
+    "de": "Der Spieler {playername} existiert nicht in Hypixel Skyblock."
   },
   "command.apply.err.playernotlinked": {
     "en": "Your Hypixel profile is not linked to your Discord profile. Please add your Discord profile \"{actual_dc_tag}\" in your Hypixel settings menu.",
