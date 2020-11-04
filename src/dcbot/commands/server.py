@@ -32,7 +32,7 @@ async def invoke(message, arg_stack, botuser):
             'command.server.embed.field.owner.title',
             botuser.user_pref_lang
         ),
-        value=message.guild.owner.mention
+        value="<@" + str(message.guild.owner_id) + ">"
     )
 
     onlinecount = sum(
