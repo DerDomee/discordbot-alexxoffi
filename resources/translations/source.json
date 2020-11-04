@@ -341,11 +341,11 @@
 
   "command.warn.meta.description": {
     "en": "Warn a user on the discord",
-    "de": "Warnt einen Nutzer auf dem Discord"
+    "de": "Warnt einen User auf dem Discord"
   },
   "command.warn.error.user_not_found": {
     "en": "User not found. Can not warn a non-existant user.",
-    "de": "User wurde nicht gefunden. Du kannst einen nicht existierenden Nutzer nicht warnen."
+    "de": "User wurde nicht gefunden. Du kannst einen nicht existierenden User nicht warnen."
   },
   "command.warn.notifiaction.warned": {
     "en": "You have been warned on the server. Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
