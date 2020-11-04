@@ -101,7 +101,7 @@
   },
   "command.apply.err.playernotfound": {
     "en": "The player {playername} was not found on Hypixel.",
-    "de": "Der Spieler {playnerma} existiert nicht in Hypixel Skyblock."
+    "de": "Der Spieler {playername} existiert nicht in Hypixel Skyblock."
   },
   "command.apply.err.playernotlinked": {
     "en": "Your Hypixel profile is not linked to your Discord profile. Please add your Discord profile \"{actual_dc_tag}\" in your Hypixel settings menu.",
@@ -349,7 +349,7 @@
   },
   "command.warn.notifiaction.warned": {
     "en": "You have been warned on the server. Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
-    "de": "Du wurdest von einem Teammitglied gewarnt. Du bekommst mehr Informationen über den Ban mit dem Befehl `user`. Verwarnungen laufen nach 1-3 Monaten ab, aber werden für immer gespeichert!"
+    "de": "Du wurdest von einem Teammitglied gewarnt. Du bekommst mehr Informationen über den Warn mit dem Befehl `user`. Verwarnungen laufen nach 1-3 Monaten ab, aber werden für immer gespeichert!"
   },
   "command.warn.notifiaction.warned.public": {
     "en": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!** Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
