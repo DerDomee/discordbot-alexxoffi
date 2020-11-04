@@ -2,7 +2,11 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
+<<<<<<< Updated upstream
 labels: is: bug
+=======
+labels: `is: bug'
+>>>>>>> Stashed changes
 assignees: ''
 
 ---

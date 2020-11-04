@@ -2,7 +2,11 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
+<<<<<<< Updated upstream
 labels: is: feature request
+=======
+labels: 'is: feature request'
+>>>>>>> Stashed changes
 assignees: ''
 
 ---
