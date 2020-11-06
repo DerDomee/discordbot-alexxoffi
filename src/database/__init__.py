@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-sqlengine = create_engine('sqlite:///database.sqlite')
+sqlengine = create_engine('sqlite:///data/database.sqlite')
 Base = declarative_base()
 
 from src.database import models  # noqa: F401, E402
