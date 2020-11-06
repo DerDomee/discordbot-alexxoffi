@@ -33,8 +33,6 @@ Following programs and scripts are required to run this bot:
   2. It is recommended not to enable the "Public Bot" setting
 2. Clone this repository `git clone https://github.com/derdomee/discordbot-alexxoffi.git`
 3. Create a file `.env` from `.env.preset` and insert your settings, most importantly your discord bot token
-4. Install the virtual environment: `pipenv install`
-5. Run the bot with `pipenv run start`
 4. Install the virtual environment: `pipenv sync`
 5. Run the bot with `pipenv run start` (Or translate and run manually: `pipenv run translate && pipenv run bot`)
 
