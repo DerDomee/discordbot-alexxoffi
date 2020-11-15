@@ -5,8 +5,9 @@
 database.sqlite
 temp/
 data/
+logs/
 
 
 # Only the translation source shall be tracked in repository
 resources/translations/*
-!resources/translations/source.json#
+!resources/translations/source.json
