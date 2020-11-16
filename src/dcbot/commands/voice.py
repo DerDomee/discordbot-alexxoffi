@@ -11,9 +11,9 @@ CMD_METADATA = {
 
 async def toggle(message, arg_stack, botuser, channel_obj):
     if channel_obj['editcount'] >= 2:
-        await message.channel.send(
-            "You can not edit this channel more than 2 times due to "
-            "anti-spam.")
+        await message.channel.send(transget(
+            "command.voice.edits_used_up",
+            botuser.user_pref_lang))
         return False
 
     if channel_obj['type'] == "public":
@@ -29,11 +29,14 @@ async def toggle(message, arg_stack, botuser, channel_obj):
             await vc.edit(name="Private by " + message.author.display_name)
             await tc.edit(name="Private by " + message.author.display_name)
         channel_obj['type'] = "private"
-        await message.channel.send(
-            "You successfully changed the visiblity from public to private.\n"
-            + "This channel was edited " + str(channel_obj['editcount']) + " "
-            + "times now, so you have " + str(2 - channel_obj['editcount'])
-            + " edits left.")
+        await message.channel.send(transget(
+            "command.voice.toggle.to_private.success",
+            botuser.user_pref_lang))
+        await message.channel.send(transget(
+            "command.voice.edits_notice",
+            botuser.user_pref_lang).format(
+                current_edits=str(channel_obj['editcount']),
+                remaining_edits=str(2 - channel_obj['editcount'])))
         return True
     else:
         channel_obj['editcount'] += 1
@@ -53,24 +56,29 @@ async def toggle(message, arg_stack, botuser, channel_obj):
             await vc.edit(overwrites=overwrites['vc'])
             await tc.edit(overwrites=overwrites['tc'])
         channel_obj['type'] = "public"
-        await message.channel.send(
-            "You successfully changed the visiblity from private to public.\n"
-            + "This channel was edited " + str(channel_obj['editcount']) + " "
-            + "times now, so you have " + str(2 - channel_obj['editcount'])
-            + " edits left.")
+        await message.channel.send(transget(
+            "command.voice.toggle.to_public.success",
+            botuser.user_pref_lang))
+        await message.channel.send(transget(
+            "command.voice.edits_notice",
+            botuser.user_pref_lang).format(
+                current_edits=str(channel_obj['editcount']),
+                remaining_edits=str(2 - channel_obj['editcount'])))
         return True
     return False
 
 
 async def name(message, arg_stack, botuser, channel_obj):
     if channel_obj['editcount'] >= 2:
-        await message.channel.send(
-            "You can not edit this channel more than 2 times due to "
-            "anti-spam.")
+        await message.channel.send(transget(
+            "command.voice.edits_used_up",
+            botuser.user_pref_lang))
         return False
 
     if len(arg_stack) <= 2:
-        await message.channel.send("You must specify the desired name.")
+        await message.channel.send(transget(
+            "command.voice.name.missing_name_argument",
+            botuser.user_pref_lang))
         return False
 
     new_name = " ".join(arg_stack[2:])
@@ -85,11 +93,15 @@ async def name(message, arg_stack, botuser, channel_obj):
     channel_obj['editcount'] += 1
     channel_obj['renamed'] = True
 
-    await message.channel.send(
-        "You successfully changed the channel name to " + str(new_name) + ".\n"
-        + "This channel was edited " + str(channel_obj['editcount']) + " "
-        + "times now, so you have " + str(2 - channel_obj['editcount'])
-        + " edits left.")
+    await message.channel.send(transget(
+        "command.voice.name.renamed",
+        botuser.user_pref_lang).format(
+            new_name=new_name))
+    await message.channel.send(transget(
+        "command.voice.edits_notice",
+        botuser.user_pref_lang).format(
+            current_edits=str(channel_obj['editcount']),
+            remaining_edits=str(2 - channel_obj['editcount'])))
 
 
 async def transfer(message, arg_stack, botuser, channel_obj):

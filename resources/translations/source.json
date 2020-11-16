@@ -246,6 +246,30 @@
     "en": "Control the dynamic voice channel you are currently connected to, if you are its owner.",
     "de": "Steuerung des dynamischen Voice-Channels, dessen Besitzer du bist"
   },
+  "command.voice.edits_notice": {
+    "en": "This channel was edited {current_edits} times now, so you have {remaining_edits} left.",
+    "de": "Dieser Channel wurde jetzt {current_edits} mal editiert, du hast also noch {remaining_edits} Editierungen zur Verfügung."
+  },
+  "command.voice.edits_used_up": {
+    "en": "You can not edit this channel more than 2 times due to anti-spam.",
+    "de": "Du darfst den Channel nicht mehr als zwei mal editieren, um Spam zu verhindern."
+  },
+  "command.voice.toggle.to_private.success": {
+    "en": "You successfully changed the visibility from public to private.",
+    "de": "Du hast die Sichtbarkeit des Channels von öffentlich auf privat gestellt."
+  },
+  "command.voice.toggle.to_public.success": {
+    "en": "You successfully changed the visibility from private to public.",
+    "de": "Du hast die Sichtbarkeit des Channels von privat auf öffentlich gestellt."
+  },
+  "command.voice.name.missing_name_argument": {
+    "en": "You must specify the desired name.",
+    "de": "Du musst natürlich auch einen neuen Namen angeben!"
+  },
+  "command.voice.name.renamed": {
+    "en": "You successfully changed the channel name to `{new_name}`.",
+    "de": "Du hast den Namen des Channels zu `{new_name}` geändert."
+  },
   "command.voice.transfer.user_not_found": {
     "en": "The user you want to transfer the channel ownership to was not found.",
     "de": "Der Nutzer konnte nicht gefunden und die Leitung somit nicht übertragen werden."
