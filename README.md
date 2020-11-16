@@ -12,10 +12,6 @@
   <a href="https://dominikriedig.de">Visit Author</a>
 </p>
 
-## Alpha Stage
-
-This bot is currently in the alpha stage, with lots of changes proposed. While in alpha, most development is done on master branch only, except when there are changes coming from forks. When leaving alpha, a full repository refactor will take place, creating, renaming and moving various branches and other refs.
-
 ## Table of contents
 
 - [Prerequisites](#prerequisites)
@@ -26,13 +22,8 @@ This bot is currently in the alpha stage, with lots of changes proposed. While i
 
 Following programs and scripts are required to run this bot:
 - Python `>3.7,<=3.8`
-- Python `>3.7,<=3.8` (This is a pinned version only because pipenv doesn't support version ranges for the python requirement. Shame on you, pipenv!)
 - Pip `>=18.1`
 - Pipenv `>=v2020.6.2` (`pip install pipenv`)
-
-## Running with different python versions
-
-This bot is developed and tested only in Python 3.7. It should run flawlessly in Python `>3.6, <=3.9.x`. Just remove the python requirement in `Pipfile` or change the value to your desired python version.
 
 ## Quick start
 
@@ -42,11 +33,12 @@ This bot is developed and tested only in Python 3.7. It should run flawlessly in
   2. It is recommended not to enable the "Public Bot" setting
 2. Clone this repository `git clone https://github.com/derdomee/discordbot-alexxoffi.git`
 3. Create a file `.env` from `.env.preset` and insert your settings, most importantly your discord bot token
-4. Install the virtual environment: `pipenv install`
-5. Run the bot with `pipenv run start`
 4. Install the virtual environment: `pipenv sync`
 5. Run the bot with `pipenv run start` (Or translate and run manually: `pipenv run translate && pipenv run bot`)
 
+## Running with different python versions
+
+This bot is developed and tested in Python 3.7 only, but it should run flawlessly in Python `>=3.6`. Pipenv forces a single pinned python version as application requirement, thus I can not provide a wider version range for it. Just remove the python requirement in `Pipfile` or change the value to your desired python version.
 ## Contributing
 
 Feel free to fork this project and create a pull request containing your changes.
