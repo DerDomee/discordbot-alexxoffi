@@ -1,9 +1,11 @@
+import os
 import pkgutil
 from src.dcbot import client
 from src.dcbot import botcommon
 from src.dcbot import messageprocessors
 from src.dcbot import commands
 from src.translation import transget
+from lib.hypixel import hypixelv2
 
 
 @client.event
@@ -21,6 +23,9 @@ async def on_ready():
             messageprocessors.__path__):
         if not str(modname).startswith('_'):
             botcommon.registered_message_processors.append(modname)
+
+    botcommon.hypixel_api = hypixelv2.SkyblockAPI(os.getenv('DD_HYPIXEL_API_KEY', ''))
+    botcommon.hypixel_api.start()
     # Log the ready-state of the bot in the console.
     message = transget("dcbot.readymessage").format(
         client=client.user)
