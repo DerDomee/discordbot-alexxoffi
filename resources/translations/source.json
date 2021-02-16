@@ -3,7 +3,6 @@
     "en": "AlexxBot",
     "de": "AlexxBot"
   },
-
   "language.meta.name.unlocalized": {
     "en": "English",
     "de": "German"
@@ -12,7 +11,6 @@
     "en": "English",
     "de": "Deutsch"
   },
-
   "dcbot.readymessage": {
     "en": "Client successfully logged in as '{client}'",
     "de": "Client erfolgreich eingeloggt als '{client}'"
@@ -25,16 +23,14 @@
     "en": "Unable to log the desired message: Channel not found",
     "de": "Nachricht konnte nicht geloggt werden: <Channel not found>"
   },
-
   "dcbot.features.title": {
     "en": "Features",
     "de": "Funktionen"
   },
   "dcbot.features.features": {
-    "en":":small_orange_diamond:Automatic dynamic voice channel system\n:small_orange_diamond:Apply for our Hypixel community guild\n:small_orange_diamond:Warn system for staff\n:small_orange_diamond:Counting Channel\n:small_orange_diamond:Create custom commands at runtime\n:small_orange_diamond:Check HGG API with information about Hypixel Skyblock player reports",
-    "de":":small_orange_diamond:Automatisches System für dynamische Voicechannel\n:small_orange_diamond:Bewerbungen für unsere Hypixel Communitygilde\n:small_orange_diamond:Verwarntools für das Team\n:small_orange_diamond:Counting Channel\n:small_orange_diamond:Eigene Befehle dynamisch erstellen\n:small_orange_diamond:Integration für HGG mit Communityreports über Hypixel Skyblock-Spieler"
+    "en": ":small_orange_diamond:Automatic dynamic voice channel system\n:small_orange_diamond:Apply for our Hypixel community guild\n:small_orange_diamond:Warn system for staff\n:small_orange_diamond:Counting Channel\n:small_orange_diamond:Create custom commands at runtime\n:small_orange_diamond:Check HGG API with information about Hypixel Skyblock player reports\n:small_orange_diamond:Hypixel Skyblock Leveling Challenges",
+    "de": ":small_orange_diamond:Automatisches System für dynamische Voicechannel\n:small_orange_diamond:Bewerbungen für unsere Hypixel Communitygilde\n:small_orange_diamond:Verwarntools für das Team\n:small_orange_diamond:Counting Channel\n:small_orange_diamond:Eigene Befehle dynamisch erstellen\n:small_orange_diamond:Integration für HGG mit Communityreports über Hypixel Skyblock-Spieler\n:small_orange_diamond:Hypixel Skyblock Leveling Challenges"
   },
-
   "dcbot.contributor.title": {
     "en": "Contributors",
     "de": "Programmierer"
@@ -43,8 +39,6 @@
     "en": ":small_orange_diamond: <@285720078031388673>\n:small_orange_diamond: <@497789163555389441>",
     "de": ":small_orange_diamond: <@285720078031388673>\n:small_orange_diamond: <@497789163555389441>"
   },
-
-
   "init.stage0.successful": {
     "en": "Init stage 0 of 3 fulfilled successfully, as it is an automatic stage. Use command `init` while in any init stage to see help on current stage. Normal commands doesn't work until initialization is finished. The default command short-prefix is `$` until you define your own prefix in init stage 1.",
     "de": "Init-Stufe 0 von 3 wurde erfolgreich beendet, da es sich um eine automatische Stufe handelt. Der Befehl 'init' zeigt dir jederzeit während der Initialisierung, was nun gemacht werden muss. Das Standard-Präfix für Befehle ist `$`, bis ein eigenes Präfix in Stufe 1 definiert wird."
@@ -77,12 +71,10 @@
     "en": "Init finished. The bot is now set up to work in production.",
     "de": "Initialisierung beendet. Der Bot ist nun bereit für den Einsatz!"
   },
-
   "command.addcmdchan.meta.description": {
     "en": "Add an existing channel to the list of command-allowed channels for users",
     "de": "Einen Channel für Botbefehle von diesem Bot freischalten"
   },
-
   "command.apply.meta.description": {
     "en": "Apply for the Hypixel community guild from AlexxOffi",
     "de": "Bewirb dich für die Hypixel Communitygilde von AlexxOffi"
@@ -115,12 +107,10 @@
     "en": "This player has no profile named \"{profile}\".",
     "de": "Dieser Spieler hat kein Profil mit dem Namen \"{profile}\"."
   },
-
   "command.chanset.meta.description": {
     "en": "Set the channel ID for a Key-Identifier",
     "de": "Weise einem Key-Identifier einen bestimmten Channel zu"
   },
-
   "command.faq.meta.description": {
     "en": "Send an embed with a both custom texts as title and description. Useful for FAQs",
     "de": "Erstell ein Embed mit benutzerdefiniertem Titel und Text. Nützlich für FAQs"
@@ -129,7 +119,6 @@
     "en": "Please use exactly 2 parameters: `faq \"question\" \"answer\"`",
     "de": "Es sind nur exakt 2 Parameter erlaubt: `faq \"Frage\" \"Antwort\"`"
   },
-
   "command.help.meta.description": {
     "en": "Show the help for this bot",
     "de": "Zeige diese Hilfe an"
@@ -138,7 +127,6 @@
     "en": "The current command prefix is `{shortprefix}`. This prefix is always omitted in help information.\nFor command-specific help use `help <command>`.",
     "de": "Das aktuelle Prefix für diesen Bot ist `{shortprefix}`. Dieses Prefix wird in der Hilfe nicht weiterhin angezeigt.\nFür Hilfe zu einem bestimmten Befehl schreibe `help <Befehl>`."
   },
-
   "command.info.meta.description": {
     "en": "Shows information about this bot",
     "de": "Zeige Informationen über diesen Bot an"
@@ -183,7 +171,6 @@
     "en": "[Create issue on GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new/choose) or contact me (<@285720078031388673>) via Discord!",
     "de": "[Erstell einen Issue auf GitHub](https://github.com/DerDomee/discordbot-alexxoffi/issues/new/choose) oder schreib mir (<@285720078031388673>) auf Discord!"
   },
-
   "command.language.meta.description": {
     "en": "Manage the language in which the bot speaks to you",
     "de": "Verwalte die Sprache mit welcher der Bot schreibt."
@@ -196,17 +183,14 @@
     "en": "Language updated to `{lang}`",
     "de": "Die Sprache wurde zu `{lang}` geändert."
   },
-
   "command.printarg.meta.description": {
     "en": "A debug command that tests the internal string-lexer that is used to lex and parse a message content into a command-argument-stack",
     "de": "Ein Debug-Befehl, welcher den internen ArgV-Parser `stavlex` testet und das Ergebnis zeigt."
   },
-
   "command.rmcmdchan.meta.description": {
     "en": "Remove a channel from the list of command-allowed channels for users",
     "de": "Einen Channel für Botbefehle von diesem Bot wieder deaktivieren"
   },
-
   "command.server.meta.description": {
     "en": "Shows information about this server",
     "de": "Zeige Informationen über diesen Server"
@@ -231,17 +215,14 @@
     "en": "{member_count} online",
     "de": "{member_count} online"
   },
-
   "command.setprefix.meta.description": {
     "en": "Set a new command prefix for this bot",
     "de": "Setzt ein neues Prefix für den Bot"
   },
-
   "command.stop.meta.description": {
     "en": "Stop this bot",
     "de": "Stoppt den Bot"
   },
-
   "command.voice.meta.description": {
     "en": "Control the dynamic voice channel you are currently connected to, if you are its owner.",
     "de": "Steuerung des dynamischen Voice-Channels, dessen Besitzer du bist"
@@ -362,7 +343,6 @@
     "en": "Manually close this channel. (It gets closed automatically if everyone leaves)",
     "de": "Schließt den Channel manuell. (Der Channel schließt sich auch, wenn er leer ist)"
   },
-
   "command.warn.meta.description": {
     "en": "Warn a user on the discord",
     "de": "Warnt einen User auf dem Discord"
@@ -379,25 +359,20 @@
     "en": "{mention}, as you disabled direct messages from everyone, I ping you here to let you know: **You have been warned!** Use the command `user` in a bot channel on the server to see further information on the warn! Warns usually expire after 1-3 months, but are saved for eternity!",
     "de": "{mention}, da du private Nachrichten von mir auf diesem Server deaktiviert hast, wirst du hier gepingt: **Du wurdest von einem Teammtiglied gewarnt!** Du bekommst mehr Informationen über den Ban mit dem Befehl `user`. Verwarnungen laufen nach 1-3 Monaten ab, aber werden für immer gespeichert!"
   },
-
   "event.voice.inithelp.embed.title": {
     "en": "Welcome to your own voice channel!",
     "de": "Willkommen in deinem Voicechannel!"
   },
-
   "event.voice.inithelp.embed.description": {
     "en": "You can use following commands in this channel only:",
     "de": "Du kannst folgende Commands in diesem Channel verwenden, um deinen Voicechat zu moderieren:"
   },
-
   "event.voice.inithelp.embed.more_info.title": {
     "en": "More information: ",
     "de": "Mehr Informationen:"
   },
-
   "event.voice.inithelp.embed.more_info.value": {
     "en": "**1.** If the owner leaves without transferring ownership, a new owner is randomly chosen.\n**2.** As soon as the channel is empty, it gets removed automatically.\n**3.** When a user disconnects from a private channel, he still can see the channel and reconnect. To prevent reconnecting, the owner must kick other users with `voice kick`.\n**4.** You can use 'channel editing' commands **up to 2 times altogether** due to anti-spam.",
     "de": "**1.** Wenn der Channelbesitzer den Voicechannel verlässt, wird zufällig ein neuer Besitzer bestimmt.\n**2.** Wenn der Channel leer ist, wird er automatisch geschlossen.\n**3.**Wenn ein User einen privaten Voicechannel verlässt, bleibt der Channel für ihn trotzdem sichtbar. Der Besitzer muss ihn mit `voice kick` manuell kicken.\n**4.** Um Spam zu verhindern, können Commands, die den Channel editieren, nur insgesamt zwei mal benutzt werden."
   }
-
 }
