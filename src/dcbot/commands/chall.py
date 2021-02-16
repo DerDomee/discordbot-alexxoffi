@@ -263,6 +263,60 @@ async def _determine_auto_accept_mode(
     return None
 
 
+async def _get_challenge_name(message, arg_stack, botuser, response_message):
+    await response_message.edit(
+        content=f"{message.author.mention}, please choose a displayname of "
+        + "the challenge with up to 40 characters.")
+
+    def namemsgcheck(namemessage):
+        return namemessage.channel.id == message.channel.id and \
+            namemessage.author.id == message.author.id
+
+    chosen_name = None
+    while chosen_name is None:
+        try:
+            namemessage = await client.wait_for(
+                'message', check=namemsgcheck, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False
+        else:
+            entered_name = namemessage.content
+            await namemessage.delete()
+            if len(entered_name) > 40:
+                continue
+            chosen_name = entered_name
+    return chosen_name
+
+
+async def _get_challenge_preview(challenge):
+    embed = Embed(
+        title=challenge['title'],
+        description=f"UUID: `{challenge['uuid']}`")
+    embed.add_field(
+        name="Challenge Type",
+        value=challenge['type'],
+        inline=True)
+    embed.add_field(
+        name="Status",
+        value=challenge['status'])
+    embed.add_field(
+        name="Start",
+        value=datetime.fromtimestamp(challenge['start_time']))
+    embed.add_field(
+        name="End",
+        value=datetime.fromtimestamp(challenge['end_time']))
+    if challenge['pay_in'] == 0:
+        embed.add_field(name="Pay-In", value="Not needed")
+    else:
+        embed.add_field(name="Pay-In", value=challenge['pay_in'])
+    embed.add_field(
+        name="Auto-Accept on join",
+        value=challenge['auto_accept'])
+    return embed
+
+
 async def _create_challenge(message, arg_stack, botuser):
     response_message = await message.channel.send(
         f"{message.author.mention}, creating...")
@@ -290,6 +344,11 @@ async def _create_challenge(message, arg_stack, botuser):
     auto_accept = await _determine_auto_accept_mode(
         message, arg_stack, botuser, response_message, payin_coins)
     if auto_accept is None:
+        return False
+
+    challenge_name = await _get_challenge_name(
+        message, arg_stack, botuser, response_message)
+    if challenge_name is False:
         return False
 
     await response_message.edit(
