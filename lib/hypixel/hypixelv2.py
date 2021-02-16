@@ -70,11 +70,11 @@ class SkyblockAPI(threading.Thread):
         self.api_reset_times = []
         self.shall_stop = False
 
-    async def request(self, sb_api_request, timeout):
+    async def request(self, sb_api_request, timeout=5):
         start_time = time.time()
         self.input.put(sb_api_request)
         while True:
-            if time.time() - start_time >= 5:
+            if time.time() - start_time >= timeout:
                 return {'dd_error': True, 'dd_timeout': True}
             if str(sb_api_request.id) in self.output:
                 return self.output.pop(str(sb_api_request.id))
