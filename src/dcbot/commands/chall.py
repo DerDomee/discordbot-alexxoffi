@@ -106,8 +106,8 @@ async def _determine_challenge_start_time(
         message, arg_stack, botuser, response_message):
     await response_message.edit(
         content=f"{message.author.mention}, please enter a start time "
-        + f"for the challenge in following format: `dd.mm.yyyy-hh:mm:ss`. "
-        + f"Examples: ```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+        + "for the challenge in following format: `dd.mm.yyyy-hh:mm:ss`. "
+        + "Examples: ```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
 
     def timeselect_check(timemessage):
         return timemessage.channel.id == message.channel.id and \
@@ -130,16 +130,16 @@ async def _determine_challenge_start_time(
             except ValueError:
                 await response_message.edit(
                     content=f"{message.author.mention}, wrong time format. "
-                    + f"Please use following format: `dd.mm.yyyy-hh:mm:ss`. "
-                    + f"Examples: ```01.01.2021-00:00:00\n"
-                    + f"23.07.2022-21:00:00```")
+                    + "Please use following format: `dd.mm.yyyy-hh:mm:ss`. "
+                    + "Examples: ```01.01.2021-00:00:00\n"
+                    + "23.07.2022-21:00:00```")
                 continue
             if not dt > datetime.now():
                 await response_message.edit(
                     content=f"{message.author.mention}, time must be in the "
-                    + f"future. Please use following format: "
-                    + f"`dd.mm.yyyy-hh:mm:ss`. Examples: "
-                    + f"```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+                    + "future. Please use following format: "
+                    + "`dd.mm.yyyy-hh:mm:ss`. Examples: "
+                    + "```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
                 continue
             else:
                 time = dt
@@ -150,8 +150,8 @@ async def _determine_challenge_end_time(
         message, arg_stack, botuser, response_message, start_time):
     await response_message.edit(
         content=f"{message.author.mention}, please enter a end time "
-        + f"for the challenge in following format: `dd.mm.yyyy-hh:mm:ss`. "
-        + f"Examples: ```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+        + "for the challenge in following format: `dd.mm.yyyy-hh:mm:ss`. "
+        + "Examples: ```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
 
     def timeselect_check(timemessage):
         return timemessage.channel.id == message.channel.id and \
@@ -174,16 +174,16 @@ async def _determine_challenge_end_time(
             except ValueError:
                 await response_message.edit(
                     content=f"{message.author.mention}, wrong time format. "
-                    + f"Please use following format: `dd.mm.yyyy-hh:mm:ss`. "
-                    + f"Examples: ```01.01.2021-00:00:00\n"
-                    + f"23.07.2022-21:00:00```")
+                    + "Please use following format: `dd.mm.yyyy-hh:mm:ss`. "
+                    + "Examples: ```01.01.2021-00:00:00\n"
+                    + "23.07.2022-21:00:00```")
                 continue
             if not dt > start_time:
                 await response_message.edit(
                     content=f"{message.author.mention}, end time must be "
-                    + f"after start time. Please use following format: "
-                    + f"`dd.mm.yyyy-hh:mm:ss`. Examples: "
-                    + f"```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+                    + "after start time. Please use following format: "
+                    + "`dd.mm.yyyy-hh:mm:ss`. Examples: "
+                    + "```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
                 continue
             else:
                 time = dt
@@ -216,7 +216,7 @@ async def _get_payin_coins(message, arg_stack, botuser, response_message):
             except ValueError:
                 await response_message.edit(
                     content=f"{message.author.mention}, please only enter an "
-                    + f"integer number for pay-in. Enter `0` for no pay-in")
+                    + "integer number for pay-in. Enter `0` for no pay-in")
                 continue
             payin = needed_coins
     return payin
