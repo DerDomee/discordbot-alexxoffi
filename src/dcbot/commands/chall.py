@@ -1,8 +1,10 @@
 from asyncio import TimeoutError
 from datetime import datetime
+from discord import Embed
 from src.dcbot import botcommon
 from src.dcbot import client
 from lib.hypixel.hypixelv2 import SBAPIRequest, RequestType
+import uuid
 
 CMD_METADATA = {
     'required_permlevel': botcommon.key_permlevel_user,
@@ -351,10 +353,24 @@ async def _create_challenge(message, arg_stack, botuser):
     if challenge_name is False:
         return False
 
+    challenge_uuid = uuid.uuid4()
+
+    final_challenge = {
+        'uuid': challenge_uuid,
+        'title': challenge_name,
+        'type': challenge_type,
+        'status': 'OPEN',
+        'start_time': start_time.timestamp(),
+        'end_time': end_time.timestamp(),
+        'pay_in': payin_coins,
+        'auto_accept': auto_accept
+    }
+
+    embed = await _get_challenge_preview(final_challenge)
+
     await response_message.edit(
-        content=f"{message.author.mention}, following data gathered right "
-        + f"now:\nType: {challenge_type}, Start Time: {start_time}, End Time: "
-        + f"{end_time}, Pay-In: {payin_coins}, Auto-Accept: {auto_accept}")
+        content=f"{message.author.mention}, confirm this challenge or abort.",
+        embed=embed)
 
 
 async def _join_challenge(message, arg_stack, botuser):
