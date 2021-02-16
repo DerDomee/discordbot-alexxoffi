@@ -1,4 +1,5 @@
 from asyncio import TimeoutError
+from datetime import datetime
 from src.dcbot import botcommon
 from src.dcbot import client
 from lib.hypixel.hypixelv2 import SBAPIRequest, RequestType
@@ -97,8 +98,169 @@ async def _get_challenge_type(message, arg_stack, botuser, response_message):
             selected_type = typemessage.content
             await typemessage.delete()
             if selected_type in botcommon.StatTypes.__members__:
-                challtype = botcommon.StatTypes[selected_type]
-    return challtype.name
+                challtype = botcommon.StatTypes[selected_type].name
+    return challtype
+
+
+async def _determine_challenge_start_time(
+        message, arg_stack, botuser, response_message):
+    await response_message.edit(
+        content=f"{message.author.mention}, please enter a start time "
+        + f"for the challenge in following format: `dd.mm.yyyy-hh:mm:ss`. "
+        + f"Examples: ```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+
+    def timeselect_check(timemessage):
+        return timemessage.channel.id == message.channel.id and \
+            timemessage.author.id == message.author.id
+
+    time = None
+    while time is None:
+        try:
+            timemessage = await client.wait_for(
+                'message', check=timeselect_check, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False
+        else:
+            entered_time = timemessage.content
+            await timemessage.delete()
+            try:
+                dt = datetime.strptime(entered_time, '%d.%m.%Y-%H:%M:%S')
+            except ValueError:
+                await response_message.edit(
+                    content=f"{message.author.mention}, wrong time format. "
+                    + f"Please use following format: `dd.mm.yyyy-hh:mm:ss`. "
+                    + f"Examples: ```01.01.2021-00:00:00\n"
+                    + f"23.07.2022-21:00:00```")
+                continue
+            if not dt > datetime.now():
+                await response_message.edit(
+                    content=f"{message.author.mention}, time must be in the "
+                    + f"future. Please use following format: "
+                    + f"`dd.mm.yyyy-hh:mm:ss`. Examples: "
+                    + f"```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+                continue
+            else:
+                time = dt
+    return time
+
+
+async def _determine_challenge_end_time(
+        message, arg_stack, botuser, response_message, start_time):
+    await response_message.edit(
+        content=f"{message.author.mention}, please enter a end time "
+        + f"for the challenge in following format: `dd.mm.yyyy-hh:mm:ss`. "
+        + f"Examples: ```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+
+    def timeselect_check(timemessage):
+        return timemessage.channel.id == message.channel.id and \
+            timemessage.author.id == message.author.id
+
+    time = None
+    while time is None:
+        try:
+            timemessage = await client.wait_for(
+                'message', check=timeselect_check, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False
+        else:
+            entered_time = timemessage.content
+            await timemessage.delete()
+            try:
+                dt = datetime.strptime(entered_time, '%d.%m.%Y-%H:%M:%S')
+            except ValueError:
+                await response_message.edit(
+                    content=f"{message.author.mention}, wrong time format. "
+                    + f"Please use following format: `dd.mm.yyyy-hh:mm:ss`. "
+                    + f"Examples: ```01.01.2021-00:00:00\n"
+                    + f"23.07.2022-21:00:00```")
+                continue
+            if not dt > start_time:
+                await response_message.edit(
+                    content=f"{message.author.mention}, end time must be "
+                    + f"after start time. Please use following format: "
+                    + f"`dd.mm.yyyy-hh:mm:ss`. Examples: "
+                    + f"```01.01.2021-00:00:00\n23.07.2022-21:00:00```")
+                continue
+            else:
+                time = dt
+    return time
+
+
+async def _get_payin_coins(message, arg_stack, botuser, response_message):
+    await response_message.edit(
+        content=f"{message.author.mention}, enter a [integer] of coins needed "
+        + "to pay-in and join the challenge. Enter `0` for no pay-in.")
+
+    def payin_check(payinmessage):
+        return payinmessage.channel.id == message.channel.id and \
+            payinmessage.author.id == message.author.id
+
+    payin = None
+    while payin is None:
+        try:
+            payinmessage = await client.wait_for(
+                'message', check=payin_check, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False
+        else:
+            entered_value = payinmessage.content
+            await payinmessage.delete()
+            try:
+                needed_coins = int(entered_value)
+            except ValueError:
+                await response_message.edit(
+                    content=f"{message.author.mention}, please only enter an "
+                    + f"integer number for pay-in. Enter `0` for no pay-in")
+                continue
+            payin = needed_coins
+    return payin
+
+
+async def _determine_auto_accept_mode(
+        message, arg_stack, botuser, response_message, payin_coins):
+    if payin_coins == 0:
+        await response_message.edit(
+            content=f"{message.author.mention}, should entering users be "
+            + "auto-accepted? No Pay-In needed for this challenge, so 'YES' "
+            + "is recommended.")
+    else:
+        await response_message.edit(
+            content=f"{message.author.mention}, should entering users be "
+            + "auto-accepted? Pay-In is needed for this challenge, so 'NO' "
+            + "is recommended.")
+    await response_message.add_reaction("✅")
+    await response_message.add_reaction("❌")
+
+    def autoaccept_check(reaction, user):
+        return user.id == message.author.id and \
+            reaction.message.id == response_message.id and str(reaction) in \
+            ['✅', '❌']
+
+    try:
+        reaction, reactionuser = await client.wait_for(
+            'reaction_add', check=autoaccept_check, timeout=30.0
+        )
+    except TimeoutError:
+        await response_message.clear_reactions()
+        await response_message.edit(
+            content=f"{message.author.mention}, session closed!"
+        )
+        return False
+    else:
+        await response_message.clear_reactions()
+        if str(reaction) == "✅":
+            return True
+        else:
+            return False
+
+    await response_message.clear_reactions()
+    return None
 
 
 async def _create_challenge(message, arg_stack, botuser):
@@ -110,8 +272,30 @@ async def _create_challenge(message, arg_stack, botuser):
     if challenge_type is False:
         return False
 
+    start_time = await _determine_challenge_start_time(
+        message, arg_stack, botuser, response_message)
+    if start_time is False:
+        return False
+
+    end_time = await _determine_challenge_end_time(
+        message, arg_stack, botuser, response_message, start_time)
+    if end_time is False:
+        return False
+
+    payin_coins = await _get_payin_coins(
+        message, arg_stack, botuser, response_message)
+    if payin_coins is False:
+        return False
+
+    auto_accept = await _determine_auto_accept_mode(
+        message, arg_stack, botuser, response_message, payin_coins)
+    if auto_accept is None:
+        return False
+
     await response_message.edit(
-        content=f"{message.author.mention}, selected type: {challenge_type}")
+        content=f"{message.author.mention}, following data gathered right "
+        + f"now:\nType: {challenge_type}, Start Time: {start_time}, End Time: "
+        + f"{end_time}, Pay-In: {payin_coins}, Auto-Accept: {auto_accept}")
 
 
 async def _join_challenge(message, arg_stack, botuser):
