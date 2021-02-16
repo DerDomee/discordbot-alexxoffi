@@ -73,9 +73,45 @@ async def _get_selected_profile(
     return False
 
 
+async def _get_challenge_type(message, arg_stack, botuser, response_message):
+    available_types = [e.name for e in botcommon.StatTypes]
+    await response_message.edit(
+        content=f"{message.author.mention}, Select the type of the challenge:"
+                + f"```{' / '.join(available_types)}```")
+
+    def typeselect_check(typemessage):
+        return typemessage.channel.id == message.channel.id and \
+            typemessage.author.id == message.author.id
+
+    challtype = None
+    while challtype is None:
+        try:
+            typemessage = await client.wait_for(
+                'message', check=typeselect_check, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!"
+            )
+            return False
+        else:
+            selected_type = typemessage.content
+            await typemessage.delete()
+            if selected_type in botcommon.StatTypes.__members__:
+                challtype = botcommon.StatTypes[selected_type]
+    return challtype.name
+
+
 async def _create_challenge(message, arg_stack, botuser):
     response_message = await message.channel.send(
         f"{message.author.mention}, creating...")
+
+    challenge_type = await _get_challenge_type(
+        message, arg_stack, botuser, response_message)
+    if challenge_type is False:
+        return False
+
+    await response_message.edit(
+        content=f"{message.author.mention}, selected type: {challenge_type}")
 
 
 async def _join_challenge(message, arg_stack, botuser):
