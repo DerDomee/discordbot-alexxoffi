@@ -1,4 +1,3 @@
-import asyncio
 import threading
 import time
 import uuid
@@ -10,13 +9,14 @@ from enum import Enum, unique
 
 exit_flag = 0
 
+
 @unique
 class RequestType(Enum):
     PROFILE = "PROFILE"     # Get a specific profile by profile uuid
     PROFILES = "PROFILES"   # Get all profiles from a player by playername
     GETUUID = "GETUUID"     # Get players UUID from name
     TESTKEY = "TESTKEY"     # Get api key information
-    NOOP = "NOOP"           # Do not call any api, but simulate the call for timing tests
+    NOOP = "NOOP"           # Do not call any api, but increment api_calls
 
     @classmethod
     def has_value(cls, value):
@@ -60,7 +60,6 @@ class APICall(threading.Thread):
             self.output[str(self.id)] = {'dd_error': True, 'dd_no_200': True}
 
 
-
 class SkyblockAPI(threading.Thread):
     def __init__(self, hypixel_api_key):
         threading.Thread.__init__(self)
@@ -84,19 +83,25 @@ class SkyblockAPI(threading.Thread):
         if not isinstance(item, SBAPIRequest):
             raise ValueError("Consumed item is not of type API Request")
         if item.type == RequestType.GETUUID:
-            callthread = APICall(item.id, self.output, f"https://api.mojang.com/users/profiles/minecraft/{item.params[0]}")
+            callthread = APICall(
+                item.id,
+                self.output,
+                "https://api.mojang.com/users/profiles/"
+                + f"minecraft/{item.params[0]}")
             callthread.start()
         elif item.type == RequestType.NOOP:
             self.api_calls += 1
             self.api_reset_times.append(time.time() + 123)
-            print(f"{datetime.datetime.now().isoformat()} - NOOP Call {item.id}")
+            print(f"{datetime.datetime.now().isoformat()} - "
+                  + "NOOP Call {item.id}")
         elif item.type == RequestType.PROFILES:
             self.api_calls += 1
             self.api_reset_times.append(time.time() + 123)
             callthread = APICall(
                 item.id,
                 self.output,
-                f"https://api.hypixel.net/skyblock/profiles?key={self.hypixel_api_key}&uuid={item.params[0]}"
+                "https://api.hypixel.net/skyblock/profiles?key="
+                + f"{self.hypixel_api_key}&uuid={item.params[0]}"
             )
             callthread.start()
         elif item.type == RequestType.TESTKEY:
@@ -110,7 +115,6 @@ class SkyblockAPI(threading.Thread):
         elif item.type == RequestType.PROFILE:
             self.api_calls += 1
             self.api_reset_times.append(self.lifetime + 123)
-
 
     def run(self):
         while(True):
@@ -128,4 +132,4 @@ class SkyblockAPI(threading.Thread):
 
             pass
 
-        time.sleep(3) # Sleep to give time to clean up after this thread
+        time.sleep(3)  # Sleep to give time to clean up after this thread

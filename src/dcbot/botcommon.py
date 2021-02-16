@@ -1,4 +1,5 @@
 import functools
+from enum import Enum, unique
 from src.database import dbcommon
 from src.dcbot import client
 from src.translation import transget
@@ -56,6 +57,37 @@ hypixel_api = None
 # Is the bot currently shutting down? This is used for disabling events
 # while cleaning up the server and is set from inside the 'stop' command
 is_bot_stopping = False
+
+
+# Stat types for Hypixel skyblock skill leveling challenges
+# Name "Skill leveling challenges" is bad - it supports all stats,
+# not only skills
+@unique
+class StatTypes(Enum):
+    FARMING = "experience_skill_farming"
+    COMBAT = "experience_skill_combat"
+    MINING = "experience_skill_mining"
+    FORAGING = "experience_skill_foraging"
+    FISHING = "experience_skill_fishing"
+    ENCHANTING = "experience_skill_enchanting"
+    ALCHEMY = "experience_skill_alchemy"
+    TAMING = "experience_skill_taming"
+    CARPENTRY = "experience_skill_carpentry"
+    RUNECRAFTING = "experience_skill_runecrafting"
+    CATACOMBS = "dungeons/dungeon_types/catacombs/experience"
+    SLAYER_REVENANT = "slayer_bosses/zombie/xp"
+    SLAYER_TARANTULA = "slayer_bosses/spider/xp"
+    SLAYER_SVEN = "slayer_bosses/wolf/xp"
+
+    @classmethod
+    def has_value(cls, value):
+        return str(value) in cls._value2member_map_
+
+    def describe(self):
+        return self.name, self.value
+
+    def __str__(self):
+        return f"{self.value}"
 
 
 async def get_member_by_id_or_ping(selector):
