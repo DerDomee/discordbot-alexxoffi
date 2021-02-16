@@ -22,8 +22,9 @@ async def _get_available_profiles(
         return False
     uuid = uuid['id']
     profilesrequest = SBAPIRequest(RequestType.PROFILES, (uuid,))
-    profiles = await botcommon.hypixel_api.request(profilesrequest, 5)
+    profiles = await botcommon.hypixel_api.request(profilesrequest, 10)
     if 'dd_error' in profiles:
+        print(profiles)
         await response_message.edit(
             content=f"{message.author.mention}, there was an error while "
             + "getting your skyblock profiles. Try again later.")
