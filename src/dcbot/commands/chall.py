@@ -508,6 +508,7 @@ async def _create_challenge(message, arg_stack, botuser):
         'end_time': end_time,
         'pay_in': payin_coins,
         'auto_accept': auto_accept,
+        'announcement_channel_id': announcement_channel.id,
         'players': []
     })
 
@@ -553,6 +554,54 @@ async def _join_challenge(message, arg_stack, botuser):
     return True
 
 
+
+async def _get_tracked_challenge_by_uuid(
+        message, arg_stack, botuser, response_message):
+    await response_message.edit(
+        content=f"{message.author.mention}, enter the UUID of the challenge "
+        + "you want to discard")
+
+    def uuidmsgcheck(uuidmessage):
+        return uuidmessage.channel.id == message.channel.id and \
+            uuidmessage.author.id == message.author.id
+
+    challenge = None
+    while challenge is None:
+        try:
+            uuidmessage = await client.wait_for(
+                'message', check=uuidmsgcheck, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False
+        else:
+            entered_uuid = uuidmessage.content
+            await uuidmessage.delete()
+            challenge = botcommon.challenge_scheduler.getTask(entered_uuid)
+            if challenge is None:
+                await response_message.edit(
+                    content=f"{message.author.mention}, no event with this "
+                    + "uuid is currently tracked. Aborting.")
+                return False
+    return challenge
+
+
+async def _discard_challenge(message, arg_stack, botuser):
+    response_message = await message.channel.send(
+        f"{message.author.mention}, preparing...")
+
+    selected_challenge = await _get_tracked_challenge_by_uuid(
+        message, arg_stack, botuser, response_message)
+    if selected_challenge is False:
+        return False
+    botcommon.challenge_scheduler.removeTask(selected_challenge)
+    await selected_challenge.discard()
+    await response_message.edit(
+        content=f"{message.author.mention}, challenge "
+        + f"'{selected_challenge.title}' was discarded and untracked.")
+    return True
+
+
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
@@ -562,3 +611,9 @@ async def invoke(message, arg_stack, botuser):
 
         if arg_stack[1].lower() == "join":
             return await _join_challenge(message, arg_stack, botuser)
+
+
+        if arg_stack[1].lower() == "discard":
+            return await _discard_challenge(message, arg_stack, botuser)
+
+    await message.channel.send("Wrong syntax - see `help chall` for usage")

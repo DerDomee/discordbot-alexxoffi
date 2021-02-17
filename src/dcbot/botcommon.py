@@ -104,6 +104,7 @@ class ChallengeStatus(Enum):
     RUNNING = "RUNNING"
     ENDING = "ENDING"
     ENDED = "ENDED"
+    DISCARDED = "DISCARDED"
 
     @classmethod
     def has_value(cls, value):
@@ -129,13 +130,27 @@ class ChallengeEvent():
         self.end_time = challenge_dict['end_time']
         self.pay_in = challenge_dict['pay_in']
         self.auto_accept = challenge_dict['auto_accept']
+        self.announcement_channel_id = challenge_dict[
+            'announcement_channel_id']
+
         if 'announcement_message_id' in challenge_dict:
             self.announcement_message_id = \
                 challenge_dict['announcement_message_id']
         else:
             self.announcement_message_id = None
         self.players = challenge_dict['players']
+
         pass
+
+    async def delete_announcement(self):
+        message = await get_message_by_id(
+            self.announcement_channel_id,
+            self.announcement_message_id)
+        await message.delete()
+
+    async def discard(self):
+        self.status = ChallengeStatus.DISCARDED
+        await self.delete_announcement()
 
     def get_embed(self):
         embed = Embed(title=self.title)
@@ -161,6 +176,12 @@ class ChallengeEvent():
             inline=False) if self.status == ChallengeStatus.OPEN else None
         return embed
 
+    def gather_start_player_data(self):
+        pass
+
+    def gather_end_player_data(self):
+        pass
+
     def needs_tick(self):
         timenow = time.time()
         if self.status == ChallengeStatus.OPEN and \
@@ -178,13 +199,9 @@ class ChallengeEvent():
             return False
         elif self.status == ChallengeStatus.ENDED:
             return False
+        elif self.status == ChallengeStatus.DISCARDED:
+            return False
         return False
-
-    def gather_start_player_data(self):
-        pass
-
-    def gather_end_player_data(self):
-        pass
 
     def tick(self):
         if self.status == ChallengeStatus.OPEN:
@@ -204,6 +221,8 @@ class ChallengeEvent():
             raise RuntimeError("Challenge with type 'ENDING' cannot tick!")
         elif self.status == ChallengeStatus.ENDED:
             raise RuntimeError("Challenge with type 'ENDED' cannot tick!")
+        elif self.status == ChallengeStatus.DISCARDED:
+            raise RuntimeError("Challenge with type 'DISCARDED cannot tick!")
         else:
             raise RuntimeError("Challenge in invalid state cannot tick!")
 
@@ -219,6 +238,7 @@ class ChallengeEvent():
             'pay_in': self.pay_in,
             'auto_accept': self.auto_accept,
             'anouncement_message_id': self.announcement_message_id,
+            'announcement_channel_id': self.announcement_channel_id,
             'players': self.players
         }, indent=2)
 
@@ -238,6 +258,8 @@ class ChallengeEvent():
             'auto_accept': challenge_dict['auto_accept'],
             'announcement_message_id': challenge_dict[
                 'announcement_message_id'],
+            'announcement_channel_id': challenge_dict[
+                'announcement_channel_id'],
             'players': challenge_dict['players']
         })
 
@@ -263,6 +285,9 @@ class ChallengeScheduler(threading.Thread):
                 return task
         return None
 
+    def getAllTasks(self):
+        return self.scheduled_tasks
+
     def run(self):
         while(True):
             if self.shall_stop:
@@ -280,7 +305,7 @@ challenge_scheduler = None
 
 
 async def get_member_by_id_or_ping(selector):
-    user_id = selector.lstrip("<@!").lstrip("<@").rstrip(">")
+    user_id = str(selector).lstrip("<@!").lstrip("<@").rstrip(">")
     guild = main_guild
     try:
         member = guild.get_member(user_id)
@@ -292,7 +317,7 @@ async def get_member_by_id_or_ping(selector):
 
 
 async def get_channel_by_id_or_ping(selector):
-    channel_id = selector.lstrip("<#").rstrip(">")
+    channel_id = str(selector).lstrip("<#").rstrip(">")
     guild = main_guild
     try:
         channel = guild.get_channel(channel_id)
@@ -301,6 +326,16 @@ async def get_channel_by_id_or_ping(selector):
         return channel
     except Exception:
         return None
+
+
+async def get_message_by_id(channel_id, message_id):
+    channel = await get_channel_by_id_or_ping(channel_id)
+    if channel is None:
+        return None
+    message = await channel.fetch_message(message_id)
+    if message is None:
+        return None
+    return message
 
 
 # Decorator for permission constraints on commands
