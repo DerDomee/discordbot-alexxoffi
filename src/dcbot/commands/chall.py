@@ -1,5 +1,5 @@
 from asyncio import TimeoutError
-from datetime import datetime
+from datetime import datetime, timedelta
 from discord import Embed
 from src.dcbot import botcommon
 from src.dcbot import client
@@ -292,6 +292,14 @@ async def _get_challenge_name(message, arg_stack, botuser, response_message):
     return chosen_name
 
 
+def _determine_entries_closing_time(start_time, auto_accept):
+
+    if auto_accept:
+        return start_time + timedelta(minutes=-15)
+    else:
+        return start_time + timedelta(hours=-1)
+
+
 async def _get_challenge_preview(challenge):
     embed = Embed(
         title=challenge['title'],
@@ -303,6 +311,9 @@ async def _get_challenge_preview(challenge):
     embed.add_field(
         name="Status",
         value=challenge['status'])
+    embed.add_field(
+        name="Entries close time",
+        value=datetime.fromtimestamp(challenge['entries_close_time']))
     embed.add_field(
         name="Start",
         value=datetime.fromtimestamp(challenge['start_time']))
@@ -354,6 +365,8 @@ async def _create_challenge(message, arg_stack, botuser):
         return False
 
     challenge_uuid = uuid.uuid4()
+    entries_close_time = _determine_entries_closing_time(
+        start_time, auto_accept)
 
     final_challenge = {
         'uuid': challenge_uuid,
@@ -361,6 +374,7 @@ async def _create_challenge(message, arg_stack, botuser):
         'type': challenge_type,
         'status': 'OPEN',
         'start_time': start_time.timestamp(),
+        'entries_close_time': entries_close_time.timestamp(),
         'end_time': end_time.timestamp(),
         'pay_in': payin_coins,
         'auto_accept': auto_accept
