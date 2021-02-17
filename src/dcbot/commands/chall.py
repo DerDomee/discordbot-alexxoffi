@@ -100,7 +100,7 @@ async def _get_challenge_type(message, arg_stack, botuser, response_message):
             selected_type = typemessage.content
             await typemessage.delete()
             if selected_type in botcommon.StatTypes.__members__:
-                challtype = botcommon.StatTypes[selected_type].name
+                challtype = botcommon.StatTypes[selected_type]
     return challtype
 
 
@@ -292,6 +292,38 @@ async def _get_challenge_name(message, arg_stack, botuser, response_message):
     return chosen_name
 
 
+async def _get_channel_to_announce(
+        message, arg_stack, botuser, response_message):
+    await response_message.edit(
+        content=f"{message.author.mention}, mention a channel where the "
+        + "challenge will be announced.")
+
+    def announcemsgcheck(announcemessage):
+        return announcemessage.channel.id == message.channel.id and \
+            announcemessage.author.id == message.author.id
+
+    chosen_channel = None
+    while chosen_channel is None:
+        try:
+            announcemessage = await client.wait_for(
+                'message', check=announcemsgcheck, timeout=60.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False
+        else:
+            entered_channel = announcemessage.content
+            await announcemessage.delete()
+            channel = await botcommon.get_channel_by_id_or_ping(entered_channel)
+            if channel is None:
+                await response_message.edit(
+                    content=f"{message.author.mention}, please enter a valid "
+                    + "channel where the challenge will be announced.")
+                continue
+            chosen_channel = channel
+    return chosen_channel
+
+
 def _determine_entries_closing_time(start_time, auto_accept):
 
     if auto_accept:
@@ -300,34 +332,81 @@ def _determine_entries_closing_time(start_time, auto_accept):
         return start_time + timedelta(hours=-1)
 
 
-async def _get_challenge_preview(challenge):
+async def _get_challenge_preview(challenge, announcement_channel):
     embed = Embed(
-        title=challenge['title'],
-        description=f"UUID: `{challenge['uuid']}`")
+        title=challenge.title,
+        description=f"UUID: `{challenge.uuid}`")
     embed.add_field(
         name="Challenge Type",
-        value=challenge['type'],
+        value=challenge.type.name,
         inline=True)
     embed.add_field(
         name="Status",
-        value=challenge['status'])
+        value=challenge.status)
     embed.add_field(
         name="Entries close time",
-        value=datetime.fromtimestamp(challenge['entries_close_time']))
+        value=challenge.entries_close_time)
     embed.add_field(
         name="Start",
-        value=datetime.fromtimestamp(challenge['start_time']))
+        value=challenge.start_time)
     embed.add_field(
         name="End",
-        value=datetime.fromtimestamp(challenge['end_time']))
-    if challenge['pay_in'] == 0:
+        value=challenge.end_time)
+    if challenge.pay_in == 0:
         embed.add_field(name="Pay-In", value="Not needed")
     else:
-        embed.add_field(name="Pay-In", value=challenge['pay_in'])
+        embed.add_field(name="Pay-In", value=challenge.pay_in)
     embed.add_field(
         name="Auto-Accept on join",
-        value=challenge['auto_accept'])
+        value=challenge.auto_accept)
+    embed.add_field(
+        name="Announcement channel",
+        value=announcement_channel.mention)
     return embed
+
+
+async def _confirm_challenge_creation(
+        message, arg_stack, botuser, response_message, final_challenge,
+        announcement_channel):
+    embed = await _get_challenge_preview(final_challenge, announcement_channel)
+
+    await response_message.edit(
+        content=f"{message.author.mention}, confirm this challenge or abort.",
+        embed=embed)
+    await response_message.add_reaction("✅")
+    await response_message.add_reaction("❌")
+
+    def confirmation_check(reaction, user):
+        return user.id == message.author.id and \
+            reaction.message.id == response_message.id and str(reaction) in \
+            ['✅', '❌']
+
+    try:
+        reaction, reactionuser = await client.wait_for(
+            'reaction_add', check=confirmation_check, timeout=30.0
+        )
+    except TimeoutError:
+        await response_message.clear_reactions()
+        await response_message.edit(
+            content=f"{message.author.mention}, session closed!",
+            embed=None)
+        return False
+    else:
+        await response_message.clear_reactions()
+        if str(reaction) == "✅":
+            await response_message.edit(
+                content=f"{message.author.mention}, created challenge!,",
+                embed=None)
+            return True
+        else:
+            await response_message.edit(
+                content=f"{message.author.mention}, challenge creation "
+                + "aborted!",
+                embed=None)
+            return False
+
+    await response_message.clear_reactions()
+    return False
 
 
 async def _create_challenge(message, arg_stack, botuser):
@@ -364,27 +443,40 @@ async def _create_challenge(message, arg_stack, botuser):
     if challenge_name is False:
         return False
 
-    challenge_uuid = uuid.uuid4()
+    announcement_channel = await _get_channel_to_announce(
+        message, arg_stack, botuser, response_message)
+    if announcement_channel is False:
+        return False
+
+    challenge_uuid = str(uuid.uuid4())
     entries_close_time = _determine_entries_closing_time(
         start_time, auto_accept)
 
-    final_challenge = {
+    final_challenge = botcommon.ChallengeEvent({
         'uuid': challenge_uuid,
         'title': challenge_name,
         'type': challenge_type,
-        'status': 'OPEN',
-        'start_time': start_time.timestamp(),
-        'entries_close_time': entries_close_time.timestamp(),
-        'end_time': end_time.timestamp(),
+        'status': botcommon.ChallengeStatus.OPEN,
+        'start_time': start_time,
+        'entries_close_time': entries_close_time,
+        'end_time': end_time,
         'pay_in': payin_coins,
-        'auto_accept': auto_accept
-    }
+        'auto_accept': auto_accept,
+        'players': []
+    })
 
-    embed = await _get_challenge_preview(final_challenge)
+    confirmation = await _confirm_challenge_creation(
+        message, arg_stack, botuser, response_message, final_challenge,
+        announcement_channel)
+    if confirmation is False:
+        return False
 
-    await response_message.edit(
-        content=f"{message.author.mention}, confirm this challenge or abort.",
-        embed=embed)
+    announcement_message = await announcement_channel.send(
+        embed=final_challenge.get_embed())
+
+    final_challenge.announcement_message_id = announcement_message.id
+
+    botcommon.open_challenges[final_challenge.uuid] = final_challenge
 
 
 async def _join_challenge(message, arg_stack, botuser):

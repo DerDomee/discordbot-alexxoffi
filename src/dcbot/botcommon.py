@@ -1,4 +1,7 @@
 import functools
+import json
+from datetime import datetime
+from discord import Embed
 from enum import Enum, unique
 from src.database import dbcommon
 from src.dcbot import client
@@ -88,6 +91,116 @@ class StatTypes(Enum):
 
     def __str__(self):
         return f"{self.value}"
+
+# Challenge types for Hypixel skyblock skill leveling challenges
+@unique
+class ChallengeStatus(Enum):
+    OPEN = "OPEN"
+    PENDING = "PENDING"
+    STARTING = "STARTING"
+    RUNNING = "RUNNING"
+    ENDING = "ENDING"
+    ENDED = "ENDED"
+
+    @classmethod
+    def has_value(cls, value):
+        return str(value) in cls._value2member_map_
+
+    def describe(self):
+        return self.name, self.value
+
+    def __str__(self):
+        return f"{self.value}"
+
+
+# A Skill leveling challenge object
+class ChallengeEvent():
+
+    def __init__(self, challenge_dict):
+        self.uuid = challenge_dict['uuid']
+        self.title = challenge_dict['title']
+        self.type = challenge_dict['type']
+        self.status = challenge_dict['status']
+        self.entries_close_time = challenge_dict['entries_close_time']
+        self.start_time = challenge_dict['start_time']
+        self.end_time = challenge_dict['end_time']
+        self.pay_in = challenge_dict['pay_in']
+        self.auto_accept = challenge_dict['auto_accept']
+        if 'announcement_message_id' in challenge_dict:
+            self.announcement_message_id = \
+                challenge_dict['announcement_message_id']
+        else:
+            self.announcement_message_id = None
+        self.players = challenge_dict['players']
+        pass
+
+    def get_embed(self):
+        embed = Embed(title=self.title)
+        embed.add_field(name="Event UUID", value=self.uuid, inline=False)
+        embed.add_field(name="Event Type", value=self.type.name)
+        embed.add_field(name="Event Status", value=self.status.name)
+        embed.add_field(name="Join until", value=self.entries_close_time)
+        embed.add_field(name="Event starts", value=self.start_time)
+        embed.add_field(name="Event ends", value=self.end_time)
+        embed.add_field(name="Join cost", value=str(self.pay_in) + " Coins") \
+            if self.pay_in != 0 else \
+            embed.add_field(name="Join cost", value="No cost")
+        embed.add_field(
+            name="Moderator needs to accept joins",
+            value=not self.auto_accept)
+        embed.add_field(
+            name="Current participants",
+            value=str(len(self.players)) + "/100")
+        embed.add_field(
+            name="Join now",
+            value="using `$chall join <mc-username>` in a bot-commands "
+            + "channel!",
+            inline=False) if self.status == ChallengeStatus.OPEN else None
+        return embed
+
+    def serialize(self):
+        return json.dumps({
+            'uuid': self.uuid,
+            'title': self.title,
+            'type': self.type.name,
+            'status': self.status.name,
+            'entries_close_time': self.entries_close_time.timestamp(),
+            'start_time': self.start_time.timestamp(),
+            'end_time': self.end_time.timestamp(),
+            'pay_in': self.pay_in,
+            'auto_accept': self.auto_accept,
+            'anouncement_message_id': self.announcement_message_id,
+            'players': self.players
+        }, indent=2)
+
+    @staticmethod
+    def deserialize(input):
+        challenge_dict = json.loads(input)
+        return ChallengeEvent({
+            'uuid': challenge_dict['uuid'],
+            'title': challenge_dict['title'],
+            'type': StatTypes[challenge_dict['type']],
+            'status': ChallengeStatus[challenge_dict['status']],
+            'entries_close_time': datetime.fromtimestamp(
+                challenge_dict['entries_close_time']),
+            'start_time': datetime.fromtimestamp(challenge_dict['start_time']),
+            'end_time': datetime.fromtimestamp(challenge_dict['end_time']),
+            'pay_in': challenge_dict['pay_in'],
+            'auto_accept': challenge_dict['auto_accept'],
+            'announcement_message_id': challenge_dict[
+                'announcement_message_id'],
+            'players': challenge_dict['players']
+        })
+
+
+# Challenges open for members to enter
+open_challenges = {}
+
+# Challenges starting soon, so entries are closed already
+pending_challenges = {}
+
+# Challenges currently active
+active_challenges = {}
 
 
 async def get_member_by_id_or_ping(selector):
