@@ -15,16 +15,61 @@ NUMBER_REACTIONS = ['1️⃣', '2️⃣', '3️⃣',
                     '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
 
 
-async def _get_available_profiles(
+async def _get_available_challenges(
         message, arg_stack, botuser, response_message):
-    uuidrequest = SBAPIRequest(RequestType.GETUUID, (arg_stack[2],))
+    all_tracked_challenges = botcommon.challenge_scheduler.getAllTasks()
+    open_challenges = []
+    for challenge in all_tracked_challenges:
+        if challenge.status == botcommon.ChallengeStatus.OPEN:
+            open_challenges.append(challenge)
+    if len(open_challenges) == 0:
+        await response_message.edit(
+            content=f"{message.author.mention}, there are no open challenges "
+            + "you can currently join.")
+        return False
+    return open_challenges
+
+
+async def _get_minecraft_name(message, arg_stack, botuser, response_message):
+    await response_message.edit(
+        content=f"{message.author.mention}, please enter your Minecraft "
+        + "username")
+
+    def mcnamemsgcheck(mcnamemessage):
+        return mcnamemessage.author.id == message.author.id and \
+            mcnamemessage.channel.id == message.channel.id
+
+    mc_uuid = None
+    mc_name = None
+    while mc_uuid is None:
+        try:
+            mcnamemessage = await client.wait_for(
+                'message', check=mcnamemsgcheck, timeout=30.0)
+        except TimeoutError:
+            await response_message.edit(
+                content=f"{message.author.mention}, session closed!")
+            return False, False
+        else:
+            entered_name = mcnamemessage.content
+            await mcnamemessage.delete()
+            await response_message.edit(
+                content=f"{message.author.mention}, fetching...")
+            uuidrequest = SBAPIRequest(RequestType.GETUUID, (entered_name,))
     uuid = await botcommon.hypixel_api.request(uuidrequest, 5)
     if 'dd_error' in uuid:
         await response_message.edit(
-            content=f"{message.author.mention}, this player does not exist.")
-        return False
-    uuid = uuid['id']
-    profilesrequest = SBAPIRequest(RequestType.PROFILES, (uuid,))
+                    content=f"{message.author.mention}, the user "
+                    + f"'{entered_name}' does not exist. Please enter your "
+                    + "real minecraft username!")
+                continue
+            mc_uuid = uuid['id']
+            mc_name = entered_name
+    return mc_name, mc_uuid
+
+
+async def _get_available_profiles(
+        message, arg_stack, botuser, response_message, mcuuid):
+    profilesrequest = SBAPIRequest(RequestType.PROFILES, (mcuuid,))
     profiles = await botcommon.hypixel_api.request(profilesrequest, 10)
     if 'dd_error' in profiles:
         print(profiles)
@@ -482,9 +527,19 @@ async def _create_challenge(message, arg_stack, botuser):
 
 async def _join_challenge(message, arg_stack, botuser):
     response_message = await message.channel.send(
-        f"{message.author.mention}, fetching...")
-    available_profiles = await _get_available_profiles(
+        f"{message.author.mention}, preparing...")
+
+    available_challenges = await _get_available_challenges(
         message, arg_stack, botuser, response_message)
+    if available_challenges is False:
+        return False
+
+    mcname, mcuuid = await _get_minecraft_name(
+        message, arg_stack, botuser, response_message)
+    if mcname is False:
+        return False
+    available_profiles = await _get_available_profiles(
+        message, arg_stack, botuser, response_message, mcuuid)
     if available_profiles is False:
         return False
     selected_profile = await _get_selected_profile(
@@ -501,9 +556,9 @@ async def _join_challenge(message, arg_stack, botuser):
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
-    if len(arg_stack) == 2:
+    if len(arg_stack) >= 2:
         if arg_stack[1].lower() == "create":
             return await _create_challenge(message, arg_stack, botuser)
-    elif len(arg_stack) == 3:
+
         if arg_stack[1].lower() == "join":
             return await _join_challenge(message, arg_stack, botuser)
