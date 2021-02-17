@@ -55,9 +55,9 @@ async def _get_minecraft_name(message, arg_stack, botuser, response_message):
             await response_message.edit(
                 content=f"{message.author.mention}, fetching...")
             uuidrequest = SBAPIRequest(RequestType.GETUUID, (entered_name,))
-    uuid = await botcommon.hypixel_api.request(uuidrequest, 5)
-    if 'dd_error' in uuid:
-        await response_message.edit(
+            uuid = await botcommon.hypixel_api.request(uuidrequest, 5)
+            if 'dd_error' in uuid:
+                await response_message.edit(
                     content=f"{message.author.mention}, the user "
                     + f"'{entered_name}' does not exist. Please enter your "
                     + "real minecraft username!")
@@ -554,6 +554,19 @@ async def _join_challenge(message, arg_stack, botuser):
     return True
 
 
+async def _list_challenges(message, arg_stack, botuser):
+    # TODO: List available challenges
+    return True
+
+
+async def _accept_player(message, arg_stack, botuser):
+    # TODO: Check if author is admin/moderator
+    # TODO: Ask Author for mc-name/mc-uuid/discord-ping/discord-id of user
+    # TODO: Check if this user is currently trying to attend to a challenge
+    # TODO: If multiple challenges are available, let Author choose which
+    # TODO: Update this player and accept him in the challenge
+    return True
+
 
 async def _get_tracked_challenge_by_uuid(
         message, arg_stack, botuser, response_message):
@@ -612,6 +625,11 @@ async def invoke(message, arg_stack, botuser):
         if arg_stack[1].lower() == "join":
             return await _join_challenge(message, arg_stack, botuser)
 
+        if arg_stack[1].lower() == "list":
+            return await _list_challenges(message, arg_stack, botuser)
+
+        if arg_stack[1].lower() == "accept":
+            return await _accept_player(message, arg_stack, botuser)
 
         if arg_stack[1].lower() == "discard":
             return await _discard_challenge(message, arg_stack, botuser)
