@@ -27,6 +27,8 @@ async def on_ready():
     botcommon.hypixel_api = hypixelv2.SkyblockAPI(
         os.getenv('DD_HYPIXEL_API_KEY', ''))
     botcommon.hypixel_api.start()
+    botcommon.challenge_scheduler = botcommon.ChallengeScheduler()
+    botcommon.challenge_scheduler.start()
     # Log the ready-state of the bot in the console.
     message = transget("dcbot.readymessage").format(
         client=client.user)

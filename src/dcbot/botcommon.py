@@ -1,5 +1,7 @@
 import functools
 import json
+import threading
+import time
 from datetime import datetime
 from discord import Embed
 from enum import Enum, unique
@@ -158,6 +160,52 @@ class ChallengeEvent():
             inline=False) if self.status == ChallengeStatus.OPEN else None
         return embed
 
+    def needs_tick(self):
+        timenow = time.time()
+        if self.status == ChallengeStatus.OPEN and \
+                self.entries_close_time.timestamp() <= timenow:
+            return True
+        elif self.status == ChallengeStatus.PENDING and \
+                self.start_time.timestamp() <= timenow:
+            return True
+        elif self.status == ChallengeStatus.STARTING:
+            return False
+        elif self.status == ChallengeStatus.RUNNING and \
+                self.end_time.timestamp() <= timenow:
+            return True
+        elif self.status == ChallengeStatus.ENDING:
+            return False
+        elif self.status == ChallengeStatus.ENDED:
+            return False
+        return False
+
+    def gather_start_player_data(self):
+        pass
+
+    def gather_end_player_data(self):
+        pass
+
+    def tick(self):
+        if self.status == ChallengeStatus.OPEN:
+            self.status = ChallengeStatus.PENDING
+        elif self.status == ChallengeStatus.PENDING:
+            self.status = ChallengeStatus.STARTING
+            self.gather_start_player_data()
+            self.status = ChallengeStatus.RUNNING
+        elif self.status == ChallengeStatus.STARTING:
+            raise RuntimeError("Challenge with type 'STARTING' cannot tick!")
+        elif self.status == ChallengeStatus.RUNNING:
+            self.status = ChallengeStatus.ENDING
+            self.gather_end_player_data()
+            self.status = ChallengeStatus.ENDED
+            challenge_scheduler.removeTask(self)
+        elif self.status == ChallengeStatus.ENDING:
+            raise RuntimeError("Challenge with type 'ENDING' cannot tick!")
+        elif self.status == ChallengeStatus.ENDED:
+            raise RuntimeError("Challenge with type 'ENDED' cannot tick!")
+        else:
+            raise RuntimeError("Challenge in invalid state cannot tick!")
+
     def serialize(self):
         return json.dumps({
             'uuid': self.uuid,
@@ -193,14 +241,41 @@ class ChallengeEvent():
         })
 
 
-# Challenges open for members to enter
-open_challenges = {}
+class ChallengeScheduler(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.scheduled_tasks = []
+        self.shall_stop = False
 
-# Challenges starting soon, so entries are closed already
-pending_challenges = {}
+    def stop(self):
+        self.shall_stop = True
 
-# Challenges currently active
-active_challenges = {}
+    def addTask(self, task):
+        self.scheduled_tasks.append(task)
+
+    def removeTask(self, task):
+        self.scheduled_tasks.remove(task)
+
+    def getTask(self, uuid):
+        for task in self.scheduled_tasks:
+            if task.uuid == uuid:
+                return task
+        return None
+
+    def run(self):
+        while(True):
+            if self.shall_stop:
+                break
+
+            for task in self.scheduled_tasks:
+                if not isinstance(task, ChallengeEvent):
+                    self.removeTask(task)
+                if task.needs_tick():
+                    task.tick()
+
+
+# All currently tracked tasks
+challenge_scheduler = None
 
 
 async def get_member_by_id_or_ping(selector):
