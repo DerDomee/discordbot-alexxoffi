@@ -79,6 +79,9 @@ class SkyblockAPI(threading.Thread):
             if str(sb_api_request.id) in self.output:
                 return self.output.pop(str(sb_api_request.id))
 
+    def stop(self):
+        self.shall_stop = True
+
     def _consume_item(self, item):
         if not isinstance(item, SBAPIRequest):
             raise ValueError("Consumed item is not of type API Request")
@@ -125,10 +128,7 @@ class SkyblockAPI(threading.Thread):
 
             while ((not self.input.empty()) and (self.api_calls < 120)):
                 item = self.input.get()
-                if item == "#STOP#":
-                    self.shall_stop = True
-                else:
-                    self._consume_item(item)
+                self._consume_item(item)
 
             pass
 
