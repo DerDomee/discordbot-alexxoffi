@@ -314,7 +314,8 @@ async def _get_channel_to_announce(
         else:
             entered_channel = announcemessage.content
             await announcemessage.delete()
-            channel = await botcommon.get_channel_by_id_or_ping(entered_channel)
+            channel = await botcommon.get_channel_by_id_or_ping(
+                entered_channel)
             if channel is None:
                 await response_message.edit(
                     content=f"{message.author.mention}, please enter a valid "
@@ -476,7 +477,7 @@ async def _create_challenge(message, arg_stack, botuser):
 
     final_challenge.announcement_message_id = announcement_message.id
 
-    botcommon.open_challenges[final_challenge.uuid] = final_challenge
+    botcommon.challenge_scheduler.addTask(final_challenge)
 
 
 async def _join_challenge(message, arg_stack, botuser):
