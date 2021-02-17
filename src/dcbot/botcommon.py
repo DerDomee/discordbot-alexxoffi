@@ -94,6 +94,7 @@ class StatTypes(Enum):
     def __str__(self):
         return f"{self.value}"
 
+
 # Challenge types for Hypixel skyblock skill leveling challenges
 @unique
 class ChallengeStatus(Enum):

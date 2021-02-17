@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import os
 import sys
-from src.database import sqlengine
+from src.database import sqlengine  # noqa: F401
 from src.dcbot import client
 
 discord_bot_token = os.getenv('DD_DISCORD_BOTTOKEN', default=None)
