@@ -105,19 +105,53 @@ async def _get_selected_profile(
 
     try:
         reaction, reactionuser = await client.wait_for(
-            'reaction_add', check=pselect_check, timeout=30.0
-        )
+            'reaction_add', check=pselect_check, timeout=30.0)
     except TimeoutError:
         await response_message.clear_reactions()
         await response_message.edit(
-            content=f"{message.author.mention}, session closed!"
-        )
+            content=f"{message.author.mention}, session closed!")
         return False
     else:
         selected_profile = available_profiles[NUMBER_REACTIONS.index(
             str(reaction))]
         await response_message.clear_reactions()
         return selected_profile
+    return False
+
+
+async def _get_selected_challenge(
+        message, arg_stack, botuser, response_message, available_challenges):
+    print(available_challenges)
+    if len(available_challenges) == 1:
+        return available_challenges[0]
+    available_text = f"{message.author.mention}, please select the " \
+        + "challenge you want to join:"
+    for index, challenge in enumerate(available_challenges):
+        emote = NUMBER_REACTIONS[index]
+        chall_title = challenge.title
+        chall_type = challenge.type.name
+        available_text += f"\n{emote} `{chall_title}`, {chall_type}"
+    await response_message.edit(content=available_text)
+    for i in range(len(available_challenges)):
+        await response_message.add_reaction(NUMBER_REACTIONS[i])
+
+    def cselect_check(reaction, user):
+        return user.id == message.author.id and \
+            reaction.message.id == response_message.id and str(
+                reaction) in NUMBER_REACTIONS[:len(available_challenges)]
+    try:
+        reaction, reactionuser = await client.wait_for(
+            'reaction_add', check=cselect_check, timeout=30.0)
+    except TimeoutError:
+        await response_message.clear_reactions()
+        await response_message.edit(
+            content=f"{message.author.mention}, session closed!")
+        return False
+    else:
+        selected_challenge = available_challenges[NUMBER_REACTIONS.index(
+            str(reaction))]
+        await response_message.clear_reactions()
+        return selected_challenge
     return False
 
 
@@ -539,18 +573,32 @@ async def _join_challenge(message, arg_stack, botuser):
         message, arg_stack, botuser, response_message)
     if mcname is False:
         return False
+
     available_profiles = await _get_available_profiles(
         message, arg_stack, botuser, response_message, mcuuid)
     if available_profiles is False:
         return False
+
     selected_profile = await _get_selected_profile(
         message, arg_stack, botuser, response_message, available_profiles)
     if selected_profile is False:
         return False
 
+    selected_challenge = await _get_selected_challenge(
+        message, arg_stack, botuser, response_message, available_challenges)
+    if selected_challenge is False:
+        return False
+
     await response_message.edit(
-        content=f"{message.author.mention}, selected profile: "
-        + f"{selected_profile['cute_name']}")
+        content=f"{message.author.mention}, selected "
+        + f"profile: `{selected_profile['cute_name']}`, selected challenge: "
+        + f"`{selected_challenge.title}`")
+
+    # TODO: Let user select what challenge he wants to join
+    # TODO: Show user data with how he will join
+    #       (as well as preview current stats)
+    #       then, let him confirm the data and actually join
+    # TODO: Update the challenges' announcement embed
     return True
 
 
@@ -565,6 +613,7 @@ async def _accept_player(message, arg_stack, botuser):
     # TODO: Check if this user is currently trying to attend to a challenge
     # TODO: If multiple challenges are available, let Author choose which
     # TODO: Update this player and accept him in the challenge
+    # TODO: Update the challenges announcement embed
     return True
 
 
