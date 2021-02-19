@@ -168,12 +168,12 @@ class ChallengeEvent():
     def get_embed(self, language="en", announcement=True):
         if self.status == ChallengeStatus.OPEN:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-        embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Open to join")
-        embed.add_field(
+            embed.add_field(
                 name="Join until",
                 value=self.entries_close_time.strftime("%a %d.%m.%Y - %H:%M"))
-        embed.add_field(
+            embed.add_field(
                 name="Event starts",
                 value=self.start_time.strftime("%a %d.%m.%Y - %H:%M"))
             embed.add_field(
@@ -223,7 +223,7 @@ class ChallengeEvent():
             embed.add_field(name="Status", value="Event discarded")
         else:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-        embed.add_field(
+            embed.add_field(
                 name="ERROR",
                 value="Unknown or invalid event status.")
         return embed
@@ -256,18 +256,33 @@ class ChallengeEvent():
         return False
 
     def tick(self):
+
+        def updateAnnouncementWrapper():
+            client.loop.create_task(self.update_challenge_embed())
+
         if self.status == ChallengeStatus.OPEN:
             self.status = ChallengeStatus.PENDING
+            client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
         elif self.status == ChallengeStatus.PENDING:
             self.status = ChallengeStatus.STARTING
+            client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
+            # Artificial sleep to test tick-announcement-updates
+            time.sleep(10)
+            # Remove this sleep when gather_start_player_data() is implemented!
             self.gather_start_player_data()
             self.status = ChallengeStatus.RUNNING
+            client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
         elif self.status == ChallengeStatus.STARTING:
             raise RuntimeError("Challenge with type 'STARTING' cannot tick!")
         elif self.status == ChallengeStatus.RUNNING:
             self.status = ChallengeStatus.ENDING
+            client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
+            # Artificial sleep to test tick-announcement-updates
+            time.sleep(10)
+            # Remove this sleep when gather_end_player_data() is implemented!
             self.gather_end_player_data()
             self.status = ChallengeStatus.ENDED
+            client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
             challenge_scheduler.removeTask(self)
         elif self.status == ChallengeStatus.ENDING:
             raise RuntimeError("Challenge with type 'ENDING' cannot tick!")
