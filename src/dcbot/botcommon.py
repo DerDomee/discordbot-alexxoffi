@@ -310,7 +310,7 @@ def get_profile_challenge_stat(profile_data, player_uuid, challenge_type):
         type_path = challenge_type.value.split('/')
         stat_data = player_data
         while len(type_path) > 0:
-            stat_data = stat_data[type_path.pop()]
+            stat_data = stat_data[type_path.pop(0)]
     except Exception:
         return None
     else:
