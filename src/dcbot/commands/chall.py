@@ -684,3 +684,21 @@ async def invoke(message, arg_stack, botuser):
             return await _discard_challenge(message, arg_stack, botuser)
 
     await message.channel.send("Wrong syntax - see `help chall` for usage")
+
+
+async def get_help(argstack, botuser, sp):
+    embed = Embed(
+        title="Hypixel Skyblock skill-leveling events",
+        description="Manage or attend to skill-leveling events")
+    embed.add_field(
+        name="Syntax",
+        value=f"`{sp}challenge create` - Create a new challenge event (Admins "
+              + f"only)\n`{sp}challenge join` - Join a challenge event"
+              + f"\n`{sp}challenge list` - List all available events"
+              + f"\n`{sp}challenge accept` - Accept a player entry in an "
+              + "event (Admins only)"
+              + f"\n`{sp}challenge pending` - List players currently waiting "
+              + "for approval by an admin with their entry seat"
+              + f"\n`{sp}challenge discard` - Discard an event, untrack "
+              + "players and archive the data (Admins only)")
+    return [embed]
