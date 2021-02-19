@@ -547,7 +547,7 @@ async def _create_challenge(message, arg_stack, botuser):
     confirmation = await _confirm_challenge_creation(
         message, arg_stack, botuser, response_message, final_challenge,
         announcement_channel)
-    if confirmation is False:
+    if confirmation is False or confirmation is None:
         return False
 
     announcement_message = await announcement_channel.send(
@@ -556,6 +556,65 @@ async def _create_challenge(message, arg_stack, botuser):
     final_challenge.announcement_message_id = announcement_message.id
 
     botcommon.challenge_scheduler.addTask(final_challenge)
+
+
+async def _await_join_confirmation(
+        message, arg_stack, botuser, response_message, selected_profile,
+        selected_challenge, mcuuid, mcname):
+    stat_preview = botcommon.get_profile_challenge_stat(
+        selected_profile, mcuuid, selected_challenge.type)
+    if stat_preview is None:
+        await response_message.edit(
+            content=f"{message.author.mention}, your API seems to be "
+            + "disabled. You cannot join with disabled API and you will get "
+            + "disqualified if you disable your API before or during the "
+            + "event!")
+        return False
+    profilename = selected_profile['cute_name']
+    challname = selected_challenge.title
+    embed = Embed(title="Confirm your entry")
+    embed.add_field(name="MC-Name", value=mcname, inline=False)
+    embed.add_field(name="Profile", value=profilename, inline=False)
+    embed.add_field(name="Challenge", value=challname, inline=False)
+    embed.add_field(name="Stat preview", value=stat_preview, inline=False)
+    embed.add_field(
+        name="Warning",
+        value="If you disable your API at any point from now until the end of "
+        + "the event, you will get disqualified!")
+
+    await response_message.edit(
+        content=f"{message.author.mention}", embed=embed)
+    await response_message.add_reaction("✅")
+    await response_message.add_reaction("❌")
+
+    def confirmation_check(reaction, user):
+        return user.id == message.author.id and \
+            reaction.message.id == response_message.id and str(reaction) in \
+            ['✅', '❌']
+
+    try:
+        reaction, reactionuser = await client.wait_for(
+            'reaction_add', check=confirmation_check, timeout=60.0
+        )
+    except TimeoutError:
+        await response_message.clear_reactions()
+        await response_message.edit(
+            content=f"{message.author.mention}, session closed!",
+            embed=None)
+        return False
+    else:
+        await response_message.clear_reactions()
+        if str(reaction) == "✅":
+            await response_message.edit(
+                content=f"{message.author.mention}, joining...", embed=None)
+            return True
+        else:
+            await response_message.edit(
+                content=f"{message.author.mention}, aborting...", embed=None)
+            return False
+
+    await response_message.clear_reactions()
+    return False
 
 
 async def _join_challenge(message, arg_stack, botuser):
@@ -587,14 +646,11 @@ async def _join_challenge(message, arg_stack, botuser):
     if selected_challenge is False:
         return False
 
-    await response_message.edit(
-        content=f"{message.author.mention}, selected "
-        + f"profile: `{selected_profile['cute_name']}`, selected challenge: "
-        + f"`{selected_challenge.title}`")
-
-    # TODO: Let user select what challenge he wants to join
-    # TODO: Show user data with how he will join
-    #       (as well as preview current stats)
+    confirmation = await _await_join_confirmation(
+        message, arg_stack, botuser, response_message, selected_profile,
+        selected_challenge, mcuuid, mcname)
+    if confirmation is None or confirmation is False:
+        return False
     #       then, let him confirm the data and actually join
     # TODO: Update the challenges' announcement embed
     return True
