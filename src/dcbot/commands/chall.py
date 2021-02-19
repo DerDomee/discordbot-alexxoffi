@@ -72,7 +72,6 @@ async def _get_available_profiles(
     profilesrequest = SBAPIRequest(RequestType.PROFILES, (mcuuid,))
     profiles = await botcommon.hypixel_api.request(profilesrequest, 10)
     if 'dd_error' in profiles:
-        print(profiles)
         await response_message.edit(
             content=f"{message.author.mention}, there was an error while "
             + "getting your skyblock profiles. Try again later.")
@@ -121,7 +120,6 @@ async def _get_selected_profile(
 
 async def _get_selected_challenge(
         message, arg_stack, botuser, response_message, available_challenges):
-    print(available_challenges)
     if len(available_challenges) == 1:
         return available_challenges[0]
     available_text = f"{message.author.mention}, please select the " \
