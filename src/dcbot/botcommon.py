@@ -304,6 +304,19 @@ class ChallengeScheduler(threading.Thread):
 challenge_scheduler = None
 
 
+def get_profile_challenge_stat(profile_data, player_uuid, challenge_type):
+    try:
+        player_data = profile_data['members'][player_uuid]
+        type_path = challenge_type.value.split('/')
+        stat_data = player_data
+        while len(type_path) > 0:
+            stat_data = stat_data[type_path.pop()]
+    except Exception:
+        return None
+    else:
+        return stat_data
+
+
 async def get_member_by_id_or_ping(selector):
     user_id = str(selector).lstrip("<@!").lstrip("<@").rstrip(">")
     guild = main_guild
