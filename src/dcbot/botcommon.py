@@ -152,28 +152,80 @@ class ChallengeEvent():
         self.status = ChallengeStatus.DISCARDED
         await self.delete_announcement()
 
-    def get_embed(self):
-        embed = Embed(title=self.title)
-        embed.add_field(name="Event UUID", value=self.uuid, inline=False)
+    def get_pending_players(self):
+        return []
+
+    async def update_challenge_embed(self):
+        message = await get_message_by_id(
+            self.announcement_channel_id, self.announcement_message_id)
+        if message is None:
+            print("Event Announcement message tried to be updated, but "
+                  + "failed!")
+            return
+        await message.edit(content=None, embed=self.get_embed())
+        return
+
+    def get_embed(self, language="en", announcement=True):
+        if self.status == ChallengeStatus.OPEN:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
         embed.add_field(name="Event Type", value=self.type.name)
-        embed.add_field(name="Event Status", value=self.status.name)
-        embed.add_field(name="Join until", value=self.entries_close_time)
-        embed.add_field(name="Event starts", value=self.start_time)
-        embed.add_field(name="Event ends", value=self.end_time)
-        embed.add_field(name="Join cost", value=str(self.pay_in) + " Coins") \
-            if self.pay_in != 0 else \
-            embed.add_field(name="Join cost", value="No cost")
+            embed.add_field(name="Status", value="Open to join")
         embed.add_field(
-            name="Moderator needs to accept joins",
-            value=not self.auto_accept)
+                name="Join until",
+                value=self.entries_close_time.strftime("%a %d.%m.%Y - %H:%M"))
         embed.add_field(
-            name="Current participants",
-            value=str(len(self.players)) + "/100")
+                name="Event starts",
+                value=self.start_time.strftime("%a %d.%m.%Y - %H:%M"))
+            embed.add_field(
+                name="Event ends",
+                value=self.end_time.strftime("%a %d.%m.%Y - %H:%M"))
+            join_cost = self.pay_in if self.pay_in != 0 else "No cost"
+            embed.add_field(name="Join cost", value=join_cost)
+            if self.auto_accept:
+                embed.add_field(
+                    name="Instant join",
+                    value="Join without approval by admin")
+            else:
+                embed.add_field(
+                    name="Wait for entry place",
+                    value="After joining, wait for an admin to approve your "
+                    + "entry")
+            total_participants = len(self.players)
+            pending_participants = (len(self.get_pending_players()))
+            pen_partic_text = f" ({pending_participants} pending)" if \
+                pending_participants != 0 else ""
+            embed.add_field(name="Participants",
+                            value=f"{total_participants}/100"
+                            + f"{pen_partic_text}")
+        elif self.status == ChallengeStatus.PENDING:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Status", value="Starts soon (Can not join)")
+        elif self.status == ChallengeStatus.STARTING:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Status", value="Currently starting...")
+        elif self.status == ChallengeStatus.RUNNING:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Status", value="Running")
+        elif self.status == ChallengeStatus.ENDING:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Status", value="Ending... (Gathering data)")
+        elif self.status == ChallengeStatus.ENDED:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Status", value="Ended")
+        elif self.status == ChallengeStatus.DISCARDED:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Status", value="Event discarded")
+        else:
+            embed = Embed(title=self.title, description=f"`{self.uuid}`")
         embed.add_field(
-            name="Join now",
-            value="using `$chall join <mc-username>` in a bot-commands "
-            + "channel!",
-            inline=False) if self.status == ChallengeStatus.OPEN else None
+                name="ERROR",
+                value="Unknown or invalid event status.")
         return embed
 
     def gather_start_player_data(self):
