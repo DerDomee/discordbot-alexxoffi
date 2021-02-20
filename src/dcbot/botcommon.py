@@ -2,7 +2,7 @@ import functools
 import json
 import threading
 import time
-import os.path
+import os
 from datetime import datetime
 from discord import Embed
 from enum import Enum, unique
@@ -157,9 +157,7 @@ class ChallengeEvent():
 
     def archive_to_disk(self):
         with open(f"./data/xp_events/{self.uuid}.json", 'w') as f:
-            ser = self.serialize()
-            print(ser)
-            f.write(ser)
+            f.write(self.serialize())
 
     def get_pending_players(self):
         pending_players = []
@@ -480,10 +478,8 @@ class ChallengeScheduler(threading.Thread):
         with open('./data/tracked_challenges.json', 'r') as f:
             data = f.read()
             read_data = json.loads(data) if data != "" else {}
-        print(read_data)
+            os.remove('./data/tracked_challenges.json')
         for chall_uuid in read_data:
-            print(chall_uuid)
-            print(read_data[chall_uuid])
             challenge = ChallengeEvent.deserialize(read_data[chall_uuid])
             self.addTask(challenge)
 
