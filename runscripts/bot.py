@@ -1,8 +1,12 @@
 #!/usr/bin/python
-import os
-import sys
-from src.database import sqlengine  # noqa: F401
 from src.dcbot import client
+import sys
+import os
+from pathlib import Path
+
+Path('./data/xp_events/').mkdir(parents=True, exist_ok=True)
+
+from src.database import sqlengine  # noqa: F401
 
 discord_bot_token = os.getenv('DD_DISCORD_BOTTOKEN', default=None)
 
