@@ -669,7 +669,16 @@ async def _join_challenge(message, arg_stack, botuser):
 
 
 async def _list_challenges(message, arg_stack, botuser):
-    # TODO: List available challenges
+    available_challenges = botcommon.challenge_scheduler.getAllTasks()
+    if len(available_challenges) == 0:
+        await message.channel.send(
+            f"{message.author.mention}, there are no tracked events.")
+        return True
+    available_text = f"{message.author.mention}, currently tracked events:"
+    for challenge in available_challenges:
+        available_text += f"\n {challenge.title} (`{challenge.uuid}`) - "
+        available_text += f"`{challenge.type.name}`, `{challenge.status}`"
+    await message.channel.send(available_text)
     return True
 
 
