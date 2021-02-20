@@ -21,6 +21,7 @@ async def invoke(message, arg_stack, botuser):
     botcommon.hypixel_api.join()
 
     print("Stopping Challenge Scheduler...")
+    botcommon.challenge_scheduler.save_all_tracked()
     botcommon.challenge_scheduler.stop()
     botcommon.challenge_scheduler.join()
 
