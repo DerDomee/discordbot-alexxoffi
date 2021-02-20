@@ -39,7 +39,7 @@ async def on_ready():
     botcommon.challenge_scheduler = botcommon.ChallengeScheduler()
     botcommon.challenge_scheduler.start()
 
-    print("Load previously tracked challenge events into the scheduler...")
+    print("Load previously tracked challenge events")
     botcommon.challenge_scheduler.load_all_tracked()
 
     # Log the ready-state of the bot in the console.
