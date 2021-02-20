@@ -152,6 +152,13 @@ class ChallengeEvent():
         self.status = ChallengeStatus.DISCARDED
         await self.update_challenge_embed()
         challenge_scheduler.removeTask(self)
+        self.archive_to_disk()
+
+    def archive_to_disk(self):
+        with open(f"./data/xp_events/{self.uuid}.json", 'w') as f:
+            ser = self.serialize()
+            print(ser)
+            f.write(ser)
 
     def get_pending_players(self):
         pending_players = []
