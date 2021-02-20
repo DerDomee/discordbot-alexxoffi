@@ -422,7 +422,7 @@ class ChallengeEvent():
             'end_time': self.end_time.timestamp(),
             'pay_in': self.pay_in,
             'auto_accept': self.auto_accept,
-            'anouncement_message_id': self.announcement_message_id,
+            'announcement_message_id': self.announcement_message_id,
             'announcement_channel_id': self.announcement_channel_id,
             'players': self.players
         }, indent=2)
