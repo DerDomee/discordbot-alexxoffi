@@ -738,7 +738,6 @@ async def _discard_challenge(message, arg_stack, botuser):
         message, arg_stack, botuser, response_message)
     if selected_challenge is False:
         return False
-    botcommon.challenge_scheduler.removeTask(selected_challenge)
     await selected_challenge.discard()
     await response_message.edit(
         content=f"{message.author.mention}, challenge "
