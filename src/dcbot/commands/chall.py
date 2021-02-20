@@ -651,8 +651,20 @@ async def _join_challenge(message, arg_stack, botuser):
         selected_challenge, mcuuid, mcname)
     if confirmation is None or confirmation is False:
         return False
-    #       then, let him confirm the data and actually join
-    # TODO: Update the challenges' announcement embed
+
+    player_data = {
+        'mcname': mcname,
+        'mcuuid': mcuuid,
+        'discordid': message.author.id,
+        'state': "ACCEPTED" if selected_challenge.auto_accept else "PENDING"
+    }
+    selected_challenge.players.append(player_data)
+    await selected_challenge.update_challenge_embed()
+
+    await response_message.edit(
+        content=f"{message.author.mention}, successfully joined the "
+        + "challenge!")
+
     return True
 
 
