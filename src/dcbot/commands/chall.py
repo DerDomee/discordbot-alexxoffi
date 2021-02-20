@@ -764,8 +764,25 @@ async def _discard_challenge(message, arg_stack, botuser):
 
 
 async def _get_player_status(message, arg_stack, botuser):
-    # TODO: Get all currently tracked challenges that the player is found in
-    # TODO: Show the current status of the player for all challenges
+    in_event = []
+    for challenge in botcommon.challenge_scheduler.getAllTasks():
+        player = challenge.get_player(message.author.id)
+        if player is None:
+            continue
+        in_event.append((challenge, player))
+    if len(in_event) == 0:
+        message.channel.send(
+            f"{message.author.mention}, you do not participate in any event.")
+        return True
+    statmsg = ""
+    for data in in_event:
+        challenge = data[0]
+        player = data[1]
+        statmsg += f"\nIn `{challenge.title}` (`{challenge.type.name}`) as "
+        statmsg += f"`{player.['mcname']}`, Status: `{player['status']}`"
+    await message.channel.send(
+        f"{message.author.mention}, you were found in following "
+        + f"events:{statmsg}")
     return False
 
 
