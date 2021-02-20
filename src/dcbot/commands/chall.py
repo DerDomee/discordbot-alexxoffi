@@ -804,7 +804,11 @@ async def get_help(argstack, botuser, sp):
               + f"\n`{sp}challenge accept` - Accept a player entry in an "
               + "event (Admins only)"
               + f"\n`{sp}challenge pending` - List players currently waiting "
-              + "for approval by an admin with their entry seat"
-              + f"\n`{sp}challenge discard` - Discard an event, untrack "
-              + "players and archive the data (Admins only)")
+              + "for entry seat approval"
+              + f"\n`{sp}challenge discard` - Discard an event, as if it "
+              + "never happened (Admins only)"
+              + f"\n`{sp}challenge status` - See if you have a seat in an"
+              + "event and watch your status"
+              + f"\n`{sp}challenge results` - See your results in a past "
+              + "event")
     return [embed]
