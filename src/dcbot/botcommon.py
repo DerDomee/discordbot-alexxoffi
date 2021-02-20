@@ -150,10 +150,39 @@ class ChallengeEvent():
 
     async def discard(self):
         self.status = ChallengeStatus.DISCARDED
-        await self.delete_announcement()
+        await self.update_challenge_embed()
+        challenge_scheduler.removeTask(self)
 
     def get_pending_players(self):
-        return []
+        pending_players = []
+        for player in self.players:
+            if player['state'] == "PENDING":
+                pending_players.append(player)
+        return pending_players
+
+    def get_total_players(self):
+        return self.players
+
+    def get_active_players(self):
+        active_players = []
+        for player in self.players:
+            if player['state'] == "ACTIVE":
+                active_players.append(player)
+        return active_players
+
+    def get_errored_players(self):
+        errored_players = []
+        for player in self.players:
+            if player['state'] == "ERRORED":
+                errored_players.append(player)
+        return errored_players
+
+    def get_disqualified_players(self):
+        disqualified_players = []
+        for player in self.players:
+            if player['state'] == "DISQUALIFIED":
+                disqualified_players.append(player)
+        return disqualified_players
 
     async def update_challenge_embed(self):
         message = await get_message_by_id(
@@ -194,33 +223,105 @@ class ChallengeEvent():
             pending_participants = (len(self.get_pending_players()))
             pen_partic_text = f" ({pending_participants} pending)" if \
                 pending_participants != 0 else ""
-            embed.add_field(name="Participants",
-                            value=f"{total_participants}/100"
-                            + f"{pen_partic_text}")
+            embed.add_field(
+                name="Participants",
+                value=f"{total_participants}/100{pen_partic_text}")
+            embed.add_field(
+                name="Join now!",
+                value="Use command `chall join` to join this event right "
+                + "now!")
+
         elif self.status == ChallengeStatus.PENDING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Starts soon (Can not join)")
+            embed.add_field(
+                name="Event starts",
+                value=self.start_time.strftime("%a %d.%m.%Y - %H:%M"))
+            embed.add_field(
+                name="Event ends",
+                value=self.end_time.strftime("%a %d.%m.%Y - %H:%M"))
+            total_participants = len(self.players)
+            pending_participants = (len(self.get_pending_players()))
+            pen_partic_text = f" ({pending_participants} pending)" if \
+                pending_participants != 0 else ""
+            embed.add_field(
+                name="Participants",
+                value=f"{total_participants}/100{pen_partic_text}")
+            embed.add_field(
+                name="Watch your status",
+                value="Use command `chall status` to see if you are "
+                + "participating!")
+
         elif self.status == ChallengeStatus.STARTING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Currently starting...")
+
         elif self.status == ChallengeStatus.RUNNING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Running")
+            total_participants = str(len(self.get_total_players()))
+            pending_participants = str(len(self.get_pending_players()))
+            active_participants = str(len(self.get_active_players()))
+            errored_participants = str(len(self.get_errored_players()))
+            disqualified_participants = str(
+                len(self.get_disqualified_players()))
+            part_text = f"`+{total_participants:>3}` Total entries\n" \
+                + f"`-{pending_participants:>3}` Never were accepted\n" \
+                + f"`-{disqualified_participants:>3}` Disqualified " \
+                + "(Deactivated API)\n" \
+                + f"`-{errored_participants:>3}` Error during data " \
+                + "collection (Sorry!)\n" \
+                + f"`={active_participants:>3}` Actually participating"
+            embed.add_field(
+                name="Participants",
+                value=part_text)
+            embed.add_field(
+                name="Watch your status",
+                value="Use command `chall status` to see if you are "
+                + "participating!")
+
         elif self.status == ChallengeStatus.ENDING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Ending... (Gathering data)")
+
         elif self.status == ChallengeStatus.ENDED:
-            embed = Embed(title=self.title, description=f"`{self.uuid}`")
+            embed = Embed(title=self.title, description=f"UUID: `{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Ended")
+            total_participants = str(
+                len(self.get_total_players()) - len(self.get_pending_players))
+            errored_participants = str(len(self.get_errored_players()))
+            disqualified_participants = str(
+                len(self.get_disqualified_players()))
+            active_participants = str(len(self.get_active_players()))
+            part_text = f"`+{total_participants:>3}` Accepted entries\n" \
+                + f"`-{disqualified_participants:>3}` Disqualified " \
+                + "(Deactivated API)\n" \
+                + f"`-{errored_participants:>3}` Error during data " \
+                + "collection (Sorry!)\n" \
+                + f"`={active_participants:>3}` Successfully participated"
+            embed.add_field(
+                name="Participants",
+                value=part_text)
+            embed.add_field(
+                name="Leaderboard",
+                value="```NOT YET IMPLEMENTED\n\n\nSorry!```",
+                inline=False)
+            embed.add_field(
+                name="See your results",
+                value="Use command `chall results` to see your own results "
+                + "In this event. You might need the UUID of this challenge "
+                + "for this command (found above).")
+
         elif self.status == ChallengeStatus.DISCARDED:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Event discarded")
+
         else:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
             embed.add_field(
@@ -229,9 +330,11 @@ class ChallengeEvent():
         return embed
 
     def gather_start_player_data(self):
+        # TODO: Implement this!
         pass
 
     def gather_end_player_data(self):
+        # TODO: Implement this!
         pass
 
     def needs_tick(self):
@@ -263,6 +366,7 @@ class ChallengeEvent():
         if self.status == ChallengeStatus.OPEN:
             self.status = ChallengeStatus.PENDING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
+
         elif self.status == ChallengeStatus.PENDING:
             self.status = ChallengeStatus.STARTING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
@@ -272,8 +376,10 @@ class ChallengeEvent():
             self.gather_start_player_data()
             self.status = ChallengeStatus.RUNNING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
+
         elif self.status == ChallengeStatus.STARTING:
             raise RuntimeError("Challenge with type 'STARTING' cannot tick!")
+
         elif self.status == ChallengeStatus.RUNNING:
             self.status = ChallengeStatus.ENDING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
@@ -284,12 +390,16 @@ class ChallengeEvent():
             self.status = ChallengeStatus.ENDED
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
             challenge_scheduler.removeTask(self)
+
         elif self.status == ChallengeStatus.ENDING:
             raise RuntimeError("Challenge with type 'ENDING' cannot tick!")
+
         elif self.status == ChallengeStatus.ENDED:
             raise RuntimeError("Challenge with type 'ENDED' cannot tick!")
+
         elif self.status == ChallengeStatus.DISCARDED:
             raise RuntimeError("Challenge with type 'DISCARDED cannot tick!")
+
         else:
             raise RuntimeError("Challenge in invalid state cannot tick!")
 
