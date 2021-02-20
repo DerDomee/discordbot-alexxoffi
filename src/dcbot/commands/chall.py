@@ -693,9 +693,27 @@ async def _accept_player(message, arg_stack, botuser):
 
 
 async def _get_pending_players(message, arg_stack, botuser):
-    # TODO: From all currently tracked challenges that are OPEN or PENDING,
-    #       and are not Auto-Accepting, list all players that currently wait
-    #       for approval. No more action planned, only the player list.
+    pending_players = []
+    for challenge in botcommon.challenge_scheduler.getAllTasks():
+        if challenge.status is botcommon.ChallengeStatus.OPEN or \
+                challenge.status is botcommon.ChallengeStatus.PENDING:
+            for player in challenge.get_pending_players():
+                pending_players.append((player, challenge))
+    if len(pending_players) == 0:
+        await message.channel.send(
+            f"{message.author.mention}, there are no pending players in any "
+            + "currently tracked event.")
+        return True
+    playertext = ""
+    for player in pending_players:
+        mcname = player[0]['mcname']
+        challtitle = player[1].title
+        challuuid = player[1].uuid
+        playertext += f"\n`{mcname}` in `{challtitle}` (`{challuuid}`)"
+
+    await message.channel.send(
+        f"{message.author.mention}, currently pending players:{playertext}")
+
     return True
 
 
