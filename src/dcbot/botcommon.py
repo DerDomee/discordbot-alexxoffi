@@ -2,6 +2,7 @@ import functools
 import json
 import threading
 import time
+import os.path
 from datetime import datetime
 from discord import Embed
 from enum import Enum, unique
@@ -463,6 +464,28 @@ class ChallengeScheduler(threading.Thread):
 
     def removeTask(self, task):
         self.scheduled_tasks.remove(task)
+
+    def save_all_tracked(self):
+        if len(self.scheduled_tasks) == 0:
+            return
+        save_object = {}
+        for challenge in self.scheduled_tasks:
+            save_object[challenge.uuid] = challenge.serialize()
+        with open('./data/tracked_challenges.json', 'w') as f:
+            f.write(json.dumps(save_object, indent=2))
+
+    def load_all_tracked(self):
+        if not os.path.isfile('./data/tracked_challenges.json'):
+            return
+        with open('./data/tracked_challenges.json', 'r') as f:
+            data = f.read()
+            read_data = json.loads(data) if data != "" else {}
+        print(read_data)
+        for chall_uuid in read_data:
+            print(chall_uuid)
+            print(read_data[chall_uuid])
+            challenge = ChallengeEvent.deserialize(read_data[chall_uuid])
+            self.addTask(challenge)
 
     def getTask(self, uuid):
         for task in self.scheduled_tasks:
