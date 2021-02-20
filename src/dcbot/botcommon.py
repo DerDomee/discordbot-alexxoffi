@@ -293,7 +293,8 @@ class ChallengeEvent():
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Ended")
             total_participants = str(
-                len(self.get_total_players()) - len(self.get_pending_players))
+                len(self.get_total_players()) - len(
+                    self.get_pending_players()))
             errored_participants = str(len(self.get_errored_players()))
             disqualified_participants = str(
                 len(self.get_disqualified_players()))
