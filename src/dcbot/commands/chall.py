@@ -692,6 +692,13 @@ async def _accept_player(message, arg_stack, botuser):
     return True
 
 
+async def _get_pending_players(message, arg_stack, botuser):
+    # TODO: From all currently tracked challenges that are OPEN or PENDING,
+    #       and are not Auto-Accepting, list all players that currently wait
+    #       for approval. No more action planned, only the player list.
+    return True
+
+
 async def _get_tracked_challenge_by_uuid(
         message, arg_stack, botuser, response_message):
     await response_message.edit(
@@ -739,6 +746,22 @@ async def _discard_challenge(message, arg_stack, botuser):
     return True
 
 
+async def _get_player_status(message, arg_stack, botuser):
+    # TODO: Get all currently tracked challenges that the player is found in
+    # TODO: Show the current status of the player for all challenges
+    return False
+
+
+async def _get_player_results(message, arg_stack, botuser):
+    # TODO: Ask user for challenge UUID
+    # TODO: Find challenge in archived data or return if not found
+    # TODO: When player did not joined this event, insult the user and return
+    # TODO: When player has state "PENDING", "DISQUALIFIED" or "ERRORED",
+    #       Show a message explaining his state and return
+    # TODO: Actually show the result of the player in this challenge
+    return False
+
+
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
@@ -757,6 +780,15 @@ async def invoke(message, arg_stack, botuser):
 
         if arg_stack[1].lower() == "discard":
             return await _discard_challenge(message, arg_stack, botuser)
+
+        if arg_stack[1].lower() == "pending":
+            return await _get_pending_players(message, arg_stack, botuser)
+
+        if arg_stack[1].lower() == "status":
+            return await _get_player_status(message, arg_stack, botuser)
+
+        if arg_stack[1].lower() == "results":
+            return await _get_player_results(message, arg_stack, botuser)
 
     await message.channel.send("Wrong syntax - see `help chall` for usage")
 
