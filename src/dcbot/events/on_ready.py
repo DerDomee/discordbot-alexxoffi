@@ -41,8 +41,6 @@ async def on_ready():
 
     print("Load previously tracked challenge events into the scheduler...")
     botcommon.challenge_scheduler.load_all_tracked()
-    for challenge in botcommon.challenge_scheduler.getAllTasks():
-        await challenge.update_challenge_embed()
 
     # Log the ready-state of the bot in the console.
     message = transget("dcbot.readymessage").format(
