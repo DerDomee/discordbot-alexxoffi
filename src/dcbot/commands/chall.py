@@ -856,7 +856,7 @@ async def get_help(argstack, botuser, sp):
               + f"\n`{sp}chall results` - See your results in a past "
               + "event"
               + f"\n\n`{sp}chall create` - Create a new challenge event "
-              + f"(Admins only)"
+              + "(Admins only)"
               + f"\n`{sp}chall discard` - Discard an event, as if it "
               + "never happened (Admins only)"
               + f"\n`{sp}chall accept` - Accept a player entry in an "
