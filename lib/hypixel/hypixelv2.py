@@ -31,8 +31,11 @@ class RequestType(Enum):
 
 class SBAPIRequest():
 
-    def __init__(self, type, params):
-        self.id = uuid.uuid4()
+    def __init__(self, type, params, uid=None):
+        if uid is None:
+            self.id = uuid.uuid4()
+        else:
+            self.id = uid
         self.type = type
         self.params = params
         if not self.check_type():
