@@ -796,6 +796,16 @@ async def _get_player_results(message, arg_stack, botuser):
     return False
 
 
+async def _tick_challenge(message, arg_stack, botuser):
+    chall_uuid = arg_stack[2]
+    challenge = botcommon.challenge_scheduler.getTask(chall_uuid)
+    if challenge is None:
+        await message.channel.send("Challenge not found!")
+    await message.channel.send("Call challenge.tick()")
+    challenge.tick()
+    await message.channel.send("Called challenge.tick() successfully")
+
+
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
@@ -823,6 +833,9 @@ async def invoke(message, arg_stack, botuser):
 
         if arg_stack[1].lower() == "results":
             return await _get_player_results(message, arg_stack, botuser)
+
+        if arg_stack[1].lower() == "tick":
+            return await _tick_challenge(message, arg_stack, botuser)
 
     await message.channel.send("Wrong syntax - see `help chall` for usage")
 
