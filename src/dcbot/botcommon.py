@@ -3,6 +3,7 @@ import json
 import threading
 import time
 import os
+from lib.hypixel.hypixelv2 import SBAPIRequest, RequestType
 from datetime import datetime
 from discord import Embed
 from enum import Enum, unique
@@ -159,6 +160,16 @@ class ChallengeEvent():
         with open(f"./data/xp_events/{self.uuid}.json", 'w') as f:
             f.write(self.serialize())
 
+    def get_player(self, payload):
+        for player in self.players:
+            if str(player['mcname']) == str(payload):
+                return player
+            if str(player['mcuuid']) == str(payload):
+                return player
+            if str(player['discordid']) == str(payload):
+                return player
+        return None
+
     def get_pending_players(self):
         pending_players = []
         for player in self.players:
@@ -175,6 +186,13 @@ class ChallengeEvent():
             if player['state'] == "ACTIVE":
                 active_players.append(player)
         return active_players
+
+    def get_accepted_players(self):
+        accepted_players = []
+        for player in self.players:
+            if player['state'] == "ACCEPTED":
+                accepted_players.append(player)
+        return accepted_players
 
     def get_errored_players(self):
         errored_players = []
@@ -337,12 +355,118 @@ class ChallengeEvent():
         return embed
 
     def gather_start_player_data(self):
-        # TODO: Implement this!
-        pass
+        start_time = time.time()
+        tracked_ids = []
+        while len(self.get_accepted_players()) > 0:
+            if time.time() - start_time >= 180:
+                # TODO: Abort and set every ACCEPTED player to ERRORED
+                print("Challenge start timed out. Bye!")
+                break
+            print(
+                "New round of gathering data, "
+                + f"awaiting {len(self.get_accepted_players())} data sets")
+            for player in self.get_accepted_players():
+                print(f"Adding {player['mcuuid']} to API request")
+                tracked_ids.append((player['profileid'], player['mcuuid']))
+                apirequest = SBAPIRequest(
+                    RequestType.PROFILE,
+                    (player['profileid'],),
+                    player['profileid'])
+                hypixel_api.input.put(apirequest)
+            api_start_time = time.time()
+            while True:
+                if (time.time() - api_start_time >= 20) or \
+                        len(tracked_ids) == 0:
+                    print("Data-gathering round ended")
+                    tracked_ids = []
+                    break
+                for current_id in tracked_ids:
+                    if current_id[0] in hypixel_api.output:
+                        print(f"Found {current_id[0]} in API output")
+                        apioutput = hypixel_api.output.pop(current_id[0])
+                        print(f"Removing {current_id[0]} from round tracking")
+                        tracked_ids.remove(current_id)
+                        if 'dd_error' in apioutput:
+                            print("API output contains: 'TIMEOUT/NOTFOUND'")
+                            continue
+                        profiledata = apioutput['profile']
+                        playerdata = self.get_player(current_id[1])
+                        print(
+                            f"Removing player {current_id[0]} from challenge")
+                        self.players.remove(playerdata)
+                        stat_start = get_profile_challenge_stat(
+                            profiledata,
+                            playerdata['mcuuid'],
+                            self.type)
+                        if stat_start is None:
+                            playerdata['state'] = "DISQUALIFIED"
+                            print("Adding new player data DISQUAL to event")
+                            self.players.append(playerdata)
+                            print(self.get_player(current_id[1]))
+                            continue
+                        playerdata['stat_start'] = stat_start
+                        playerdata['state'] = "ACTIVE"
+                        print("Adding new player data ACTIVE to event")
+                        self.players.append(playerdata)
+                        print(self.get_player(current_id[1]))
 
     def gather_end_player_data(self):
-        # TODO: Implement this!
-        pass
+        start_time = time.time()
+        tracked_ids = []
+        while len(self.get_active_players()) > 0:
+            if time.time() - start_time >= 180:
+                # TODO: Abort and set every ACCEPTED player to ERRORED
+                print("Challenge start timed out. Bye!")
+                break
+            print(
+                "New round of gathering data, "
+                + f"awaiting {len(self.get_active_players())} data sets")
+            for player in self.get_active_players():
+                print(f"Adding {player['mcuuid']} to API request")
+                tracked_ids.append((player['profileid'], player['mcuuid']))
+                apirequest = SBAPIRequest(
+                    RequestType.PROFILE,
+                    (player['profileid'],),
+                    player['profileid'])
+                hypixel_api.input.put(apirequest)
+            api_start_time = time.time()
+            while True:
+                if (time.time() - api_start_time >= 20) or \
+                        len(tracked_ids) == 0:
+                    print("Data-gathering round ended")
+                    tracked_ids = []
+                    break
+                for current_id in tracked_ids:
+                    if current_id[0] in hypixel_api.output:
+                        print(f"Found {current_id[0]} in API output")
+                        apioutput = hypixel_api.output.pop(current_id[0])
+                        print(f"Removing {current_id[0]} from round tracking")
+                        tracked_ids.remove(current_id)
+                        if 'dd_error' in apioutput:
+                            print("API output contains: 'TIMEOUT/NOTFOUND'")
+                            continue
+                        profiledata = apioutput['profile']
+                        playerdata = self.get_player(current_id[1])
+                        print(
+                            f"Removing player {current_id[0]} from challenge")
+                        self.players.remove(playerdata)
+                        stat_end = get_profile_challenge_stat(
+                            profiledata,
+                            playerdata['mcuuid'],
+                            self.type)
+                        if stat_end is None:
+                            playerdata['state'] = "DISQUALIFIED"
+                            print("Adding new player data DISQUAL to event")
+                            self.players.append(playerdata)
+                            print(self.get_player(current_id[1]))
+                            continue
+                        playerdata['stat_end'] = stat_end
+                        playerdata['stat_delta'] = stat_end - \
+                            playerdata['stat_start']
+                        playerdata['state'] = "FINISHED"
+                        print("Adding new player data FINISHED to event")
+                        self.players.append(playerdata)
+                        print(self.get_player(current_id[1]))
 
     def needs_tick(self):
         timenow = time.time()
@@ -396,6 +520,7 @@ class ChallengeEvent():
             self.gather_end_player_data()
             self.status = ChallengeStatus.ENDED
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
+            self.archive_to_disk()
             challenge_scheduler.removeTask(self)
 
         elif self.status == ChallengeStatus.ENDING:
