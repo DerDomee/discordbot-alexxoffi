@@ -117,7 +117,14 @@ class SkyblockAPI(threading.Thread):
             )
         elif item.type == RequestType.PROFILE:
             self.api_calls += 1
-            self.api_reset_times.append(self.lifetime + 123)
+            self.api_reset_times.append(time.time() + 123)
+            callthread = APICall(
+                item.id,
+                self.output,
+                "https://api.hypixel.net/skyblock/profile?key="
+                + f"{self.hypixel_api_key}&profile={item.params[0]}"
+            )
+            callthread.start()
 
     def run(self):
         while(True):
