@@ -655,6 +655,7 @@ async def _join_challenge(message, arg_stack, botuser):
     player_data = {
         'mcname': mcname,
         'mcuuid': mcuuid,
+        'profileid': selected_profile['profile_id'],
         'discordid': message.author.id,
         'state': "ACCEPTED" if selected_challenge.auto_accept else "PENDING"
     }
