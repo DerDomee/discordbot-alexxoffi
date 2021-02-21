@@ -56,6 +56,7 @@ class APICall(threading.Thread):
         self.id = id
 
     def run(self):
+        print("API: Fetching " + self.urlcall)
         response = requests.get(self.urlcall)
         if response.status_code == 200:
             self.output[str(self.id)] = json.loads(response.text)
@@ -95,11 +96,13 @@ class SkyblockAPI(threading.Thread):
                 "https://api.mojang.com/users/profiles/"
                 + f"minecraft/{item.params[0]}")
             callthread.start()
+
         elif item.type == RequestType.NOOP:
             self.api_calls += 1
             self.api_reset_times.append(time.time() + 123)
             print(f"{datetime.datetime.now().isoformat()} - "
                   + "NOOP Call {item.id}")
+
         elif item.type == RequestType.PROFILES:
             self.api_calls += 1
             self.api_reset_times.append(time.time() + 123)
@@ -110,6 +113,7 @@ class SkyblockAPI(threading.Thread):
                 + f"{self.hypixel_api_key}&uuid={item.params[0]}"
             )
             callthread.start()
+
         elif item.type == RequestType.TESTKEY:
             self.api_calls += 1
             self.api_reset_times.append(time.time() + 123)
@@ -118,6 +122,8 @@ class SkyblockAPI(threading.Thread):
                 self.output,
                 f"https://api.hypixel.net/key?key={self.hypixel_api_key}"
             )
+            callthread.start()
+
         elif item.type == RequestType.PROFILE:
             self.api_calls += 1
             self.api_reset_times.append(time.time() + 123)
