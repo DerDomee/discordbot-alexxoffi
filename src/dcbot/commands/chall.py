@@ -473,7 +473,7 @@ async def _confirm_challenge_creation(
         await response_message.clear_reactions()
         if str(reaction) == "✅":
             await response_message.edit(
-                content=f"{message.author.mention}, created challenge!,",
+                content=f"{message.author.mention}, created challenge!",
                 embed=None)
             return True
         else:
