@@ -779,7 +779,7 @@ async def _get_player_status(message, arg_stack, botuser):
         challenge = data[0]
         player = data[1]
         statmsg += f"\nIn `{challenge.title}` (`{challenge.type.name}`) as "
-        statmsg += f"`{player['mcname']}`, Status: `{player['status']}`"
+        statmsg += f"`{player['mcname']}`, Status: `{player['state']}`"
     await message.channel.send(
         f"{message.author.mention}, you were found in following "
         + f"events:{statmsg}")
