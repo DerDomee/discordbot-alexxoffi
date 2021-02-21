@@ -833,17 +833,18 @@ async def get_help(argstack, botuser, sp):
         description="Manage or attend to skill-leveling events")
     embed.add_field(
         name="Syntax",
-        value=f"`{sp}challenge create` - Create a new challenge event (Admins "
-              + f"only)\n`{sp}challenge join` - Join a challenge event"
-              + f"\n`{sp}challenge list` - List all available events"
-              + f"\n`{sp}challenge accept` - Accept a player entry in an "
-              + "event (Admins only)"
-              + f"\n`{sp}challenge pending` - List players currently waiting "
+        value=f"\n`{sp}chall join` - Join a challenge event"
+              + f"\n`{sp}chall list` - List all available events"
+              + f"\n`{sp}chall pending` - List players currently waiting "
               + "for entry seat approval"
-              + f"\n`{sp}challenge discard` - Discard an event, as if it "
-              + "never happened (Admins only)"
-              + f"\n`{sp}challenge status` - See if you have a seat in an"
+              + f"\n`{sp}chall status` - See if you have a seat in an"
               + "event and watch your status"
-              + f"\n`{sp}challenge results` - See your results in a past "
-              + "event")
+              + f"\n`{sp}chall results` - See your results in a past "
+              + "event"
+              + f"\n\n`{sp}chall create` - Create a new challenge event "
+              + f"(Admins only)"
+              + f"\n`{sp}chall discard` - Discard an event, as if it "
+              + "never happened (Admins only)"
+              + f"\n`{sp}chall accept` - Accept a player entry in an "
+              + "event (Admins only)")
     return [embed]
