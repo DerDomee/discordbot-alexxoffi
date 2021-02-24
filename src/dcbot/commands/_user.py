@@ -64,7 +64,7 @@ async def invoke(message, arg_stack, botuser):
         await message.channel.send(embed=embed)
         return True
     elif len(arg_stack) == 2:
-        if botuser.user_permission_level <= botcommon.key_permlevel_moderator:
+        if botuser.user_permission_level < botcommon.key_permlevel_moderator:
             await message.channel.send("No Permission.")
             return False
         dcmember = await _get_member_efficiently(arg_stack[1], message.guild)
