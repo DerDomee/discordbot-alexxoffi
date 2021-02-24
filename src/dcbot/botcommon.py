@@ -50,6 +50,9 @@ key_color_danger = 0xEF3D3D
 # Common quick-access variables for the bot, may be None if not initialized yet
 main_guild = None
 
+# This variable is set to False on first on_ready call
+is_initial_start = True
+
 # Voice channel object:
 bot_voice_channels = []
 

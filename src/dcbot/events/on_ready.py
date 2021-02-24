@@ -10,6 +10,12 @@ from lib.hypixel import hypixelv2
 
 @client.event
 async def on_ready():
+
+    if not botcommon.is_initial_start:
+        print("Bot reconnected to discord after connection loss")
+        return
+    botcommon.is_initial_start = False
+
     # Setting the first guild (which is the only guild per definition) to a
     # commonly accessible variable
     print("Initializing the bot...")
