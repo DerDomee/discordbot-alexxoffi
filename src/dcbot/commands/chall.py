@@ -822,6 +822,20 @@ async def _tick_challenge(message, arg_stack, botuser):
     await message.channel.send("Called challenge.tick() successfully")
 
 
+async def _update_challenge_embed(message, arg_stack, botuser):
+    if botuser.user_permission_level < botcommon.key_permlevel_moderator:
+        await message.channel.send(
+            f"{message.author.mention}, you have no permission to run this "
+            + "command")
+        return
+    chall_uuid = arg_stack[2]
+    challenge = botcommon.challenge_scheduler.getTask(chall_uuid)
+    if challenge is None:
+        await message.channel.send("Challenge not found!")
+    await message.channel.send("Call challenge.update()")
+    await challenge.update_challenge_embed()
+
+
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
@@ -852,6 +866,9 @@ async def invoke(message, arg_stack, botuser):
 
         if arg_stack[1].lower() == "tick":
             return await _tick_challenge(message, arg_stack, botuser)
+
+        if arg_stack[1].lower() == "update":
+            return await _update_challenge_embed(message, arg_stack, botuser)
 
     await message.channel.send("Wrong syntax - see `help chall` for usage")
 
