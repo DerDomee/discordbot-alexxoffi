@@ -228,6 +228,10 @@ class ChallengeEvent():
         await message.edit(content=None, embed=self.get_embed())
         return
 
+    def get_type_name(self):
+        if self.status == ChallengeStatus.OPEN:
+            return "(Type HIDDEN)"
+        return self.type.name
 
     def get_leaderboard(self):
         players = self.get_finished_players()
@@ -252,7 +256,7 @@ class ChallengeEvent():
     def get_embed(self, language="en", announcement=True):
         if self.status == ChallengeStatus.OPEN:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value="(HIDDEN)")
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Open to join")
             embed.add_field(
                 name="Join until",
@@ -288,7 +292,7 @@ class ChallengeEvent():
 
         elif self.status == ChallengeStatus.PENDING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Starts soon (Can not join)")
             embed.add_field(
                 name="Event starts",
@@ -310,12 +314,12 @@ class ChallengeEvent():
 
         elif self.status == ChallengeStatus.STARTING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Currently starting...")
 
         elif self.status == ChallengeStatus.RUNNING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Running")
             total_participants = str(len(self.get_total_players()))
             pending_participants = str(len(self.get_pending_players()))
@@ -340,12 +344,12 @@ class ChallengeEvent():
 
         elif self.status == ChallengeStatus.ENDING:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Ending... (Gathering data)")
 
         elif self.status == ChallengeStatus.ENDED:
             embed = Embed(title=self.title, description=f"UUID: `{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Ended")
             embed.add_field(
                 name="Leaderboard",
@@ -357,13 +361,13 @@ class ChallengeEvent():
             errored_participants = str(len(self.get_errored_players()))
             disqualified_participants = str(
                 len(self.get_disqualified_players()))
-            active_participants = str(len(self.get_active_players()))
+            finished_participants = str(len(self.get_finished_players()))
             part_text = f"`+{total_participants:>3}` Accepted entries\n" \
                 + f"`-{disqualified_participants:>3}` Disqualified " \
                 + "(Deactivated API)\n" \
                 + f"`-{errored_participants:>3}` Error during data " \
                 + "collection (Sorry!)\n" \
-                + f"`={active_participants:>3}` Successfully participated"
+                + f"`={finished_participants:>3}` Successfully participated"
             embed.add_field(
                 name="Participants",
                 value=part_text)
@@ -375,7 +379,7 @@ class ChallengeEvent():
 
         elif self.status == ChallengeStatus.DISCARDED:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value=self.get_type_name())
             embed.add_field(name="Status", value="Event discarded")
 
         else:

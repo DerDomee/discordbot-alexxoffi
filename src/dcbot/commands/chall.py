@@ -127,7 +127,7 @@ async def _get_selected_challenge(
     for index, challenge in enumerate(available_challenges):
         emote = NUMBER_REACTIONS[index]
         chall_title = challenge.title
-        chall_type = challenge.type.name
+        chall_type = challenge.get_type_name()
         available_text += f"\n{emote} `{chall_title}`, {chall_type}"
     await response_message.edit(content=available_text)
     for i in range(len(available_challenges)):
@@ -678,7 +678,8 @@ async def _list_challenges(message, arg_stack, botuser):
     available_text = f"{message.author.mention}, currently tracked events:"
     for challenge in available_challenges:
         available_text += f"\n {challenge.title} (`{challenge.uuid}`) - "
-        available_text += f"`{challenge.type.name}`, `{challenge.status}`"
+        available_text += f"`{challenge.get_type_name()}`, "
+        available_text += f"`{challenge.status}`"
     await message.channel.send(available_text)
     return True
 
@@ -779,8 +780,8 @@ async def _get_player_status(message, arg_stack, botuser):
     for data in in_event:
         challenge = data[0]
         player = data[1]
-        statmsg += f"\nIn `{challenge.title}` (`{challenge.type.name}`) as "
-        statmsg += f"`{player['mcname']}`, Status: `{player['state']}`"
+        statmsg += f"\nIn `{challenge.title}` (`{challenge.get_type_name()}`) "
+        statmsg += f"as `{player['mcname']}`, Status: `{player['state']}`"
     await message.channel.send(
         f"{message.author.mention}, you were found in following "
         + f"events:{statmsg}")
