@@ -577,7 +577,7 @@ async def _await_join_confirmation(
             content=f"{message.author.mention}, your API seems to be "
             + "disabled. You cannot join with disabled API and you will get "
             + "disqualified if you disable your API before or during the "
-            + "event!")
+            + "event! If you think this is an error, contact an admin!")
         return False
     profilename = selected_profile['cute_name']
     challname = selected_challenge.title
@@ -585,7 +585,6 @@ async def _await_join_confirmation(
     embed.add_field(name="MC-Name", value=mcname, inline=False)
     embed.add_field(name="Profile", value=profilename, inline=False)
     embed.add_field(name="Challenge", value=challname, inline=False)
-    embed.add_field(name="Stat preview", value=stat_preview, inline=False)
     embed.add_field(
         name="Warning",
         value="If you disable your API at any point from now until the end of "
