@@ -490,6 +490,13 @@ async def _confirm_challenge_creation(
 
 
 async def _create_challenge(message, arg_stack, botuser):
+
+    if botuser.user_permission_level < botcommon.key_permlevel_moderator:
+        await message.channel.send(
+            f"{message.author.mention}, you have no permission to run this "
+            + "command")
+        return
+
     response_message = await message.channel.send(
         f"{message.author.mention}, creating...")
 
@@ -801,6 +808,11 @@ async def _get_player_results(message, arg_stack, botuser):
 
 
 async def _tick_challenge(message, arg_stack, botuser):
+    if botuser.user_permission_level < botcommon.key_permlevel_moderator:
+        await message.channel.send(
+            f"{message.author.mention}, you have no permission to run this "
+            + "command")
+        return
     chall_uuid = arg_stack[2]
     challenge = botcommon.challenge_scheduler.getTask(chall_uuid)
     if challenge is None:
