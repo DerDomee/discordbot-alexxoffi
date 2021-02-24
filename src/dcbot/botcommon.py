@@ -221,6 +221,27 @@ class ChallengeEvent():
         await message.edit(content=None, embed=self.get_embed())
         return
 
+
+    def get_leaderboard(self):
+        players = self.get_finished_players()
+        lb_text = "```Error while calculating leaderboard...\n\nSorry!```"
+        lb_entries = []
+        try:
+            players = sorted(
+                players, key=lambda k: k['stat_delta'], reverse=True)
+            if len(players) > 15:
+                players = players[:15]
+            for index, player in enumerate(players):
+                lb_entries.append(
+                    f"{index+1}. {player['mcname']}: "
+                    + f"+{player['stat_delta']:.0f}")
+        except Exception:
+            return lb_text
+        else:
+            lb_text = "\n".join(lb_entries)
+            lb_text = "```" + lb_text + "```"
+        return lb_text
+
     def get_embed(self, language="en", announcement=True):
         if self.status == ChallengeStatus.OPEN:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
@@ -319,6 +340,10 @@ class ChallengeEvent():
             embed = Embed(title=self.title, description=f"UUID: `{self.uuid}`")
             embed.add_field(name="Event Type", value=self.type.name)
             embed.add_field(name="Status", value="Ended")
+            embed.add_field(
+                name="Leaderboard",
+                value=self.get_leaderboard(),
+                inline=False)
             total_participants = str(
                 len(self.get_total_players()) - len(
                     self.get_pending_players()))
@@ -335,10 +360,6 @@ class ChallengeEvent():
             embed.add_field(
                 name="Participants",
                 value=part_text)
-            embed.add_field(
-                name="Leaderboard",
-                value="```NOT YET IMPLEMENTED\n\n\nSorry!```",
-                inline=False)
             embed.add_field(
                 name="See your results",
                 value="Use command `chall results` to see your own results "
