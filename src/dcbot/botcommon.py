@@ -638,7 +638,6 @@ class ChallengeScheduler(threading.Thread):
         with open('./data/tracked_challenges.json', 'r') as f:
             data = f.read()
             read_data = json.loads(data) if data != "" else {}
-            os.remove('./data/tracked_challenges.json')
         for chall_uuid in read_data:
             challenge = ChallengeEvent.deserialize(read_data[chall_uuid])
             self.addTask(challenge)
