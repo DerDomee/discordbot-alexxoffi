@@ -211,6 +211,13 @@ class ChallengeEvent():
                 disqualified_players.append(player)
         return disqualified_players
 
+    def get_finished_players(self):
+        finished_players = []
+        for player in self.players:
+            if player['state'] == "FINISHED":
+                finished_players.append(player)
+        return finished_players
+
     async def update_challenge_embed(self):
         message = await get_message_by_id(
             self.announcement_channel_id, self.announcement_message_id)
