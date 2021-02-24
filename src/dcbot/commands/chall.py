@@ -20,12 +20,14 @@ async def _get_available_challenges(
     all_tracked_challenges = botcommon.challenge_scheduler.getAllTasks()
     open_challenges = []
     for challenge in all_tracked_challenges:
-        if challenge.status == botcommon.ChallengeStatus.OPEN:
+        if challenge.status == botcommon.ChallengeStatus.OPEN and \
+                challenge.get_player(message.author.id) is None:
             open_challenges.append(challenge)
     if len(open_challenges) == 0:
         await response_message.edit(
             content=f"{message.author.mention}, there are no open challenges "
-            + "you can currently join.")
+            + "you can currently join. See `chall status` if you are "
+            + "currently participating in a challenge")
         return False
     return open_challenges
 
