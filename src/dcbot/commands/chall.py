@@ -407,9 +407,9 @@ async def _get_channel_to_announce(
 def _determine_entries_closing_time(start_time, auto_accept):
 
     if auto_accept:
-        return start_time + timedelta(minutes=-15)
+        return start_time + timedelta(minutes=-2)
     else:
-        return start_time + timedelta(hours=-1)
+        return start_time + timedelta(minutes=-15)
 
 
 async def _get_challenge_preview(challenge, announcement_channel):
