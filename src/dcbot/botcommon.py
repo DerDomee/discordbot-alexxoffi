@@ -224,7 +224,7 @@ class ChallengeEvent():
     def get_embed(self, language="en", announcement=True):
         if self.status == ChallengeStatus.OPEN:
             embed = Embed(title=self.title, description=f"`{self.uuid}`")
-            embed.add_field(name="Event Type", value=self.type.name)
+            embed.add_field(name="Event Type", value="(HIDDEN)")
             embed.add_field(name="Status", value="Open to join")
             embed.add_field(
                 name="Join until",
