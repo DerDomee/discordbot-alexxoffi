@@ -536,9 +536,9 @@ class ChallengeEvent():
         elif self.status == ChallengeStatus.PENDING:
             self.status = ChallengeStatus.STARTING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
-            # Artificial sleep to test tick-announcement-updates
-            time.sleep(10)
-            # Remove this sleep when gather_start_player_data() is implemented!
+            time.sleep(2)
+            # Artificial sleep to let discord update the message embed before
+            # thread locks
             self.gather_start_player_data()
             self.status = ChallengeStatus.RUNNING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
@@ -549,9 +549,9 @@ class ChallengeEvent():
         elif self.status == ChallengeStatus.RUNNING:
             self.status = ChallengeStatus.ENDING
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
-            # Artificial sleep to test tick-announcement-updates
-            time.sleep(10)
-            # Remove this sleep when gather_end_player_data() is implemented!
+            time.sleep(2)
+            # Artificial sleep to let discord update the message embed before
+            # thread locks
             self.gather_end_player_data()
             self.status = ChallengeStatus.ENDED
             client.loop.call_soon_threadsafe(updateAnnouncementWrapper)
