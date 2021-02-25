@@ -10,7 +10,7 @@ CMD_METADATA = {
 
 
 async def get_help(arg_stack, botuser, shortprefix):
-    return[]
+    return []
 
 
 async def _do_general_help(message, arg_stack, botuser):
@@ -30,6 +30,7 @@ async def _do_general_help(message, arg_stack, botuser):
                 botuser.user_pref_lang) + "\n"
     helpmsg += "```"
     await message.channel.send(helpmsg)
+    return True
 
 
 async def _do_specific_help(message, arg_stack, botuser):
@@ -41,29 +42,35 @@ async def _do_specific_help(message, arg_stack, botuser):
     except ModuleNotFoundError:
         # TODO: Translate this
         await message.channel.send("Command not found")
+        return False
     else:
         try:
             if botuser.user_permission_level >= \
                     cmdimport.CMD_METADATA['required_permlevel']:
                 cmdhelp = await cmdimport.get_help(
                     arg_stack, botuser, shortprefix)
-                for embed in cmdhelp:
-                    await message.channel.send(embed=embed)
                 if cmdhelp is None or cmdhelp == []:
                     await message.channel.send(
                         "This command does not implement help functions.")
+                    return False
+                for embed in cmdhelp:
+                    await message.channel.send(embed=embed)
             else:
                 await message.channel.send(
                     "You have no permission to get help for this command.")
+                return True
         except Exception:
             await message.channel.send(
                 "This command has no function to print help.")
+            return False
+        return True
+    return False
 
 
 @botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
 @botcommon.requires_channel(CMD_METADATA['required_channels'])
 async def invoke(message, arg_stack, botuser):
     if len(arg_stack) == 1:
-        await _do_general_help(message, arg_stack, botuser)
+        return await _do_general_help(message, arg_stack, botuser)
     else:
-        await _do_specific_help(message, arg_stack, botuser)
+        return await _do_specific_help(message, arg_stack, botuser)

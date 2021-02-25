@@ -11,3 +11,7 @@ logs/
 # Only the translation source shall be tracked in repository
 resources/translations/*
 !resources/translations/source.json
+
+
+# Editor settings
+.vscode
