@@ -661,6 +661,7 @@ class ChallengeScheduler(threading.Thread):
                     self.removeTask(task)
                 if task.needs_tick():
                     task.tick()
+            time.sleep(1)
 
 
 # All currently tracked tasks
