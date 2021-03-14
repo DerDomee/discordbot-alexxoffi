@@ -146,6 +146,6 @@ class SkyblockAPI(threading.Thread):
                 item = self.input.get()
                 self._consume_item(item)
 
-            pass
+            time.sleep(0.05)
 
         time.sleep(3)  # Sleep to give time to clean up after this thread
