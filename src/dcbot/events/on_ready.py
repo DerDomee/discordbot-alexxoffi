@@ -1,11 +1,18 @@
 import os
+import signal
 import pkgutil
 from src.dcbot import client
 from src.dcbot import botcommon
 from src.dcbot import messageprocessors
 from src.dcbot import commands
+from src.dcbot.commands import stop
 from src.translation import transget
 from lib.hypixel import hypixelv2
+
+
+def signal_handler(signal, frame):
+    print("\nPROCESS SIGNAL (SIGINT) Captured! (CTRL+C)")
+    client.loop.create_task(stop.controlled_stop())
 
 
 @client.event
@@ -47,6 +54,10 @@ async def on_ready():
 
     print("Load previously tracked challenge events")
     botcommon.challenge_scheduler.load_all_tracked()
+
+    print("Initializing Signal Handler, Press CTRL+C once (!) to shut down "
+          + "the bot at any time!")
+    signal.signal(signal.SIGINT, signal_handler)
 
     # Log the ready-state of the bot in the console.
     message = transget("dcbot.readymessage").format(
