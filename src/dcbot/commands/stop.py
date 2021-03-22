@@ -9,9 +9,12 @@ CMD_METADATA = {
     'required_channels': [botcommon.key_bot_adminchannel]}
 
 
-@botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
-@botcommon.requires_channel(CMD_METADATA['required_channels'])
-async def invoke(message, arg_stack, botuser):
+async def controlled_stop():
+    await bare_stop()
+    await logout_client()
+
+
+async def bare_stop():
 
     print("Bot stops now because admin command $stop invoked")
     botcommon.is_bot_stopping = True
@@ -30,6 +33,8 @@ async def invoke(message, arg_stack, botuser):
     for vchannel_obj in botcommon.bot_voice_channels:
         await voicecommon.delete_channel(vchannel_obj)
 
+
+async def log_to_channel(message, arg_stack, botuser):
     print("Log close action to log channel...")
     embed = Embed(
         title="Bot shuts down",
@@ -41,7 +46,19 @@ async def invoke(message, arg_stack, botuser):
     embed.set_footer(text=footertext)
     await trytolog(message, arg_stack, botuser, embed)
 
+
+async def logout_client():
     print("Logout the bot client and return from discordpy...")
     await client.logout()
     print("Bot stopped successfully!")
+
+
+@botcommon.requires_perm_level(level=CMD_METADATA['required_permlevel'])
+@botcommon.requires_channel(CMD_METADATA['required_channels'])
+async def invoke(message, arg_stack, botuser):
+
+    await bare_stop()
+    await log_to_channel(message)
+    await logout_client()
+
     return True
