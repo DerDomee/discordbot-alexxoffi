@@ -296,48 +296,48 @@
     "de": "Du kannst dich nicht selbst aus dem Channel kicken."
   },
   "command.voice.help.toggle.syntax": {
-    "en": "`voice toggle`",
-    "de": "`voice toggle`"
+    "en": "voice toggle",
+    "de": "voice toggle"
   },
   "command.voice.help.toggle.description": {
     "en": "Toggle the channel visibility between public and private. **This edits the channel!**",
     "de": "Wechselt die Sichtbarkeit des Voicechannels zwischen privat und öffentlich. **Das editiert den Channel!**"
   },
   "command.voice.help.name.syntax": {
-    "en": "`voice name <new-name>`",
-    "de": "`voice name <neuer-name>`"
+    "en": "voice name <new-name>",
+    "de": "voice name <neuer-name>"
   },
   "command.voice.help.name.description": {
     "en": "Set a custom name for the channel. Names are limited to 20 alphanumeric characters. **This edits the channel!**",
     "de": "Ändert den Namen deines Channels. Maximal 20 alphanumerische Zeichen. **Das editiert den Channel!**"
   },
   "command.voice.help.transfer.syntax": {
-    "en": "`voice transfer <user-ping|user-id>`",
-    "de": "`voice transfer <user-ping|user-id>`"
+    "en": "voice transfer <user-ping|user-id>",
+    "de": "voice transfer <user-ping|user-id>"
   },
   "command.voice.help.transfer.description": {
     "en": "Transfer the channel ownership to another user. This user must be currently connected to the voice channel.",
     "de": "Überträgt den Channelbesitz an einen anderen User. Dieser User muss dazu im Voicechannel verbunden sein."
   },
   "command.voice.help.invite.syntax": {
-    "en": "`voice invite <user-ping|user-id>`",
-    "de": "`voice invite <user-ping|user-id>`"
+    "en": "voice invite <user-ping|user-id>",
+    "de": "voice invite <user-ping|user-id>"
   },
   "command.voice.help.invite.description": {
     "en": "**Only private channels**: Make this channel visible for a specific user. You can use this command in every text channel on this server.",
     "de": "**Nur in privaten Channeln verfügbar**: Lädt einen User in diesen Channel ein und macht diesen damit für ihn sichtbar. Dieser Command kann in allen Textchanneln auf dem Server verwendet werden."
   },
   "command.voice.help.kick.syntax": {
-    "en": "`voice kick <user-ping|user-id>`",
-    "de": "`voice kick <user-ping|user-id>`"
+    "en": "voice kick <user-ping|user-id>",
+    "de": "voice kick <user-ping|user-id>"
   },
   "command.voice.help.kick.description": {
     "en": "**Only private channels**: Kick a user and make this channel invisible for him again.",
     "de": "**Nur in privaten Channeln verfügbar**: Kickt einen User aus diesem Channel und macht diesen für ihn wieder unsichtbar."
   },
   "command.voice.help.close.syntax": {
-    "en": "`voice close`",
-    "de": "`voice close`"
+    "en": "voice close",
+    "de": "voice close"
   },
   "command.voice.help.close.description": {
     "en": "Manually close this channel. (It gets closed automatically if everyone leaves)",
