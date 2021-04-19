@@ -58,7 +58,7 @@ async def logout_client():
 async def invoke(message, arg_stack, botuser):
 
     await bare_stop()
-    await log_to_channel(message)
+    await log_to_channel(message, arg_stack, botuser)
     await logout_client()
 
     return True
