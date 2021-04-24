@@ -1,4 +1,5 @@
 from src.dcbot import botcommon
+from src.database import dbcommon
 from src.dcbot import client
 from src.translation import transget
 from discord import PermissionOverwrite
@@ -41,6 +42,7 @@ async def delete_channel(channel_obj):
 
 
 async def send_init_help(channel_obj, botuser):
+    shortprefix = dbcommon.get_bot_setting(botcommon.key_bot_prefix, "$")
     tc = client.get_channel(channel_obj['textchannel'])
     embed = Embed(
         title=transget(
@@ -51,44 +53,44 @@ async def send_init_help(channel_obj, botuser):
             botuser.user_pref_lang),
         color=botcommon.key_color_info)
     embed.add_field(
-        name=transget(
+        name='`' + shortprefix + transget(
             "command.voice.help.toggle.syntax",
-            botuser.user_pref_lang),
+            botuser.user_pref_lang) + '`',
         value=transget(
             "command.voice.help.toggle.description",
             botuser.user_pref_lang))
     embed.add_field(
-        name=transget(
+        name='`' + shortprefix + transget(
             "command.voice.help.name.syntax",
-            botuser.user_pref_lang),
+            botuser.user_pref_lang) + '`',
         value=transget(
             "command.voice.help.name.description",
             botuser.user_pref_lang))
     embed.add_field(
-        name=transget(
+        name='`' + shortprefix + transget(
             "command.voice.help.transfer.syntax",
-            botuser.user_pref_lang),
+            botuser.user_pref_lang) + '`',
         value=transget(
             "command.voice.help.transfer.description",
             botuser.user_pref_lang))
     embed.add_field(
-        name=transget(
+        name='`' + shortprefix + transget(
             "command.voice.help.invite.syntax",
-            botuser.user_pref_lang),
+            botuser.user_pref_lang) + '`',
         value=transget(
             "command.voice.help.invite.description",
             botuser.user_pref_lang))
     embed.add_field(
-        name=transget(
+        name='`' + shortprefix + transget(
             "command.voice.help.kick.syntax",
-            botuser.user_pref_lang),
+            botuser.user_pref_lang) + '`',
         value=transget(
             "command.voice.help.kick.description",
             botuser.user_pref_lang))
     embed.add_field(
-        name=transget(
+        name='`' + shortprefix + transget(
             "command.voice.help.close.syntax",
-            botuser.user_pref_lang),
+            botuser.user_pref_lang) + '`',
         value=transget(
             "command.voice.help.close.description",
             botuser.user_pref_lang))
