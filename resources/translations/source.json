@@ -281,7 +281,7 @@
   },
   "command.voice.kick.channel_not_private": {
     "en": "Your voice channel is not a private channel, so kicking is pointless.",
-    "de": "Der Channel ist nicht privat, dahier ist kicken sinnlos."
+    "de": "Der Channel ist nicht privat, daherr ist kicken sinnlos."
   },
   "command.voice.kick.user_not_found": {
     "en": "The user you want to kick from your channel is not a member already or there was an error with the Discord API!",
