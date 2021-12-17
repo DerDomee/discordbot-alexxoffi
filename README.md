@@ -12,6 +12,9 @@
   <a href="https://dominikriedig.de">Visit Author</a>
 </p>
 
+# This has been discontinued!
+The bot is no longer in development.
+
 ## Table of contents
 
 - [Prerequisites](#prerequisites)
